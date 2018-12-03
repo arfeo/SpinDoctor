@@ -1,7 +1,53 @@
 @import '../../assets/styles/variables';
 
-.gameBoard {
-  width: calc(#{$cellSize * 9});
-  height: calc(#{$cellSize * 6});
-  border: 1px solid red;
+.gameWindow {
+  width: calc(#{$cellSize * 9} + #{$mainPadding * 4});
+  height: calc(#{$cellSize * 6} + #{$mainPadding * 4} + #{$boardPanelHeight});
+  padding: 0 $gameWindowPadding $gameWindowPadding $gameWindowPadding;
+  background-color: $gameWindowBackground;
+  border-top: 2px solid $borderLight;
+  border-right: 2px solid $borderDark;
+  border-bottom: 2px solid $borderDark;
+  border-left: 2px solid $borderLight;
+
+  .boardPanel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: $boardPanelHeight;
+    font-size: $boardPanelFontSize;
+
+    .-level {
+      flex-grow: 3;
+    }
+
+    .-lives {
+      flex-grow: 1;
+
+      &:before {
+        content: 'Lives:';
+        margin-right: calc(#{$mainMargin / 2});
+      }
+    }
+
+    .-score {
+      flex-grow: 1;
+
+      &:before {
+        content: 'Score:';
+        margin-right: calc(#{$mainMargin / 2});
+      }
+    }
+  }
+
+  .boardGrid {
+    width: calc(#{$cellSize * 9} + #{$mainPadding * 2});
+    height: calc(#{$cellSize * 6} + #{$mainPadding * 2});
+    padding: $mainPadding;
+    border-top: 1px solid $borderDark;
+    border-right: 1px solid $borderLight;
+    border-bottom: 1px solid $borderLight;
+    border-left: 1px solid $borderDark;
+    background-color: $boardGridBackground;
+  }
 }
