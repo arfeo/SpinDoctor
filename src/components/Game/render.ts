@@ -1,3 +1,5 @@
+import { LEVELS } from '../../constants/levels';
+
 function renderGameWindow() {
   const gameWindow: HTMLElement = document.createElement('div');
   const boardPanel: HTMLElement = document.createElement('div');
@@ -16,7 +18,12 @@ function renderGameWindow() {
 }
 
 function renderPanelCounters() {
-  this.boardPanel.level.innerText = this.level;
+  const levelId: number = this.level - 1;
+
+  this.boardPanel.level.innerHTML = (`
+    <div class="-id">${LEVELS[levelId].id}:</div>
+    <div class="-title">${LEVELS[levelId].title}</div>
+  `);
   this.boardPanel.lives.innerText = this.lives;
   this.boardPanel.score.innerText = this.score;
 }

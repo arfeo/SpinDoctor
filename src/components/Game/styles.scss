@@ -18,7 +18,13 @@
     font-size: $boardPanelFontSize;
 
     .-level {
+      display: flex;
+      align-items: center;
       flex-grow: 3;
+
+      .-id {
+        margin-right: calc(#{$mainMargin / 2});
+      }
     }
 
     .-lives {
