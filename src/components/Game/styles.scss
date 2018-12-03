@@ -1,0 +1,7 @@
+@import '../../assets/styles/variables';
+
+.gameBoard {
+  width: calc(#{$cellSize * 9});
+  height: calc(#{$cellSize * 6});
+  border: 1px solid red;
+}

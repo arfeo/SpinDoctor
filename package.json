@@ -1,7 +1,7 @@
 {
   "name": "spin-doctor",
   "version": "1.0.0",
-  "description": "",
+  "description": "Swing, flip, and bounce your wand from dot to dot in Spin Doctor, the unique, arcade-style game of skill",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
