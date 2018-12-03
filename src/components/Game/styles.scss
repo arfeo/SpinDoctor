@@ -1,8 +1,8 @@
 @import '../../assets/styles/variables';
 
 .gameWindow {
-  width: calc(#{$cellSize * 9} + #{$mainPadding * 4});
-  height: calc(#{$cellSize * 6} + #{$mainPadding * 4} + #{$boardPanelHeight});
+  width: calc(#{$cellSize * 10} + #{$mainPadding * 4});
+  height: calc(#{$cellSize * 7} + #{$mainPadding * 4} + #{$boardPanelHeight});
   padding: 0 $gameWindowPadding $gameWindowPadding $gameWindowPadding;
   background-color: $gameWindowBackground;
   border-top: 2px solid $borderLight;
@@ -41,8 +41,8 @@
   }
 
   .boardGrid {
-    width: calc(#{$cellSize * 9} + #{$mainPadding * 2});
-    height: calc(#{$cellSize * 6} + #{$mainPadding * 2});
+    width: calc(#{$cellSize * 10} + #{$mainPadding * 2});
+    height: calc(#{$cellSize * 7} + #{$mainPadding * 2});
     padding: $mainPadding;
     border-top: 1px solid $borderDark;
     border-right: 1px solid $borderLight;
