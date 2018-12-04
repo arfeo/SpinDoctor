@@ -20,8 +20,8 @@ function renderGameWindow() {
   boardPanel.appendChild(this.boardPanel.score);
   gameWindow.appendChild(boardGrid);
 
-  for (let y = 1; y <= GridDimensions.Height; y += 1) {
-    for (let x = 1; x <= GridDimensions.Width; x += 1) {
+  for (let y = 0; y < GridDimensions.Height; y += 1) {
+    for (let x = 0; x < GridDimensions.Width; x += 1) {
       const staticCell: HTMLCanvasElement = document.createElement('canvas');
 
       staticCell.id = `cell-${y}-${x}`;
@@ -31,6 +31,43 @@ function renderGameWindow() {
       staticCell.height = this.cellSize;
 
       boardGrid.appendChild(staticCell);
+    }
+  }
+}
+
+function renderLevelMap() {
+  const levelMap: number[][] = LEVELS[this.level - 1].map;
+
+  for (let y = 0; y < levelMap.length; y += 1) {
+    for (let x = 0; x < levelMap[y].length; x += 1) {
+      const objectType: number = levelMap[y][x];
+
+      if (objectType !== undefined && objectType !== 0) {
+        const cell: HTMLCanvasElement = document.getElementById(`cell-${y}-${x}`) as HTMLCanvasElement;
+        const ctx: CanvasRenderingContext2D = cell.getContext('2d');
+
+        switch (objectType) {
+          case 1: { // Pin (regular)
+            ctx.beginPath();
+            ctx.arc(
+              this.cellSize / 2,
+              this.cellSize / 2,
+              this.cellSize / 5,
+              0,
+              Math.PI * 2,
+              false,
+            );
+            ctx.fillStyle = 'lightgrey';
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#000000';
+            ctx.stroke();
+
+            break;
+          }
+          default: break;
+        }
+      }
     }
   }
 }
@@ -46,4 +83,4 @@ function renderPanelCounters() {
   this.boardPanel.score.innerText = this.score;
 }
 
-export { renderGameWindow, renderPanelCounters };
+export { renderGameWindow, renderLevelMap, renderPanelCounters };

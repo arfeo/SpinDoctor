@@ -1,4 +1,4 @@
-import { renderGameWindow, renderPanelCounters } from './render';
+import { renderGameWindow, renderLevelMap, renderPanelCounters } from './render';
 
 import { setCellSize } from '../../utils/common';
 
@@ -34,6 +34,7 @@ class Game {
 
   render() {
     renderGameWindow.call(this);
+    renderLevelMap.call(this);
     renderPanelCounters.call(this);
   }
 }
