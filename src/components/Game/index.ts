@@ -1,10 +1,13 @@
 import { renderGameWindow, renderPanelCounters } from './render';
 
+import { setCellSize } from '../../utils/common';
+
 class Game {
   appRoot: HTMLElement;
   level: number;
   lives: number;
   score: number;
+  cellSize: number;
   boardPanel: {
     level: HTMLElement;
     lives: HTMLElement;
@@ -18,15 +21,13 @@ class Game {
     this.lives = lives;
     this.score = score;
 
+    this.cellSize = setCellSize();
+
     this.boardPanel = {
       level: document.createElement('div'),
       lives: document.createElement('div'),
       score: document.createElement('div'),
     };
-
-    this.boardPanel.level.className = '-level';
-    this.boardPanel.lives.className = '-lives';
-    this.boardPanel.score.className = '-score';
 
     this.render();
   }

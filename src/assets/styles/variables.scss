@@ -9,9 +9,10 @@ $borderDark: #322D34;
 /**
  *  Game board
  */
-$cellSize: 9vmin;
+$cellSize: 4vmin;
 $gameWindowBackground: #5D5260;
 $gameWindowPadding: calc(#{$mainPadding / 2});
 $boardPanelHeight: 4vmin;
 $boardPanelFontSize: 2vmin;
+$boardGridPadding: 4vmin;
 $boardGridBackground: #4A4A4A;
