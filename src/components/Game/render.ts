@@ -48,21 +48,11 @@ function renderLevelMap() {
 
         switch (objectType) {
           case 1: { // Pin (regular)
-            ctx.beginPath();
-            ctx.arc(
-              this.cellSize / 2,
-              this.cellSize / 2,
-              this.cellSize / 5,
-              0,
-              Math.PI * 2,
-              false,
-            );
-            ctx.fillStyle = 'lightgrey';
-            ctx.fill();
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = '#000000';
-            ctx.stroke();
-
+            drawPin.call(this, ctx, 'lightgrey', '#000000');
+            break;
+          }
+          case 2: { // Pin (bonus)
+            drawPin.call(this, ctx, 'grey', '#000000');
             break;
           }
           default: break;
@@ -81,6 +71,24 @@ function renderPanelCounters() {
   `);
   this.boardPanel.lives.innerText = this.lives;
   this.boardPanel.score.innerText = this.score;
+}
+
+function drawPin(ctx: CanvasRenderingContext2D, fillStyle: string, strokeStyle: string) {
+  ctx.beginPath();
+  ctx.arc(
+    this.cellSize / 2,
+    this.cellSize / 2,
+    this.cellSize / 5,
+    0,
+    Math.PI * 2,
+    false,
+  );
+
+  ctx.fillStyle = fillStyle;
+  ctx.fill();
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = strokeStyle;
+  ctx.stroke();
 }
 
 export { renderGameWindow, renderLevelMap, renderPanelCounters };
