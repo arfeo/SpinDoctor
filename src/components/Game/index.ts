@@ -1,3 +1,5 @@
+import { LEVELS } from '../../constants/levels';
+
 import {
   renderGameWindow,
   renderLevelMap,
@@ -20,6 +22,7 @@ class Game {
   };
   staticCanvas: HTMLCanvasElement;
   wandCanvas: HTMLCanvasElement;
+  wandDir: number;
 
   constructor(level = 1, lives = 5, score = 0) {
     this.appRoot = document.getElementById('root');
@@ -38,6 +41,8 @@ class Game {
 
     this.staticCanvas = document.createElement('canvas');
     this.wandCanvas = document.createElement('canvas');
+
+    this.wandDir = LEVELS[this.level - 1].wand.direction;
 
     this.render();
   }
