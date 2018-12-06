@@ -1,6 +1,8 @@
 import { LEVELS } from '../../constants/levels';
 import { GridDimensions } from '../../constants/app';
 
+import { drawPin, drawLineToAngle } from './draw';
+
 function renderGameWindow() {
   const gameWindow: HTMLElement = document.createElement('div');
   const boardPanel: HTMLElement = document.createElement('div');
@@ -83,47 +85,17 @@ function renderWand() {
     );
 
     ctx.beginPath();
-    lineToAngle.call(this, ctx, x, y, this.cellSize * 2 - this.cellSize / 5, this.wand.angle);
+    drawLineToAngle.call(this, ctx, x, y, this.cellSize * 2 - this.cellSize / 5, this.wand.angle);
     ctx.strokeStyle = 'lightgrey';
     ctx.lineWidth = 5;
     ctx.stroke();
 
-    this.wand.angle += this.wand.direction;
+    this.wand.angle += this.wand.angle <= 359 ? this.wand.direction : -359;
 
     requestAnimationFrame(animate);
   };
 
   requestAnimationFrame(animate);
-}
-
-function drawPin(pinX: number, pinY: number, fillStyle: string, strokeStyle: string) {
-  const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
-
-  ctx.beginPath();
-  ctx.arc(
-    pinX + this.cellSize / 2,
-    pinY + this.cellSize / 2,
-    this.cellSize / 5,
-    0,
-    Math.PI * 2,
-    false,
-  );
-
-  ctx.fillStyle = fillStyle;
-  ctx.fill();
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = strokeStyle;
-  ctx.stroke();
-}
-
-function lineToAngle(ctx: CanvasRenderingContext2D, x1: number, y1: number, length: number, angle: number) {
-  const a = angle * Math.PI / 180;
-
-  const x2 = x1 + length * Math.cos(a);
-  const y2 = y1 + length * Math.sin(a);
-
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
 }
 
 export {
