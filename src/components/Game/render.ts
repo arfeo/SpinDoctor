@@ -1,7 +1,7 @@
 import { LEVELS } from '../../constants/levels';
 import { GridDimensions } from '../../constants/app';
 
-import { drawPin, drawLineToAngle } from './draw';
+import { drawDot, drawLineToAngle } from './draw';
 
 function renderGameWindow() {
   const gameWindow: HTMLElement = document.createElement('div');
@@ -38,16 +38,16 @@ function renderLevelMap() {
       const objectType: number = this.map[y][x];
 
       if (objectType !== undefined && objectType !== 0) {
-        const pinX: number = this.cellSize + this.cellSize * x;
-        const pinY: number = this.cellSize + this.cellSize * y;
+        const dotX: number = this.cellSize + this.cellSize * x;
+        const dotY: number = this.cellSize + this.cellSize * y;
 
         switch (objectType) {
-          case 1: { // Pin (regular)
-            drawPin.call(this, pinX, pinY, 'lightgrey', '#000000');
+          case 1: { // Dot (regular)
+            drawDot.call(this, dotX, dotY, 'lightgrey', '#000000');
             break;
           }
-          case 2: { // Pin (bonus)
-            drawPin.call(this, pinX, pinY, 'grey', '#000000');
+          case 2: { // Dot (bonus)
+            drawDot.call(this, dotX, dotY, 'grey', '#000000');
             break;
           }
           default: break;

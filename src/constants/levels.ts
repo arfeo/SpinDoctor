@@ -4,8 +4,8 @@ import { ILevels } from '../types/global';
  *  Map legend:
  *
  *  0 - Empty space
- *  1 - Pin (regular)
- *  2 - Pin (bonus)
+ *  1 - Dot (regular)
+ *  2 - Dot (bonus)
  */
 export const LEVELS: ILevels[] = [
   {

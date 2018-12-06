@@ -1,10 +1,10 @@
-function drawPin(pinX: number, pinY: number, fillStyle: string, strokeStyle: string) {
+function drawDot(dotX: number, dotY: number, fillStyle: string, strokeStyle: string) {
   const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
 
   ctx.beginPath();
   ctx.arc(
-    pinX + this.cellSize / 2,
-    pinY + this.cellSize / 2,
+    dotX + this.cellSize / 2,
+    dotY + this.cellSize / 2,
     this.cellSize / 5,
     0,
     Math.PI * 2,
@@ -70,4 +70,4 @@ function tryWandMove(bounce?: boolean) {
   }
 }
 
-export { drawPin, drawLineToAngle, tryWandMove };
+export { drawDot, drawLineToAngle, tryWandMove };
