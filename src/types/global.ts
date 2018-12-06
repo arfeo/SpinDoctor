@@ -8,6 +8,12 @@ export interface IGlobals {
   };
 }
 
+export interface IDifficulty {
+  id: number;
+  title: string;
+  correction: number;
+}
+
 export interface ILevels {
   id: number;
   title: string;

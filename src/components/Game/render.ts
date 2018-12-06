@@ -95,7 +95,7 @@ function renderWand() {
       this.wand.angle -= 360;
     }
 
-    this.wand.angle += direction;
+    this.wand.angle += direction * this.difficulty.correction;
 
     requestAnimationFrame(animate);
   };

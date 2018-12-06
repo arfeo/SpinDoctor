@@ -1,5 +1,5 @@
 import { LEVELS } from '../../constants/levels';
-import { APP } from '../../constants/app';
+import { APP, DIFFICULTIES } from '../../constants/app';
 
 import {
   renderGameWindow,
@@ -16,7 +16,7 @@ import {
 
 import { setCellSize } from '../../utils/common';
 
-import { IWand } from '../../types/global';
+import { IDifficulty, IWand } from '../../types/global';
 
 class Game {
   appRoot: HTMLElement;
@@ -31,10 +31,11 @@ class Game {
   };
   staticCanvas: HTMLCanvasElement;
   wandCanvas: HTMLCanvasElement;
+  difficulty: IDifficulty;
   map: number[][];
   wand: IWand;
 
-  constructor(level = 1, lives = 5, score = 0) {
+  constructor(level = 1, lives = 5, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
 
     this.level = level;
@@ -51,6 +52,8 @@ class Game {
 
     this.staticCanvas = document.createElement('canvas');
     this.wandCanvas = document.createElement('canvas');
+
+    this.difficulty = DIFFICULTIES[difficulty - 1];
 
     this.map = LEVELS[this.level - 1].map;
     this.wand = LEVELS[this.level - 1].wand;
@@ -73,6 +76,8 @@ class Game {
 
   destroy() {
     removeEventHandlers.call(this);
+
+    APP.pageInstance = null;
   }
 }
 
