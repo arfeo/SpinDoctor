@@ -11,7 +11,7 @@ import {
 import {
   removeEventHandlers,
   setUpEventHandlers,
-  keyUpHandler,
+  keyDownHandler,
 } from './events';
 
 import { setCellSize } from '../../utils/common';
@@ -31,6 +31,7 @@ class Game {
   };
   staticCanvas: HTMLCanvasElement;
   wandCanvas: HTMLCanvasElement;
+  map: number[][];
   wand: IWand;
 
   constructor(level = 1, lives = 5, score = 0) {
@@ -51,10 +52,11 @@ class Game {
     this.staticCanvas = document.createElement('canvas');
     this.wandCanvas = document.createElement('canvas');
 
+    this.map = LEVELS[this.level - 1].map;
     this.wand = LEVELS[this.level - 1].wand;
 
     APP.eventListeners = {
-      onKeyDown: keyUpHandler.bind(this),
+      onKeyDown: keyDownHandler.bind(this),
     };
 
     this.render();

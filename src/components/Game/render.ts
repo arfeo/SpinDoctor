@@ -33,11 +33,9 @@ function renderGameWindow() {
 }
 
 function renderLevelMap() {
-  const levelMap: number[][] = LEVELS[this.level - 1].map;
-
-  for (let y = 0; y < levelMap.length; y += 1) {
-    for (let x = 0; x < levelMap[y].length; x += 1) {
-      const objectType: number = levelMap[y][x];
+  for (let y = 0; y < this.map.length; y += 1) {
+    for (let x = 0; x < this.map[y].length; x += 1) {
+      const objectType: number = this.map[y][x];
 
       if (objectType !== undefined && objectType !== 0) {
         const pinX: number = this.cellSize + this.cellSize * x;
@@ -74,8 +72,9 @@ function renderWand() {
   const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
 
   const animate = () => {
-    const x: number = (this.wand.position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
-    const y: number = (this.wand.position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
+    const { position, direction, angle } = this.wand;
+    const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
+    const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
 
     ctx.clearRect(
       x - this.cellSize * 2,
@@ -85,12 +84,18 @@ function renderWand() {
     );
 
     ctx.beginPath();
-    drawLineToAngle.call(this, ctx, x, y, this.cellSize * 2 - this.cellSize / 5, this.wand.angle);
+    drawLineToAngle.call(this, ctx, x, y, this.cellSize * 2 - this.cellSize / 5, angle);
     ctx.strokeStyle = 'lightgrey';
     ctx.lineWidth = 5;
     ctx.stroke();
 
-    this.wand.angle += this.wand.angle <= 359 ? this.wand.direction : -359;
+    if (angle < 0) {
+      this.wand.angle += 360;
+    } else if (angle >= 360) {
+      this.wand.angle -= 360;
+    }
+
+    this.wand.angle += direction;
 
     requestAnimationFrame(animate);
   };
