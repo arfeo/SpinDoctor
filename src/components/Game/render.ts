@@ -1,8 +1,6 @@
 import { LEVELS } from '../../constants/levels';
 import { GridDimensions } from '../../constants/app';
 
-import { IWand } from '../../types/global';
-
 function renderGameWindow() {
   const gameWindow: HTMLElement = document.createElement('div');
   const boardPanel: HTMLElement = document.createElement('div');
@@ -72,12 +70,12 @@ function renderPanelCounters() {
 
 function renderWand() {
   const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
-  const wand: IWand = LEVELS[this.level - 1].wand;
-  const x: number = (wand.position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
-  const y: number = (wand.position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
   let angle = 0;
 
   const animate = () => {
+    const x: number = (this.wand.position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
+    const y: number = (this.wand.position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
+
     ctx.clearRect(
       x - this.cellSize * 2,
       y - this.cellSize * 2,
@@ -91,7 +89,7 @@ function renderWand() {
     ctx.lineWidth = 5;
     ctx.stroke();
 
-    angle += this.wandDir;
+    angle += this.wand.direction;
 
     requestAnimationFrame(animate);
   };

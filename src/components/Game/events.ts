@@ -11,7 +11,13 @@ function removeEventHandlers() {
 function keyUpHandler(event: KeyboardEvent) {
   switch (event.key) {
     case ' ': {
-      this.wandDir *= -1;
+      this.wand.direction *= -1;
+      break;
+    }
+    case 'Meta': {
+      break;
+    }
+    case 'Control': {
       break;
     }
     default: break;
