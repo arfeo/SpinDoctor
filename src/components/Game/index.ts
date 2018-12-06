@@ -9,9 +9,9 @@ import {
 } from './render';
 
 import {
-  keyDownHandler,
   removeEventHandlers,
   setUpEventHandlers,
+  keyUpHandler,
 } from './events';
 
 import { setCellSize } from '../../utils/common';
@@ -52,7 +52,7 @@ class Game {
     this.wandDir = LEVELS[this.level - 1].wand.direction;
 
     APP.eventListeners = {
-      onKeyDown: keyDownHandler.bind(this),
+      onKeyDown: keyUpHandler.bind(this),
     };
 
     this.render();

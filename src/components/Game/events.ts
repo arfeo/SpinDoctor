@@ -1,14 +1,14 @@
 import { APP } from '../../constants/app';
 
 function setUpEventHandlers() {
-  document.body.addEventListener('keydown', APP.eventListeners.onKeyDown);
+  document.body.addEventListener('keyup', APP.eventListeners.onKeyDown);
 }
 
 function removeEventHandlers() {
-  document.body.removeEventListener('keydown', APP.eventListeners.onKeyDown);
+  document.body.removeEventListener('keyup', APP.eventListeners.onKeyDown);
 }
 
-function keyDownHandler(event: KeyboardEvent) {
+function keyUpHandler(event: KeyboardEvent) {
   switch (event.key) {
     case ' ': {
       this.wandDir *= -1;
@@ -18,4 +18,4 @@ function keyDownHandler(event: KeyboardEvent) {
   }
 }
 
-export { setUpEventHandlers, removeEventHandlers, keyDownHandler };
+export { setUpEventHandlers, removeEventHandlers, keyUpHandler };

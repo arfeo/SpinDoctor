@@ -1,5 +1,7 @@
 import { Game } from './components/Game';
 
+import { APP } from './constants/app';
+
 window.onload = () => {
-  new Game();
+  APP.pageInstance = new Game();
 };
