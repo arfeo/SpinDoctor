@@ -1,4 +1,5 @@
 import { LEVELS } from '../../constants/levels';
+import { APP } from '../../constants/app';
 
 import {
   renderGameWindow,
@@ -6,6 +7,12 @@ import {
   renderPanelCounters,
   renderWand,
 } from './render';
+
+import {
+  keyDownHandler,
+  removeEventHandlers,
+  setUpEventHandlers,
+} from './events';
 
 import { setCellSize } from '../../utils/common';
 
@@ -44,6 +51,10 @@ class Game {
 
     this.wandDir = LEVELS[this.level - 1].wand.direction;
 
+    APP.eventListeners = {
+      onKeyDown: keyDownHandler.bind(this),
+    };
+
     this.render();
   }
 
@@ -52,6 +63,12 @@ class Game {
     renderLevelMap.call(this);
     renderWand.call(this);
     renderPanelCounters.call(this);
+
+    setUpEventHandlers.call(this);
+  }
+
+  destroy() {
+    removeEventHandlers.call(this);
   }
 }
 

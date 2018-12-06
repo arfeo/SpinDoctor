@@ -1,5 +1,8 @@
 export interface IGlobals {
   cellSize: number | null;
+  eventListeners: {
+    onKeyDown: EventListener;
+  };
 }
 
 export interface ILevels {
