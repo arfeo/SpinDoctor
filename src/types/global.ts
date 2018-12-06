@@ -19,4 +19,5 @@ export interface ILevels {
 export interface IWand {
   position: number[];
   direction: number;
+  angle: number;
 }

@@ -33,6 +33,7 @@ export const LEVELS: ILevels[] = [
     wand: {
       position: [2, 2],
       direction: 1,
+      angle: 0,
     },
     goal: [8, 8],
   },

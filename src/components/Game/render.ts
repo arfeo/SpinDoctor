@@ -70,7 +70,6 @@ function renderPanelCounters() {
 
 function renderWand() {
   const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
-  let angle = 0;
 
   const animate = () => {
     const x: number = (this.wand.position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
@@ -84,12 +83,12 @@ function renderWand() {
     );
 
     ctx.beginPath();
-    lineToAngle.call(this, ctx, x, y, this.cellSize * 2 - this.cellSize / 5, angle);
+    lineToAngle.call(this, ctx, x, y, this.cellSize * 2 - this.cellSize / 5, this.wand.angle);
     ctx.strokeStyle = 'lightgrey';
     ctx.lineWidth = 5;
     ctx.stroke();
 
-    angle += this.wand.direction;
+    this.wand.angle += this.wand.direction;
 
     requestAnimationFrame(animate);
   };
