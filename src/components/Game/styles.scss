@@ -45,8 +45,9 @@
   }
 
   .boardGrid {
-    width: calc(#{$cellSize * 21});
-    padding: $boardGridPadding;
+    position: relative;
+    width: calc(#{$cellSize * 23});
+    height: calc(#{$cellSize * 17});
     border-top: 1px solid $borderDark;
     border-right: 1px solid $borderLight;
     border-bottom: 1px solid $borderLight;
@@ -56,6 +57,23 @@
     .-static-cell {
       width: $cellSize;
       height: $cellSize;
+    }
+
+    .-static-canvas {
+      z-index: 100;
+    }
+
+    .-ward-canvas {
+      z-index: 1;
+    }
+
+    .-static-canvas,
+    .-ward-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(#{$cellSize * 23});
+      height: calc(#{$cellSize * 17});
     }
   }
 }

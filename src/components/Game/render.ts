@@ -12,6 +12,13 @@ function renderGameWindow() {
   this.boardPanel.level.className = '-level';
   this.boardPanel.lives.className = '-lives';
   this.boardPanel.score.className = '-score';
+  this.staticCanvas.className = '-static-canvas';
+  this.wandCanvas.className = '-ward-canvas';
+
+  this.staticCanvas.width = this.cellSize * (GridDimensions.Width + 2);
+  this.staticCanvas.height = this.cellSize * (GridDimensions.Height + 2);
+  this.wandCanvas.width = this.cellSize * (GridDimensions.Width + 2);
+  this.wandCanvas.height = this.cellSize * (GridDimensions.Height + 2);
 
   this.appRoot.appendChild(gameWindow);
   gameWindow.appendChild(boardPanel);
@@ -19,20 +26,8 @@ function renderGameWindow() {
   boardPanel.appendChild(this.boardPanel.lives);
   boardPanel.appendChild(this.boardPanel.score);
   gameWindow.appendChild(boardGrid);
-
-  for (let y = 0; y < GridDimensions.Height; y += 1) {
-    for (let x = 0; x < GridDimensions.Width; x += 1) {
-      const staticCell: HTMLCanvasElement = document.createElement('canvas');
-
-      staticCell.id = `cell-${y}-${x}`;
-      staticCell.className = '-static-cell';
-
-      staticCell.width = this.cellSize;
-      staticCell.height = this.cellSize;
-
-      boardGrid.appendChild(staticCell);
-    }
-  }
+  boardGrid.appendChild(this.staticCanvas);
+  boardGrid.appendChild(this.wandCanvas);
 }
 
 function renderLevelMap() {
@@ -43,16 +38,16 @@ function renderLevelMap() {
       const objectType: number = levelMap[y][x];
 
       if (objectType !== undefined && objectType !== 0) {
-        const cell: HTMLCanvasElement = document.getElementById(`cell-${y}-${x}`) as HTMLCanvasElement;
-        const ctx: CanvasRenderingContext2D = cell.getContext('2d');
+        const pinX: number = this.cellSize + this.cellSize * x;
+        const pinY: number = this.cellSize + this.cellSize * y;
 
         switch (objectType) {
           case 1: { // Pin (regular)
-            drawPin.call(this, ctx, 'lightgrey', '#000000');
+            drawPin.call(this, pinX, pinY, 'lightgrey', '#000000');
             break;
           }
           case 2: { // Pin (bonus)
-            drawPin.call(this, ctx, 'grey', '#000000');
+            drawPin.call(this, pinX, pinY, 'grey', '#000000');
             break;
           }
           default: break;
@@ -73,11 +68,42 @@ function renderPanelCounters() {
   this.boardPanel.score.innerText = this.score;
 }
 
-function drawPin(ctx: CanvasRenderingContext2D, fillStyle: string, strokeStyle: string) {
+function renderWand() {
+  const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
+  const wandPosition: number[] = LEVELS[this.level - 1].wand;
+  const x: number = (wandPosition[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
+  const y: number = (wandPosition[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
+  let angle = 0;
+
+  const animate = () => {
+    ctx.clearRect(
+      x - this.cellSize * 2,
+      y - this.cellSize * 2,
+      this.cellSize * 4,
+      this.cellSize * 4,
+    );
+
+    ctx.beginPath();
+    lineToAngle.call(this, ctx, x, y, this.cellSize * 2 - this.cellSize / 5, angle);
+    ctx.strokeStyle = 'lightgrey';
+    ctx.lineWidth = 5;
+    ctx.stroke();
+
+    angle += 1;
+
+    requestAnimationFrame(animate);
+  };
+
+  requestAnimationFrame(animate);
+}
+
+function drawPin(pinX: number, pinY: number, fillStyle: string, strokeStyle: string) {
+  const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+
   ctx.beginPath();
   ctx.arc(
-    this.cellSize / 2,
-    this.cellSize / 2,
+    pinX + this.cellSize / 2,
+    pinY + this.cellSize / 2,
     this.cellSize / 5,
     0,
     Math.PI * 2,
@@ -91,4 +117,19 @@ function drawPin(ctx: CanvasRenderingContext2D, fillStyle: string, strokeStyle: 
   ctx.stroke();
 }
 
-export { renderGameWindow, renderLevelMap, renderPanelCounters };
+function lineToAngle(ctx: CanvasRenderingContext2D, x1: number, y1: number, length: number, angle: number) {
+  const a = angle * Math.PI / 180;
+
+  const x2 = x1 + length * Math.cos(a);
+  const y2 = y1 + length * Math.sin(a);
+
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+}
+
+export {
+  renderGameWindow,
+  renderLevelMap,
+  renderPanelCounters,
+  renderWand,
+};

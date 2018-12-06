@@ -5,6 +5,6 @@ export const APP: IGlobals = {
 };
 
 export enum GridDimensions {
-  Width = 21,
-  Height = 15,
+  Width = 23,
+  Height = 17,
 }

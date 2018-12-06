@@ -6,4 +6,6 @@ export interface ILevels {
   id: number;
   title: string;
   map: number[][];
+  wand: number[];
+  goal: number[];
 }
