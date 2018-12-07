@@ -82,6 +82,10 @@ function renderGoal(goalPos: number[]) {
   let goalAnimationStep = 0;
 
   const animateGoal = (time: number) => {
+    if (this.isGameStopped) {
+      return requestAnimationFrame(animateGoal);
+    }
+
     if (time - goalAnimationStart > 100) {
       const goalCtx: CanvasRenderingContext2D = this.goalCanvas.getContext('2d');
       const goalX: number = goalPos[1] + this.cellSize / 2;

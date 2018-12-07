@@ -7,6 +7,7 @@ import { ILevel } from '../types/global';
  *  1 - Dot (regular)
  *  2 - Dot (bonus +1000)
  *  3 - Dot (bonus +2000)
+ *  100 - Goal
  */
 export const LEVELS: ILevel[] = [
   {
