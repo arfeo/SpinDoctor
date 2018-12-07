@@ -1,6 +1,6 @@
 import { renderPanelCounters } from './render';
 
-function tryWandMove(bounce?: boolean) {
+function tryWandMove(moveType?: string) {
   const { position, angle } = this.wand;
   let nextDotX = 0;
   let nextDotY = 0;
@@ -45,8 +45,16 @@ function tryWandMove(bounce?: boolean) {
   }
 
   if (nextDotType !== 0) {
-    if (bounce) {
-      this.wand.direction *= -1;
+    switch (moveType) {
+      case 'flip': {
+        this.wand.direction *= -1;
+        break;
+      }
+      case 'bounce': {
+        // TODO bounce
+        break;
+      }
+      default: break;
     }
 
     checkNextDot.call(this, nextDotType, nextDotX, nextDotY);

@@ -1,31 +1,36 @@
-import { APP } from '../../constants/app';
+import { APP, FunctionalKeys } from '../../constants/app';
 
 import { tryWandMove } from './actions';
 
 function setUpEventHandlers() {
   document.body.addEventListener('keydown', APP.eventListeners.onKeyDown);
+  document.body.addEventListener('keyup', APP.eventListeners.onKeyUp);
 }
 
 function removeEventHandlers() {
   document.body.removeEventListener('keydown', APP.eventListeners.onKeyDown);
+  document.body.removeEventListener('keyup', APP.eventListeners.onKeyUp);
 }
 
 function keyDownHandler(event: KeyboardEvent) {
   switch (event.key) {
-    case ' ': {
+    case FunctionalKeys.Reverse: {
       this.wand.direction *= -1;
       break;
     }
-    case 'Meta': {
-      tryWandMove.call(this, true);
+    case FunctionalKeys.Flip: {
+      tryWandMove.call(this, 'flip');
       break;
     }
-    case 'Control': {
+    case FunctionalKeys.Bounce: {
+      tryWandMove.call(this, 'bounce');
+      break;
+    }
+    case FunctionalKeys.Swing: {
       tryWandMove.call(this);
       break;
     }
-    case 'P':
-    case 'p': {
+    case FunctionalKeys.Pause: {
       const pauseLabel: HTMLElement = document.getElementById('pause');
 
       this.isGameStopped = !this.isGameStopped;
@@ -41,4 +46,13 @@ function keyDownHandler(event: KeyboardEvent) {
   }
 }
 
-export { setUpEventHandlers, removeEventHandlers, keyDownHandler };
+function keyUpHandler() {
+  // ..
+}
+
+export {
+  setUpEventHandlers,
+  removeEventHandlers,
+  keyDownHandler,
+  keyUpHandler,
+};

@@ -12,6 +12,7 @@ import {
   removeEventHandlers,
   setUpEventHandlers,
   keyDownHandler,
+  keyUpHandler,
 } from './events';
 
 import { setCellSize } from '../../utils/common';
@@ -35,6 +36,7 @@ class Game {
   map: number[][];
   wand: IWand;
   isGameStopped: boolean;
+  keyDown: string;
 
   constructor(level = 1, lives = 5, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
@@ -63,6 +65,7 @@ class Game {
 
     APP.eventListeners = {
       onKeyDown: keyDownHandler.bind(this),
+      onKeyUp: keyUpHandler.bind(this),
     };
 
     this.render();
