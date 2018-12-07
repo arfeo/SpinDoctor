@@ -62,6 +62,13 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
       renderPanelCounters.call(this);
       break;
     }
+    case 3: {
+      this.score += 2000;
+      this.map[dotY][dotX] = 1;
+
+      renderPanelCounters.call(this);
+      break;
+    }
     default: break;
   }
 }

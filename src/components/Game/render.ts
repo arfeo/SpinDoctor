@@ -51,7 +51,8 @@ function renderLevelMap() {
             drawDot.call(this, dotX, dotY, 'lightgray', '#000000');
             break;
           }
-          case 2: { // Dot (bonus)
+          case 2:
+          case 3: { // Dot (bonus)
             drawDot.call(this, dotX, dotY, 'dimgray', '#000000');
             break;
           }
