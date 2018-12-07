@@ -46,9 +46,9 @@ export const WAND_COLORS: IWandColors = {
 
 export enum FunctionalKeys {
   Reverse = ' ',
-  Flip = 'Meta',
+  Flip = 'Shift',
   Swing = 'Control',
-  Bounce = 'Option',
+  Bounce = 'Alt',
   Pause = 'p',
 }
 
