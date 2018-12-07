@@ -5,7 +5,7 @@ import { ILevels } from '../types/global';
  *
  *  0 - Empty space
  *  1 - Dot (regular)
- *  2 - Dot (bonus)
+ *  2 - Dot (bonus +1000)
  */
 export const LEVELS: ILevels[] = [
   {

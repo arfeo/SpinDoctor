@@ -1,6 +1,6 @@
 import { APP } from '../../constants/app';
 
-import { tryWandMove } from './draw';
+import { tryWandMove } from './actions';
 
 function setUpEventHandlers() {
   document.body.addEventListener('keydown', APP.eventListeners.onKeyDown);
