@@ -14,7 +14,7 @@ function keyDownHandler(event: KeyboardEvent) {
   switch (event.key) {
     case FunctionalKeys.Reverse: {
       if (!this.keyDown.reverse) {
-        this.wand.direction *= -1;
+        this.level.wand.direction *= -1;
       }
 
       setActiveKey.call(this, 'reverse');

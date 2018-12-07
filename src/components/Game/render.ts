@@ -1,5 +1,4 @@
-import { LEVELS } from '../../constants/levels';
-import { DOT_COLORS, WAND_COLORS, GridDimensions } from '../../constants/app';
+import { DOT_COLORS, WAND_COLORS, GridDimensions, MapDefinitions } from '../../constants/app';
 
 import { drawDot, drawLineToAngle } from './draw';
 import { tryWandMove } from './actions';
@@ -39,21 +38,23 @@ function renderGameWindow() {
 }
 
 function renderLevelMap() {
-  for (let y = 0; y < this.map.length; y += 1) {
-    for (let x = 0; x < this.map[y].length; x += 1) {
-      const objectType: number = this.map[y][x];
+  const { map } = this.level;
 
-      if (objectType !== undefined && objectType !== 0) {
+  for (let y = 0; y < map.length; y += 1) {
+    for (let x = 0; x < map[y].length; x += 1) {
+      const objectType: number = map[y][x];
+
+      if (objectType !== undefined && objectType !== MapDefinitions.Empty) {
         const dotX: number = this.cellSize + this.cellSize * x;
         const dotY: number = this.cellSize + this.cellSize * y;
 
         switch (objectType) {
-          case 1: { // Dot (regular)
+          case MapDefinitions.Regular: {
             drawDot.call(this, dotX, dotY, DOT_COLORS.regular.background, DOT_COLORS.regular.border);
             break;
           }
-          case 2:
-          case 3: { // Dot (bonus)
+          case MapDefinitions.Bonus1000:
+          case MapDefinitions.Bonus2000: {
             drawDot.call(this, dotX, dotY, DOT_COLORS.bonus.background, DOT_COLORS.bonus.border);
             break;
           }
@@ -65,11 +66,9 @@ function renderLevelMap() {
 }
 
 function renderPanelCounters() {
-  const levelId: number = this.level - 1;
-
   this.boardPanel.level.innerHTML = (`
-    <div class="-id">${LEVELS[levelId].id}:</div>
-    <div class="-title">${LEVELS[levelId].title}</div>
+    <div class="-id">${this.level.id}:</div>
+    <div class="-title">${this.level.title}</div>
   `);
   this.boardPanel.lives.innerText = this.lives;
   this.boardPanel.score.innerText = this.score;
@@ -83,7 +82,7 @@ function renderWand() {
       return requestAnimationFrame(animate);
     }
 
-    const { position, direction, angle } = this.wand;
+    const { position, direction, angle } = this.level.wand;
     const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
     const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
 
@@ -100,12 +99,12 @@ function renderWand() {
     ctx.lineWidth = 5;
     ctx.stroke();
 
-    this.wand.angle += direction * this.difficulty.correction;
+    this.level.wand.angle += direction * this.difficulty.correction;
 
-    if (this.wand.angle < 0) {
-      this.wand.angle += 360;
-    } else if (this.wand.angle >= 360) {
-      this.wand.angle -= 360;
+    if (this.level.wand.angle < 0) {
+      this.level.wand.angle += 360;
+    } else if (this.level.wand.angle >= 360) {
+      this.level.wand.angle -= 360;
     }
 
     tryWandMove.call(this);

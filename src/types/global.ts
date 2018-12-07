@@ -15,7 +15,7 @@ export interface IDifficulty {
   correction: number;
 }
 
-export interface ILevels {
+export interface ILevel {
   id: number;
   title: string;
   map: number[][];

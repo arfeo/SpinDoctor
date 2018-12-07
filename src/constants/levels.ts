@@ -1,4 +1,4 @@
-import { ILevels } from '../types/global';
+import { ILevel } from '../types/global';
 
 /**
  *  Map legend:
@@ -8,7 +8,7 @@ import { ILevels } from '../types/global';
  *  2 - Dot (bonus +1000)
  *  3 - Dot (bonus +2000)
  */
-export const LEVELS: ILevels[] = [
+export const LEVELS: ILevel[] = [
   {
     id: 1,
     title: 'Grid',

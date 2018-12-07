@@ -56,3 +56,10 @@ export enum GridDimensions {
   Width = 23,
   Height = 17,
 }
+
+export enum MapDefinitions {
+  Empty = 0,
+  Regular = 1,
+  Bonus1000 = 2,
+  Bonus2000 = 3,
+}

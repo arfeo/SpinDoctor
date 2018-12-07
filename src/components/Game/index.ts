@@ -18,11 +18,11 @@ import {
 
 import { setCellSize } from '../../utils/common';
 
-import { IDifficulty, IWand } from '../../types/global';
+import { IDifficulty, ILevel } from '../../types/global';
 
 class Game {
   appRoot: HTMLElement;
-  level: number;
+  level: ILevel;
   lives: number;
   score: number;
   cellSize: number;
@@ -34,8 +34,6 @@ class Game {
   staticCanvas: HTMLCanvasElement;
   wandCanvas: HTMLCanvasElement;
   difficulty: IDifficulty;
-  map: number[][];
-  wand: IWand;
   keyDown: {
     reverse: boolean;
     flip: boolean;
@@ -48,7 +46,7 @@ class Game {
   constructor(level = 1, lives = 4, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
 
-    this.level = level;
+    this.level = LEVELS[level - 1];
     this.lives = lives;
     this.score = score;
 
@@ -64,9 +62,6 @@ class Game {
     this.wandCanvas = document.createElement('canvas');
 
     this.difficulty = DIFFICULTIES[difficulty - 1];
-
-    this.map = LEVELS[this.level - 1].map;
-    this.wand = LEVELS[this.level - 1].wand;
 
     this.isGameStopped = false;
 
