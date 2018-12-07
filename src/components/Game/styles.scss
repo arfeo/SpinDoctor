@@ -46,6 +46,9 @@
 
   .boardGrid {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: calc(#{$cellSize * 23});
     height: calc(#{$cellSize * 17});
     border-top: 1px solid $borderDark;
@@ -74,6 +77,18 @@
       left: 0;
       width: calc(#{$cellSize * 23});
       height: calc(#{$cellSize * 17});
+    }
+
+    .-pause {
+      z-index: 999;
+      padding: $smallPadding $mainPadding;
+      border: 1px solid $pauseLabelBorder;
+      background-color: $pauseLabelBack;
+      visibility: hidden;
+
+      &.show {
+        visibility: visible;
+      }
     }
   }
 }

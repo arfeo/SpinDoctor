@@ -24,6 +24,19 @@ function keyDownHandler(event: KeyboardEvent) {
       tryWandMove.call(this);
       break;
     }
+    case 'P':
+    case 'p': {
+      const pauseLabel: HTMLElement = document.getElementById('pause');
+
+      this.isGameStopped = !this.isGameStopped;
+
+      if (this.isGameStopped) {
+        pauseLabel.classList.add('show');
+      } else {
+        pauseLabel.classList.remove('show');
+      }
+      break;
+    }
     default: break;
   }
 }

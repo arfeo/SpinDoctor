@@ -7,10 +7,14 @@ function renderGameWindow() {
   const gameWindow: HTMLElement = document.createElement('div');
   const boardPanel: HTMLElement = document.createElement('div');
   const boardGrid: HTMLElement = document.createElement('div');
+  const pauseLabel: HTMLElement = document.createElement('div');
 
   gameWindow.className = 'gameWindow';
   boardPanel.className = 'boardPanel';
   boardGrid.className = 'boardGrid';
+  pauseLabel.id = 'pause';
+  pauseLabel.className = '-pause';
+  pauseLabel.innerText = 'Paused';
   this.boardPanel.level.className = '-level';
   this.boardPanel.lives.className = '-lives';
   this.boardPanel.score.className = '-score';
@@ -30,6 +34,7 @@ function renderGameWindow() {
   gameWindow.appendChild(boardGrid);
   boardGrid.appendChild(this.staticCanvas);
   boardGrid.appendChild(this.wandCanvas);
+  boardGrid.appendChild(pauseLabel);
 }
 
 function renderLevelMap() {
@@ -72,6 +77,10 @@ function renderWand() {
   const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
 
   const animate = () => {
+    if (this.isGameStopped) {
+      return requestAnimationFrame(animate);
+    }
+
     const { position, direction, angle } = this.wand;
     const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
     const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;

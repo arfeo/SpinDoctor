@@ -34,6 +34,7 @@ class Game {
   difficulty: IDifficulty;
   map: number[][];
   wand: IWand;
+  isGameStopped: boolean;
 
   constructor(level = 1, lives = 5, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
@@ -57,6 +58,8 @@ class Game {
 
     this.map = LEVELS[this.level - 1].map;
     this.wand = LEVELS[this.level - 1].wand;
+
+    this.isGameStopped = false;
 
     APP.eventListeners = {
       onKeyDown: keyDownHandler.bind(this),
