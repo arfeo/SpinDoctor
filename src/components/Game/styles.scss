@@ -18,7 +18,7 @@
     .-level {
       display: flex;
       align-items: center;
-      flex-grow: 3;
+      width: 50%;
 
       .-id {
         margin-right: calc(#{$mainMargin / 2});
@@ -26,7 +26,7 @@
     }
 
     .-lives {
-      flex-grow: 1;
+      width: 25%;
 
       &:before {
         content: 'Lives:';
@@ -35,7 +35,7 @@
     }
 
     .-score {
-      flex-grow: 1;
+      width: 25%;
 
       &:before {
         content: 'Score:';
