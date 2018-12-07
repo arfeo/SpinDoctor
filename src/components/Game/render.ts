@@ -48,12 +48,12 @@ function renderLevelMap() {
 
         switch (objectType) {
           case 1: { // Dot (regular)
-            drawDot.call(this, dotX, dotY, 'lightgray', '#000000');
+            drawDot.call(this, dotX, dotY, 'rgb(200, 200, 200)', 'rgb(30, 30, 30)');
             break;
           }
           case 2:
           case 3: { // Dot (bonus)
-            drawDot.call(this, dotX, dotY, 'dimgray', '#000000');
+            drawDot.call(this, dotX, dotY, 'rgba(20, 20, 20, 0.5)', 'rgba(0, 0, 0, 0.5)');
             break;
           }
           default: break;
@@ -95,7 +95,7 @@ function renderWand() {
 
     ctx.beginPath();
     drawLineToAngle.call(this, ctx, x, y, this.cellSize * 2 - this.cellSize / 5, angle);
-    ctx.strokeStyle = 'lightgray';
+    ctx.strokeStyle = 'rgb(200, 200, 200)';
     ctx.lineWidth = 5;
     ctx.stroke();
 
