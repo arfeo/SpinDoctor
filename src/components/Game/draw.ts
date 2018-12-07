@@ -28,4 +28,44 @@ function drawLineToAngle(ctx: CanvasRenderingContext2D, x1: number, y1: number, 
   ctx.lineTo(x2, y2);
 }
 
-export { drawDot, drawLineToAngle };
+function drawStar(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  spikes: number,
+  outerRadius: number,
+  innerRadius: number,
+  backgroundColor: string,
+  edgingWidth: number,
+  edgingColor: string,
+) {
+  let rotation: number = Math.PI / 2 * 3;
+  let x: number = cx;
+  let y: number = cy;
+  const step = Math.PI / spikes;
+
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - outerRadius);
+
+  for (let i = 0; i < spikes; i += 1) {
+    x = cx + Math.cos(rotation) * outerRadius;
+    y = cy + Math.sin(rotation) * outerRadius;
+    ctx.lineTo(x, y);
+    rotation += step;
+
+    x = cx + Math.cos(rotation) * innerRadius;
+    y = cy + Math.sin(rotation) * innerRadius;
+    ctx.lineTo(x, y);
+    rotation += step;
+  }
+
+  ctx.lineTo(cx, cy - outerRadius);
+  ctx.closePath();
+  ctx.lineWidth = edgingWidth || 0;
+  ctx.strokeStyle = edgingColor || null;
+  ctx.stroke();
+  ctx.fillStyle = backgroundColor || null;
+  ctx.fill();
+}
+
+export { drawDot, drawLineToAngle, drawStar };

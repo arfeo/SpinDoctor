@@ -1,6 +1,6 @@
-import { DOT_COLORS, WAND_COLORS, GridDimensions, MapDefinitions } from '../../constants/app';
+import { MAP_ELEMENT_COLORS, WAND_COLORS, GridDimensions, MapDefinitions } from '../../constants/app';
 
-import { drawDot, drawLineToAngle } from './draw';
+import { drawDot, drawLineToAngle, drawStar } from './draw';
 import { tryWandMove } from './actions';
 
 function renderGameWindow() {
@@ -19,10 +19,13 @@ function renderGameWindow() {
   this.boardPanel.lives.className = '-lives';
   this.boardPanel.score.className = '-score';
   this.staticCanvas.className = '-static-canvas';
+  this.goalCanvas.className = '-goal-canvas';
   this.wandCanvas.className = '-ward-canvas';
 
   this.staticCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.staticCanvas.height = this.cellSize * (GridDimensions.Height + 2);
+  this.goalCanvas.width = this.cellSize * (GridDimensions.Width + 2);
+  this.goalCanvas.height = this.cellSize * (GridDimensions.Height + 2);
   this.wandCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.wandCanvas.height = this.cellSize * (GridDimensions.Height + 2);
 
@@ -33,12 +36,14 @@ function renderGameWindow() {
   boardPanel.appendChild(this.boardPanel.score);
   gameWindow.appendChild(boardGrid);
   boardGrid.appendChild(this.staticCanvas);
+  boardGrid.appendChild(this.goalCanvas);
   boardGrid.appendChild(this.wandCanvas);
   boardGrid.appendChild(pauseLabel);
 }
 
 function renderLevelMap() {
   const { map } = this.level;
+  let goalPos: number[];
 
   for (let y = 0; y < map.length; y += 1) {
     for (let x = 0; x < map[y].length; x += 1) {
@@ -49,13 +54,18 @@ function renderLevelMap() {
         const dotY: number = this.cellSize + this.cellSize * y;
 
         switch (objectType) {
-          case MapDefinitions.Regular: {
-            drawDot.call(this, dotX, dotY, DOT_COLORS.regular.background, DOT_COLORS.regular.border);
+          case MapDefinitions.Regular:
+          case MapDefinitions.Goal: {
+            drawDot.call(this, dotX, dotY, MAP_ELEMENT_COLORS.regular.background, MAP_ELEMENT_COLORS.regular.border);
+
+            if (objectType === MapDefinitions.Goal) {
+              goalPos = [dotY, dotX];
+            }
             break;
           }
           case MapDefinitions.Bonus1000:
           case MapDefinitions.Bonus2000: {
-            drawDot.call(this, dotX, dotY, DOT_COLORS.bonus.background, DOT_COLORS.bonus.border);
+            drawDot.call(this, dotX, dotY, MAP_ELEMENT_COLORS.bonus.background, MAP_ELEMENT_COLORS.bonus.border);
             break;
           }
           default: break;
@@ -63,6 +73,66 @@ function renderLevelMap() {
       }
     }
   }
+
+  renderGoal.call(this, goalPos);
+}
+
+function renderGoal(goalPos: number[]) {
+  let goalAnimationStart: number = performance.now();
+  let goalAnimationStep = 0;
+
+  const animateGoal = (time: number) => {
+    if (time - goalAnimationStart > 100) {
+      const goalCtx: CanvasRenderingContext2D = this.goalCanvas.getContext('2d');
+      const goalX: number = goalPos[1] + this.cellSize / 2;
+      const goalY: number = goalPos[0] + this.cellSize / 2;
+
+      if (goalAnimationStep > 2) {
+        goalAnimationStep = 0;
+      }
+
+      goalCtx.clearRect(
+        goalPos[1],
+        goalPos[0],
+        this.cellSize,
+        this.cellSize,
+      );
+
+      if (goalAnimationStep !== 0) {
+        goalCtx.translate(goalX, goalY);
+        goalCtx.rotate(Math.PI / 360 * 30 * goalAnimationStep);
+        goalCtx.translate(-goalX, -goalY);
+      }
+
+      let goalOuterSize: number;
+
+      switch (goalAnimationStep) {
+        case 0: goalOuterSize = 3; break;
+        case 1: goalOuterSize = 4; break;
+        case 2: goalOuterSize = 5; break;
+        default: break;
+      }
+
+      drawStar(
+        goalCtx,
+        goalX,
+        goalY,
+        4,
+        this.cellSize / goalOuterSize,
+        this.cellSize / (goalOuterSize * 2),
+        MAP_ELEMENT_COLORS.goal.background,
+        4,
+        MAP_ELEMENT_COLORS.goal.border,
+      );
+
+      goalAnimationStep += 1;
+      goalAnimationStart = time;
+    }
+
+    requestAnimationFrame(animateGoal);
+  };
+
+  requestAnimationFrame(animateGoal);
 }
 
 function renderPanelCounters() {
@@ -74,12 +144,12 @@ function renderPanelCounters() {
   this.boardPanel.score.innerText = this.score;
 }
 
-function renderWand() {
+function renderAvatarWand() {
   const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
 
-  const animate = () => {
+  const animateAvatarWand = () => {
     if (this.isGameStopped) {
-      return requestAnimationFrame(animate);
+      return requestAnimationFrame(animateAvatarWand);
     }
 
     const { position, direction, angle } = this.level.wand;
@@ -109,15 +179,15 @@ function renderWand() {
 
     tryWandMove.call(this);
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animateAvatarWand);
   };
 
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animateAvatarWand);
 }
 
 export {
   renderGameWindow,
   renderLevelMap,
   renderPanelCounters,
-  renderWand,
+  renderAvatarWand,
 };

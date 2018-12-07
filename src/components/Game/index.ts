@@ -5,7 +5,7 @@ import {
   renderGameWindow,
   renderLevelMap,
   renderPanelCounters,
-  renderWand,
+  renderAvatarWand,
 } from './render';
 
 import {
@@ -32,6 +32,7 @@ class Game {
     score: HTMLElement;
   };
   staticCanvas: HTMLCanvasElement;
+  goalCanvas: HTMLCanvasElement;
   wandCanvas: HTMLCanvasElement;
   difficulty: IDifficulty;
   keyDown: {
@@ -59,6 +60,7 @@ class Game {
     };
 
     this.staticCanvas = document.createElement('canvas');
+    this.goalCanvas = document.createElement('canvas');
     this.wandCanvas = document.createElement('canvas');
 
     this.difficulty = DIFFICULTIES[difficulty - 1];
@@ -78,7 +80,7 @@ class Game {
   render() {
     renderGameWindow.call(this);
     renderLevelMap.call(this);
-    renderWand.call(this);
+    renderAvatarWand.call(this);
     renderPanelCounters.call(this);
 
     setUpEventHandlers.call(this);

@@ -20,7 +20,6 @@ export interface ILevel {
   title: string;
   map: number[][];
   wand: IWand;
-  goal: number[];
 }
 
 export interface IWand {
@@ -29,7 +28,7 @@ export interface IWand {
   angle: number;
 }
 
-export interface IDotColors {
+export interface IMapElementColors {
   [key: string]: {
     background: string;
     border: string;

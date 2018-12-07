@@ -1,4 +1,4 @@
-import { IDifficulty, IDotColors, IGlobals, IWandColors } from '../types/global';
+import { IDifficulty, IMapElementColors, IGlobals, IWandColors } from '../types/global';
 
 export const APP: IGlobals = {
   pageInstance: null,
@@ -29,7 +29,7 @@ export const DIFFICULTIES: IDifficulty[] = [
   },
 ];
 
-export const DOT_COLORS: IDotColors = {
+export const MAP_ELEMENT_COLORS: IMapElementColors = {
   regular: {
     background: 'rgb(200, 200, 200)',
     border: 'rgb(30, 30, 30)',
@@ -38,6 +38,10 @@ export const DOT_COLORS: IDotColors = {
     background: 'rgb(50, 50, 50)',
     border: 'rgb(30, 30, 30)',
   },
+  goal: {
+    background: 'rgb(221, 239, 255)',
+    border: 'rgb(76, 183, 240)',
+  }
 };
 
 export const WAND_COLORS: IWandColors = {
@@ -62,4 +66,5 @@ export enum MapDefinitions {
   Regular = 1,
   Bonus1000 = 2,
   Bonus2000 = 3,
+  Goal = 100,
 }

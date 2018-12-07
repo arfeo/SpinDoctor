@@ -66,11 +66,16 @@
       z-index: 100;
     }
 
+    .-goal-canvas {
+      z-index: 99;
+    }
+
     .-ward-canvas {
       z-index: 1;
     }
 
     .-static-canvas,
+    .-goal-canvas,
     .-ward-canvas {
       position: absolute;
       top: 0;
