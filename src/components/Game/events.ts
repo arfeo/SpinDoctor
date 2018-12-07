@@ -52,30 +52,8 @@ function keyDownHandler(event: KeyboardEvent) {
   }
 }
 
-function keyUpHandler(event: KeyboardEvent) {
-  switch (event.key) {
-    case FunctionalKeys.Reverse: {
-      this.keyDown.reverse = false;
-      break;
-    }
-    case FunctionalKeys.Flip: {
-      this.keyDown.flip = false;
-      break;
-    }
-    case FunctionalKeys.Bounce: {
-      this.keyDown.bounce = false;
-      break;
-    }
-    case FunctionalKeys.Swing: {
-      this.keyDown.swing = false;
-      break;
-    }
-    case FunctionalKeys.Pause: {
-      this.keyDown.pause = false;
-      break;
-    }
-    default: break;
-  }
+function keyUpHandler() {
+  setActiveKey.call(this);
 }
 
 function setActiveKey(type?: string) {

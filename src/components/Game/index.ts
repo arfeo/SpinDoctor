@@ -45,7 +45,7 @@ class Game {
   };
   isGameStopped: boolean;
 
-  constructor(level = 1, lives = 5, score = 0, difficulty = 1) {
+  constructor(level = 1, lives = 4, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
 
     this.level = level;

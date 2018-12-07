@@ -9,49 +9,65 @@ function tryWandMove() {
 
     switch (angle) {
       case 0: { // East
-        nextDotX = position[1] + 1 + 2;
+        nextDotX = position[1] + 3;
         nextDotY = position[0] + 1;
         nextDotType = this.map[nextDotY][nextDotX];
 
         if (nextDotType !== 0) {
-          this.wand.position[1] += 2;
-          this.wand.angle = 180;
+          if (!this.keyDown.bounce) {
+            this.wand.position[ 1 ] += 2;
+            this.wand.angle = 180;
+          } else {
+            this.wand.direction *= -1;
+          }
         }
 
         break;
       }
       case 90: { // South
         nextDotX = position[1] + 1;
-        nextDotY = position[0] + 1 + 2;
+        nextDotY = position[0] + 3;
         nextDotType = this.map[nextDotY][nextDotX];
 
         if (nextDotType !== 0) {
-          this.wand.position[0] += 2;
-          this.wand.angle = 270;
+          if (!this.keyDown.bounce) {
+            this.wand.position[0] += 2;
+            this.wand.angle = 270;
+          } else {
+            this.wand.direction *= -1;
+          }
         }
 
         break;
       }
       case 180: { // West
-        nextDotX = position[1] + 1 - 2;
+        nextDotX = position[1] - 1;
         nextDotY = position[0] + 1;
         nextDotType = this.map[nextDotY][nextDotX];
 
         if (nextDotType !== 0) {
-          this.wand.position[1] -= 2;
-          this.wand.angle = 0;
+          if (!this.keyDown.bounce) {
+            this.wand.position[1] -= 2;
+            this.wand.angle = 0;
+          } else {
+            this.wand.direction *= -1;
+          }
         }
 
         break;
       }
       case 270: { // North
         nextDotX = position[1] + 1;
-        nextDotY = position[0] + 1 - 2;
+        nextDotY = position[0] - 1;
         nextDotType = this.map[nextDotY][nextDotX];
 
         if (nextDotType !== 0) {
-          this.wand.position[0] -= 2;
-          this.wand.angle = 90;
+          if (!this.keyDown.bounce) {
+            this.wand.position[0] -= 2;
+            this.wand.angle = 90;
+          } else {
+            this.wand.direction *= -1;
+          }
         }
 
         break;
@@ -62,10 +78,6 @@ function tryWandMove() {
     if (nextDotType !== 0) {
       if (this.keyDown.flip) {
         this.wand.direction *= -1;
-      }
-
-      if (this.keyDown.bounce) {
-        // TODO bounce
       }
 
       checkNextDot.call(this, nextDotType, nextDotX, nextDotY);
