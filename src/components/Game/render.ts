@@ -78,7 +78,7 @@ function renderLevelMap() {
 }
 
 function renderGoal(goalPos: number[]) {
-  let goalAnimationStart: number = performance.now();
+  let start: number = performance.now();
   let goalAnimationStep = 0;
 
   const animateGoal = (time: number) => {
@@ -86,14 +86,23 @@ function renderGoal(goalPos: number[]) {
       return requestAnimationFrame(animateGoal);
     }
 
-    if (time - goalAnimationStart > 100) {
+    if (time - start > 100) {
+      if (goalAnimationStep > 2) {
+        goalAnimationStep = 0;
+      }
+
       const goalCtx: CanvasRenderingContext2D = this.goalCanvas.getContext('2d');
       const goalX: number = goalPos[1] + this.cellSize / 2;
       const goalY: number = goalPos[0] + this.cellSize / 2;
 
-      if (goalAnimationStep > 2) {
-        goalAnimationStep = 0;
-      }
+      const goalOuterSize = (): number => {
+        switch (goalAnimationStep) {
+          case 0: return 3;
+          case 1: return 4;
+          case 2: return 5;
+          default: return;
+        }
+      };
 
       goalCtx.clearRect(
         goalPos[1],
@@ -108,29 +117,20 @@ function renderGoal(goalPos: number[]) {
         goalCtx.translate(-goalX, -goalY);
       }
 
-      let goalOuterSize: number;
-
-      switch (goalAnimationStep) {
-        case 0: goalOuterSize = 3; break;
-        case 1: goalOuterSize = 4; break;
-        case 2: goalOuterSize = 5; break;
-        default: break;
-      }
-
       drawStar(
         goalCtx,
         goalX,
         goalY,
         4,
-        this.cellSize / goalOuterSize,
-        this.cellSize / (goalOuterSize * 2),
+        this.cellSize / goalOuterSize(),
+        this.cellSize / (goalOuterSize() * 2),
         MAP_ELEMENT_COLORS.goal.background,
         4,
         MAP_ELEMENT_COLORS.goal.border,
       );
 
       goalAnimationStep += 1;
-      goalAnimationStart = time;
+      start = time;
     }
 
     requestAnimationFrame(animateGoal);
