@@ -75,7 +75,7 @@ function tryWandMove() {
       default: break;
     }
 
-    if (nextDotType !== 0) {
+    if (nextDotType !== 0 && !this.keyDown.bounce) {
       if (this.keyDown.flip) {
         this.wand.direction *= -1;
       }
