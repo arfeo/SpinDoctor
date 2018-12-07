@@ -25,6 +25,7 @@ class Game {
   level: ILevel;
   lives: number;
   score: number;
+  difficulty: IDifficulty;
   cellSize: number;
   boardPanel: {
     level: HTMLElement;
@@ -34,7 +35,6 @@ class Game {
   staticCanvas: HTMLCanvasElement;
   goalCanvas: HTMLCanvasElement;
   wandCanvas: HTMLCanvasElement;
-  difficulty: IDifficulty;
   keyDown: {
     reverse: boolean;
     flip: boolean;
@@ -43,6 +43,8 @@ class Game {
     pause: boolean;
   };
   isGameStopped: boolean;
+  animateGoal: number;
+  animateAvatarWand: number;
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
@@ -50,6 +52,7 @@ class Game {
     this.level = LEVELS[level - 1];
     this.lives = lives;
     this.score = score;
+    this.difficulty = DIFFICULTIES[difficulty - 1];
 
     this.cellSize = setCellSize();
 
@@ -62,8 +65,6 @@ class Game {
     this.staticCanvas = document.createElement('canvas');
     this.goalCanvas = document.createElement('canvas');
     this.wandCanvas = document.createElement('canvas');
-
-    this.difficulty = DIFFICULTIES[difficulty - 1];
 
     this.isGameStopped = false;
 
@@ -88,6 +89,9 @@ class Game {
 
   destroy() {
     removeEventHandlers.call(this);
+
+    cancelAnimationFrame(this.animateAvatarWand);
+    cancelAnimationFrame(this.animateGoal);
 
     APP.pageInstance = null;
   }

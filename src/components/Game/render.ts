@@ -29,6 +29,8 @@ function renderGameWindow() {
   this.wandCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.wandCanvas.height = this.cellSize * (GridDimensions.Height + 2);
 
+  this.appRoot.innerHTML = '';
+
   this.appRoot.appendChild(gameWindow);
   gameWindow.appendChild(boardPanel);
   boardPanel.appendChild(this.boardPanel.level);
@@ -81,9 +83,9 @@ function renderGoal(goalPos: number[]) {
   let start: number = performance.now();
   let goalAnimationStep = 0;
 
-  const animateGoal = (time: number) => {
+  this.animateGoal = (time: number) => {
     if (this.isGameStopped) {
-      return requestAnimationFrame(animateGoal);
+      return requestAnimationFrame(this.animateGoal);
     }
 
     if (time - start > 100) {
@@ -133,10 +135,10 @@ function renderGoal(goalPos: number[]) {
       start = time;
     }
 
-    requestAnimationFrame(animateGoal);
+    requestAnimationFrame(this.animateGoal);
   };
 
-  requestAnimationFrame(animateGoal);
+  requestAnimationFrame(this.animateGoal);
 }
 
 function renderPanelCounters() {
@@ -151,9 +153,9 @@ function renderPanelCounters() {
 function renderAvatarWand() {
   const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
 
-  const animateAvatarWand = () => {
+  this.animateAvatarWand = () => {
     if (this.isGameStopped) {
-      return requestAnimationFrame(animateAvatarWand);
+      return requestAnimationFrame(this.animateAvatarWand);
     }
 
     const { position, direction, angle } = this.level.wand;
@@ -183,10 +185,10 @@ function renderAvatarWand() {
 
     tryWandMove.call(this);
 
-    requestAnimationFrame(animateAvatarWand);
+    requestAnimationFrame(this.animateAvatarWand);
   };
 
-  requestAnimationFrame(animateAvatarWand);
+  requestAnimationFrame(this.animateAvatarWand);
 }
 
 export {

@@ -1,6 +1,8 @@
-import { MapDefinitions } from '../../constants/app';
+import { APP, MapDefinitions } from '../../constants/app';
 
 import { renderPanelCounters } from './render';
+import { LEVELS } from '../../constants/levels';
+import { Game } from './index';
 
 function tryWandMove() {
   const { flip, bounce, swing } = this.keyDown;
@@ -104,6 +106,19 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
       this.level.map[dotY][dotX] = 1;
 
       renderPanelCounters.call(this);
+      break;
+    }
+    case MapDefinitions.Goal: {
+      this.isGameStopped = true;
+
+      if (LEVELS[this.level.id] === undefined) {
+        alert('Game over!');
+      } else {
+        this.destroy();
+
+        APP.pageInstance = new Game(this.level.id + 1, this.lives, this.score, this.difficulty.id);
+      }
+
       break;
     }
     default: break;
