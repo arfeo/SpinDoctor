@@ -1,63 +1,75 @@
 import { renderPanelCounters } from './render';
 
-function tryWandMove(moveType?: string) {
-  const { position, angle } = this.wand;
-  let nextDotX = 0;
-  let nextDotY = 0;
-  let nextDotType = 0;
+function tryWandMove() {
+  if (this.keyDown.flip || this.keyDown.bounce || this.keyDown.swing) {
+    const { position, angle } = this.wand;
+    let nextDotX = 0;
+    let nextDotY = 0;
+    let nextDotType = 0;
 
-  if ((angle >= 355 && angle <= 359) || (angle >= 0 && angle <= 5)) { // East
-    nextDotX = position[1] + 1 + 2;
-    nextDotY = position[0] + 1;
-    nextDotType = this.map[nextDotY][nextDotX];
+    switch (angle) {
+      case 0: { // East
+        nextDotX = position[1] + 1 + 2;
+        nextDotY = position[0] + 1;
+        nextDotType = this.map[nextDotY][nextDotX];
 
-    if (nextDotType !== 0) {
-      this.wand.position[1] += 2;
-      this.wand.angle += angle >= 355 && angle <= 359 ? -180 : 180;
-    }
-  } else if (angle >= 85 && angle <= 95) { // South
-    nextDotX = position[1] + 1;
-    nextDotY = position[0] + 1 + 2;
-    nextDotType = this.map[nextDotY][nextDotX];
+        if (nextDotType !== 0) {
+          this.wand.position[1] += 2;
+          this.wand.angle = 180;
+        }
 
-    if (nextDotType !== 0) {
-      this.wand.position[0] += 2;
-      this.wand.angle += 180;
-    }
-  } else if (angle >= 175 && angle <= 185) { // West
-    nextDotX = position[1] + 1 - 2;
-    nextDotY = position[0] + 1;
-    nextDotType = this.map[nextDotY][nextDotX];
-
-    if (nextDotType !== 0) {
-      this.wand.position[1] -= 2;
-      this.wand.angle -= angle >= 175 && angle < 180 ? 180 : -180;
-    }
-  } else if (angle >= 265 && angle <= 275) { // North
-    nextDotX = position[1] + 1;
-    nextDotY = position[0] + 1 - 2;
-    nextDotType = this.map[nextDotY][nextDotX];
-
-    if (nextDotType !== 0) {
-      this.wand.position[0] -= 2;
-      this.wand.angle -= 180;
-    }
-  }
-
-  if (nextDotType !== 0) {
-    switch (moveType) {
-      case 'flip': {
-        this.wand.direction *= -1;
         break;
       }
-      case 'bounce': {
-        // TODO bounce
+      case 90: { // South
+        nextDotX = position[1] + 1;
+        nextDotY = position[0] + 1 + 2;
+        nextDotType = this.map[nextDotY][nextDotX];
+
+        if (nextDotType !== 0) {
+          this.wand.position[0] += 2;
+          this.wand.angle = 270;
+        }
+
+        break;
+      }
+      case 180: { // West
+        nextDotX = position[1] + 1 - 2;
+        nextDotY = position[0] + 1;
+        nextDotType = this.map[nextDotY][nextDotX];
+
+        if (nextDotType !== 0) {
+          this.wand.position[1] -= 2;
+          this.wand.angle = 0;
+        }
+
+        break;
+      }
+      case 270: { // North
+        nextDotX = position[1] + 1;
+        nextDotY = position[0] + 1 - 2;
+        nextDotType = this.map[nextDotY][nextDotX];
+
+        if (nextDotType !== 0) {
+          this.wand.position[0] -= 2;
+          this.wand.angle = 90;
+        }
+
         break;
       }
       default: break;
     }
 
-    checkNextDot.call(this, nextDotType, nextDotX, nextDotY);
+    if (nextDotType !== 0) {
+      if (this.keyDown.flip) {
+        this.wand.direction *= -1;
+      }
+
+      if (this.keyDown.bounce) {
+        // TODO bounce
+      }
+
+      checkNextDot.call(this, nextDotType, nextDotX, nextDotY);
+    }
   }
 }
 

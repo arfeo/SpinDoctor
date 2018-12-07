@@ -2,6 +2,7 @@ import { LEVELS } from '../../constants/levels';
 import { DOT_COLORS, WAND_COLORS, GridDimensions } from '../../constants/app';
 
 import { drawDot, drawLineToAngle } from './draw';
+import { tryWandMove } from './actions';
 
 function renderGameWindow() {
   const gameWindow: HTMLElement = document.createElement('div');
@@ -99,13 +100,15 @@ function renderWand() {
     ctx.lineWidth = 5;
     ctx.stroke();
 
-    if (angle < 0) {
+    this.wand.angle += direction * this.difficulty.correction;
+
+    if (this.wand.angle < 0) {
       this.wand.angle += 360;
-    } else if (angle >= 360) {
+    } else if (this.wand.angle >= 360) {
       this.wand.angle -= 360;
     }
 
-    this.wand.angle += direction * this.difficulty.correction;
+    tryWandMove.call(this);
 
     requestAnimationFrame(animate);
   };

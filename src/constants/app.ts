@@ -25,7 +25,7 @@ export const DIFFICULTIES: IDifficulty[] = [
   {
     id: 4,
     title: 'Specialist',
-    correction: 2.5,
+    correction: 3,
   },
 ];
 

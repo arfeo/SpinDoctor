@@ -13,6 +13,7 @@ import {
   setUpEventHandlers,
   keyDownHandler,
   keyUpHandler,
+  setActiveKey,
 } from './events';
 
 import { setCellSize } from '../../utils/common';
@@ -35,8 +36,14 @@ class Game {
   difficulty: IDifficulty;
   map: number[][];
   wand: IWand;
+  keyDown: {
+    reverse: boolean;
+    flip: boolean;
+    bounce: boolean;
+    swing: boolean;
+    pause: boolean;
+  };
   isGameStopped: boolean;
-  keyDown: string;
 
   constructor(level = 1, lives = 5, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
@@ -67,6 +74,8 @@ class Game {
       onKeyDown: keyDownHandler.bind(this),
       onKeyUp: keyUpHandler.bind(this),
     };
+
+    setActiveKey.call(this);
 
     this.render();
   }

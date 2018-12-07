@@ -1,7 +1,5 @@
 import { APP, FunctionalKeys } from '../../constants/app';
 
-import { tryWandMove } from './actions';
-
 function setUpEventHandlers() {
   document.body.addEventListener('keydown', APP.eventListeners.onKeyDown);
   document.body.addEventListener('keyup', APP.eventListeners.onKeyUp);
@@ -15,39 +13,83 @@ function removeEventHandlers() {
 function keyDownHandler(event: KeyboardEvent) {
   switch (event.key) {
     case FunctionalKeys.Reverse: {
-      this.wand.direction *= -1;
+      if (!this.keyDown.reverse) {
+        this.wand.direction *= -1;
+      }
+
+      setActiveKey.call(this, 'reverse');
       break;
     }
     case FunctionalKeys.Flip: {
-      tryWandMove.call(this, 'flip');
+      setActiveKey.call(this, 'flip');
       break;
     }
     case FunctionalKeys.Bounce: {
-      tryWandMove.call(this, 'bounce');
+      setActiveKey.call(this, 'bounce');
       break;
     }
     case FunctionalKeys.Swing: {
-      tryWandMove.call(this);
+      setActiveKey.call(this, 'swing');
       break;
     }
     case FunctionalKeys.Pause: {
-      const pauseLabel: HTMLElement = document.getElementById('pause');
+      if (!this.keyDown.pause) {
+        const pauseLabel: HTMLElement = document.getElementById('pause');
 
-      this.isGameStopped = !this.isGameStopped;
+        this.isGameStopped = !this.isGameStopped;
 
-      if (this.isGameStopped) {
-        pauseLabel.classList.add('show');
-      } else {
-        pauseLabel.classList.remove('show');
+        if (this.isGameStopped) {
+          pauseLabel.classList.add('show');
+        } else {
+          pauseLabel.classList.remove('show');
+        }
       }
+
+      setActiveKey.call(this, 'pause');
       break;
     }
     default: break;
   }
 }
 
-function keyUpHandler() {
-  // ..
+function keyUpHandler(event: KeyboardEvent) {
+  switch (event.key) {
+    case FunctionalKeys.Reverse: {
+      this.keyDown.reverse = false;
+      break;
+    }
+    case FunctionalKeys.Flip: {
+      this.keyDown.flip = false;
+      break;
+    }
+    case FunctionalKeys.Bounce: {
+      this.keyDown.bounce = false;
+      break;
+    }
+    case FunctionalKeys.Swing: {
+      this.keyDown.swing = false;
+      break;
+    }
+    case FunctionalKeys.Pause: {
+      this.keyDown.pause = false;
+      break;
+    }
+    default: break;
+  }
+}
+
+function setActiveKey(type?: string) {
+  this.keyDown = {
+    reverse: false,
+    flip: false,
+    bounce: false,
+    swing: false,
+    pause: false,
+  };
+
+  if (type) {
+    this.keyDown[type] = true;
+  }
 }
 
 export {
@@ -55,4 +97,5 @@ export {
   removeEventHandlers,
   keyDownHandler,
   keyUpHandler,
+  setActiveKey,
 };
