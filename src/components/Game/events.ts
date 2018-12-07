@@ -17,11 +17,11 @@ function keyDownHandler(event: KeyboardEvent) {
       break;
     }
     case 'Meta': {
-      tryWandMove.call(this);
+      tryWandMove.call(this, true);
       break;
     }
     case 'Control': {
-      tryWandMove.call(this, true);
+      tryWandMove.call(this);
       break;
     }
     default: break;
