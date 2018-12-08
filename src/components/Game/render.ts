@@ -70,6 +70,18 @@ function renderLevelMap() {
             drawDot.call(this, dotX, dotY, MAP_ELEMENT_COLORS.bonus.background, MAP_ELEMENT_COLORS.bonus.border);
             break;
           }
+          case MapDefinitions.Red: {
+            drawDot.call(this, dotX, dotY, MAP_ELEMENT_COLORS.red.background, MAP_ELEMENT_COLORS.red.border);
+            break;
+          }
+          case MapDefinitions.Blue: {
+            drawDot.call(this, dotX, dotY, MAP_ELEMENT_COLORS.blue.background, MAP_ELEMENT_COLORS.blue.border);
+            break;
+          }
+          case MapDefinitions.Yellow: {
+            drawDot.call(this, dotX, dotY, MAP_ELEMENT_COLORS.yellow.background, MAP_ELEMENT_COLORS.yellow.border);
+            break;
+          }
           default: break;
         }
       }

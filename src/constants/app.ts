@@ -41,11 +41,26 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
   goal: {
     background: 'rgb(221, 239, 255)',
     border: 'rgb(76, 183, 240)',
-  }
+  },
+  red: {
+    background: 'rgb(227, 100, 100)',
+    border: 'rgb(30, 30, 30)',
+  },
+  blue: {
+    background: 'rgb(48, 118, 171)',
+    border: 'rgb(30, 30, 30)',
+  },
+  yellow: {
+    background: 'rgb(247, 244, 59)',
+    border: 'rgb(30, 30, 30)',
+  },
 };
 
 export const WAND_COLORS: IWandColors = {
   avatar: 'rgb(200, 200, 200)',
+  red: 'rgb(227, 100, 100)',
+  blue: 'rgb(48, 118, 171)',
+  yellow: 'rgb(247, 244, 59)',
 };
 
 export enum FunctionalKeys {
@@ -66,5 +81,8 @@ export enum MapDefinitions {
   Regular = 1,
   Bonus1000 = 2,
   Bonus2000 = 3,
+  Red = 7,
+  Blue = 8,
+  Yellow = 9,
   Goal = 100,
 }

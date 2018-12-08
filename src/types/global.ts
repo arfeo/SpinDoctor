@@ -20,12 +20,17 @@ export interface ILevel {
   title: string;
   map: number[][];
   wand: IWand;
+  enemies?: (IWand & IEnemy)[];
 }
 
 export interface IWand {
   position: number[];
   direction: number;
   angle: number;
+}
+
+export interface IEnemy {
+  type: string;
 }
 
 export interface IMapElementColors {
