@@ -105,7 +105,7 @@ function checkAvatarWand() {
 
 /**
  * Function returns true if a lethal intersection occurs (with an enemy),
- * and true if the avatar wand intersects with a non-lethal object like a wall
+ * and false if the avatar wand intersects with a non-lethal object like a wall
  * or does not intersect with anything
  */
 function checkIntersections(): boolean {
