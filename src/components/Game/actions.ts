@@ -5,7 +5,7 @@ import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
 
-function tryWandMove() {
+function tryAvatarWandMove() {
   const { flip, bounce, swing } = this.keyDown;
 
   if (flip || bounce || swing) {
@@ -126,4 +126,4 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
   }
 }
 
-export { tryWandMove };
+export { tryAvatarWandMove };

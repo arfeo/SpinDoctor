@@ -1,7 +1,7 @@
 import { MAP_ELEMENT_COLORS, WAND_COLORS, GridDimensions, MapDefinitions } from '../../constants/app';
 
 import { drawDot, drawLineToAngle, drawStar } from './draw';
-import { tryWandMove } from './actions';
+import { tryAvatarWandMove } from './actions';
 
 import { IEnemy, IWand } from '../../types/global';
 
@@ -213,7 +213,7 @@ function renderAvatarWand() {
       this.level.wand.angle -= 360;
     }
 
-    tryWandMove.call(this);
+    tryAvatarWandMove.call(this);
 
     requestAnimationFrame(this.animateAvatarWand);
   };
