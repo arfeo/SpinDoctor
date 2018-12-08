@@ -1,33 +1,81 @@
-function drawDot(dotX: number, dotY: number, fillStyle: string, strokeStyle: string) {
-  const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
-
+/**
+ * Function draws a dot of the given size and style at the given coordinates
+ *
+ * @param ctx
+ * @param dotX
+ * @param dotY
+ * @param radius
+ * @param fillStyle
+ * @param edgingWidth
+ * @param edgingColor
+ */
+function drawDot(
+  ctx: CanvasRenderingContext2D,
+  dotX: number,
+  dotY: number,
+  radius: number,
+  fillStyle: string,
+  edgingWidth: number,
+  edgingColor: string,
+) {
   ctx.beginPath();
   ctx.arc(
-    dotX + this.cellSize / 2,
-    dotY + this.cellSize / 2,
-    this.cellSize / 5,
+    dotX,
+    dotY,
+    radius,
     0,
     Math.PI * 2,
     false,
   );
-
-  ctx.fillStyle = fillStyle;
+  ctx.fillStyle = fillStyle || null;
   ctx.fill();
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = strokeStyle;
+  ctx.lineWidth = edgingWidth || 0;
+  ctx.strokeStyle = edgingColor || null;
   ctx.stroke();
 }
 
-function drawLineToAngle(ctx: CanvasRenderingContext2D, x1: number, y1: number, length: number, angle: number) {
+/**
+ * Function draws a line starting at the given coordinates of the given length at the given angle
+ *
+ * @param ctx
+ * @param x1
+ * @param y1
+ * @param length
+ * @param angle
+ */
+function drawLineToAngle(
+  ctx: CanvasRenderingContext2D,
+  x1: number,
+  y1: number,
+  length: number,
+  angle: number,
+): number[][] {
   const a = angle * Math.PI / 180;
-
   const x2 = x1 + length * Math.cos(a);
   const y2 = y1 + length * Math.sin(a);
 
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
+
+  return [
+    [x1, y1],
+    [x2, y2],
+  ];
 }
 
+/**
+ * Function draws a star-like object with the given count of spikes at the given coordinates
+ *
+ * @param ctx
+ * @param cx
+ * @param cy
+ * @param spikes
+ * @param outerRadius
+ * @param innerRadius
+ * @param fillStyle
+ * @param edgingWidth
+ * @param edgingColor
+ */
 function drawStar(
   ctx: CanvasRenderingContext2D,
   cx: number,
@@ -35,7 +83,7 @@ function drawStar(
   spikes: number,
   outerRadius: number,
   innerRadius: number,
-  backgroundColor: string,
+  fillStyle: string,
   edgingWidth: number,
   edgingColor: string,
 ) {
@@ -64,7 +112,7 @@ function drawStar(
   ctx.lineWidth = edgingWidth || 0;
   ctx.strokeStyle = edgingColor || null;
   ctx.stroke();
-  ctx.fillStyle = backgroundColor || null;
+  ctx.fillStyle = fillStyle || null;
   ctx.fill();
 }
 

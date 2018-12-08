@@ -46,6 +46,10 @@ class Game {
   animateGoal: number;
   animateAvatarWand: number;
   animateEnemyWand: number[];
+  avatarWandCoords: number[][];
+  enemyWandsCoords: {
+    [key: number]: number[][];
+  };
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
@@ -70,6 +74,9 @@ class Game {
     this.isGameStopped = false;
 
     this.animateEnemyWand = [];
+
+    this.avatarWandCoords = [];
+    this.enemyWandsCoords = {};
 
     APP.eventListeners = {
       onKeyDown: keyDownHandler.bind(this),

@@ -5,9 +5,14 @@ import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
 
-function tryAvatarWandMove() {
+/**
+ * Function checks the ability of the avatar wand to move to the next dot,
+ * as well as checks the intersections with enemy wands and other objects on the game board
+ */
+function checkAvatarWand() {
   const { flip, bounce, swing } = this.keyDown;
 
+  // Whether the wand is able to move to the next dot
   if (flip || bounce || swing) {
     const { map } = this.level;
     const { position, angle } = this.level.wand;
@@ -89,6 +94,13 @@ function tryAvatarWandMove() {
   }
 }
 
+/**
+ * Function checks what the next dot is, to take the necessary action
+ *
+ * @param dotType
+ * @param dotX
+ * @param dotY
+ */
 function checkNextDot(dotType: number, dotX: number, dotY: number) {
   switch (dotType) {
     case MapDefinitions.Bonus1000: {
@@ -142,4 +154,4 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
   }
 }
 
-export { tryAvatarWandMove };
+export { checkAvatarWand };

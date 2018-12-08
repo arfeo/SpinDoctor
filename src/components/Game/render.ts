@@ -1,7 +1,8 @@
+// tslint:disable:max-file-line-count
 import { MAP_ELEMENT_COLORS, WAND_COLORS, GridDimensions, MapDefinitions } from '../../constants/app';
 
 import { drawDot, drawLineToAngle, drawStar } from './draw';
-import { tryAvatarWandMove } from './actions';
+import { checkAvatarWand } from './actions';
 
 import { IEnemy, IWand } from '../../types/global';
 
@@ -70,37 +71,83 @@ function renderLevelMap() {
       const objectType: number = map[y][x];
 
       if (objectType !== undefined && objectType !== MapDefinitions.Empty) {
-        const dotX: number = this.cellSize + this.cellSize * x;
-        const dotY: number = this.cellSize + this.cellSize * y;
+        const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+        const dotX: number = this.cellSize + this.cellSize * x + this.cellSize / 2;
+        const dotY: number = this.cellSize + this.cellSize * y + this.cellSize / 2;
 
         switch (objectType) {
           case MapDefinitions.Regular:
           case MapDefinitions.Goal: {
-            drawDot.call(this, dotX, dotY, MAP_ELEMENT_COLORS.regular.background, MAP_ELEMENT_COLORS.regular.border);
+            drawDot.call(
+              this,
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              MAP_ELEMENT_COLORS.regular.background,
+              2,
+              MAP_ELEMENT_COLORS.regular.border,
+            );
 
             if (objectType === MapDefinitions.Goal) {
-              goalPos = [dotY, dotX];
+              goalPos = [dotY - this.cellSize / 2, dotX - this.cellSize / 2];
             }
             break;
           }
           case MapDefinitions.Bonus1000:
           case MapDefinitions.Bonus2000: {
-            drawDot.call(this, dotX, dotY, MAP_ELEMENT_COLORS.bonus.background, MAP_ELEMENT_COLORS.bonus.border);
+            drawDot.call(
+              this,
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              MAP_ELEMENT_COLORS.bonus.background,
+              2,
+              MAP_ELEMENT_COLORS.bonus.border,
+            );
             break;
           }
           case MapDefinitions.RegularRed:
           case MapDefinitions.BonusRed: {
-            drawDot.call(this, dotX, dotY, MAP_ELEMENT_COLORS.red.background, MAP_ELEMENT_COLORS.red.border);
+            drawDot.call(
+              this,
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              MAP_ELEMENT_COLORS.red.background,
+              2,
+              MAP_ELEMENT_COLORS.red.border,
+            );
             break;
           }
           case MapDefinitions.RegularBlue:
           case MapDefinitions.BonusBlue: {
-            drawDot.call(this, dotX, dotY, MAP_ELEMENT_COLORS.blue.background, MAP_ELEMENT_COLORS.blue.border);
+            drawDot.call(
+              this,
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              MAP_ELEMENT_COLORS.blue.background,
+              2,
+              MAP_ELEMENT_COLORS.blue.border,
+            );
             break;
           }
           case MapDefinitions.RegularYellow:
           case MapDefinitions.BonusYellow: {
-            drawDot.call(this, dotX, dotY, MAP_ELEMENT_COLORS.yellow.background, MAP_ELEMENT_COLORS.yellow.border);
+            drawDot.call(
+              this,
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              MAP_ELEMENT_COLORS.yellow.background,
+              2,
+              MAP_ELEMENT_COLORS.yellow.border,
+            );
             break;
           }
           default: break;
@@ -203,7 +250,14 @@ function renderAvatarWand() {
     );
 
     ctx.beginPath();
-    drawLineToAngle.call(this, ctx, x, y, this.cellSize * 2 - this.cellSize / 5, angle);
+    this.avatarWandCoords = drawLineToAngle.call(
+      this,
+      ctx,
+      x,
+      y,
+      this.cellSize * 2 - this.cellSize / 5,
+      angle,
+    );
     ctx.strokeStyle = WAND_COLORS.avatar;
     ctx.lineWidth = 5;
     ctx.stroke();
@@ -216,7 +270,7 @@ function renderAvatarWand() {
       this.level.wand.angle -= 360;
     }
 
-    tryAvatarWandMove.call(this);
+    checkAvatarWand.call(this);
 
     requestAnimationFrame(this.animateAvatarWand);
   };
@@ -242,7 +296,14 @@ function renderEnemyWand(ctx: CanvasRenderingContext2D, enemy: IWand & IEnemy) {
     );
 
     ctx.beginPath();
-    drawLineToAngle.call(this, ctx, x, y, this.cellSize * 2 - this.cellSize / 5, angle);
+    this.enemyWandsCoords[enemy.id] = drawLineToAngle.call(
+      this,
+      ctx,
+      x,
+      y,
+      this.cellSize * 2 - this.cellSize / 5,
+      angle,
+    );
     ctx.strokeStyle = WAND_COLORS[enemy.type];
     ctx.lineWidth = 5;
     ctx.stroke();
