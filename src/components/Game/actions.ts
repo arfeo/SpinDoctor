@@ -5,6 +5,8 @@ import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
 
+import { intersects } from './utils';
+
 /**
  * Function checks the ability of the avatar wand to move to the next dot,
  * as well as checks the intersections with enemy wands and other objects on the game board
@@ -12,7 +14,14 @@ import { renderPanelCounters } from './render';
 function checkAvatarWand() {
   const { flip, bounce, swing } = this.keyDown;
 
-  // Whether the wand is able to move to the next dot
+  if (checkIntersections.call(this)) {
+    this.isGameStopped = true;
+
+    alert('Game over!');
+
+    return;
+  }
+
   if (flip || bounce || swing) {
     const { map } = this.level;
     const { position, angle } = this.level.wand;
@@ -92,6 +101,36 @@ function checkAvatarWand() {
       checkNextDot.call(this, nextDotType, nextDotX, nextDotY);
     }
   }
+}
+
+/**
+ * Function returns true if a lethal intersection occurs (with an enemy),
+ * and true if the avatar wand intersects with a non-lethal object like a wall
+ * or does not intersect with anything
+ */
+function checkIntersections(): boolean {
+  if (this.avatarWandCoords && this.level.enemies && this.enemyWandsCoords) {
+    for (let i = 0; i < this.level.enemies.length; i += 1) {
+      if (this.enemyWandsCoords[i] !== undefined) {
+        const isIntersecting = intersects(
+          this.avatarWandCoords[0][0],
+          this.avatarWandCoords[0][1],
+          this.avatarWandCoords[1][0],
+          this.avatarWandCoords[1][1],
+          this.enemyWandsCoords[i][0][0],
+          this.enemyWandsCoords[i][0][1],
+          this.enemyWandsCoords[i][1][0],
+          this.enemyWandsCoords[i][1][1],
+        );
+
+        if (isIntersecting) {
+          return true;
+        }
+      }
+    }
+  }
+
+  return false;
 }
 
 /**
