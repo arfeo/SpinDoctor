@@ -102,8 +102,6 @@ class Game {
 
     cancelAnimationFrame(this.animateAvatarWand);
     cancelAnimationFrame(this.animateGoal);
-
-    APP.pageInstance = null;
   }
 }
 

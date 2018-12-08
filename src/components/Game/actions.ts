@@ -135,10 +135,7 @@ function checkIntersections(): boolean {
           },
         };
 
-        const isIntersecting: boolean = lineSegmentsIntersect(
-          avatarWandSegment,
-          enemyWandSegment,
-        );
+        const isIntersecting: boolean = lineSegmentsIntersect(avatarWandSegment, enemyWandSegment);
 
         const isAvatarWandEndOnEnemy: boolean = pointOnLineSegment(
           enemyWandSegment,
@@ -146,7 +143,7 @@ function checkIntersections(): boolean {
             x: avatarWandSegment.end.x,
             y: avatarWandSegment.end.y,
           },
-          5
+          5,
         );
 
         if (isIntersecting || isAvatarWandEndOnEnemy) {
