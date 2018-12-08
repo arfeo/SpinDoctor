@@ -30,6 +30,7 @@ export interface IWand {
 }
 
 export interface IEnemy {
+  id: number;
   type: string;
 }
 

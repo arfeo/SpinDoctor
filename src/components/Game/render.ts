@@ -3,6 +3,8 @@ import { MAP_ELEMENT_COLORS, WAND_COLORS, GridDimensions, MapDefinitions } from 
 import { drawDot, drawLineToAngle, drawStar } from './draw';
 import { tryWandMove } from './actions';
 
+import { IEnemy, IWand } from '../../types/global';
+
 function renderGameWindow() {
   const gameWindow: HTMLElement = document.createElement('div');
   const boardPanel: HTMLElement = document.createElement('div');
@@ -41,6 +43,22 @@ function renderGameWindow() {
   boardGrid.appendChild(this.goalCanvas);
   boardGrid.appendChild(this.wandCanvas);
   boardGrid.appendChild(pauseLabel);
+
+  if (this.level.enemies) {
+    for (let i = 0; i < this.level.enemies.length; i += 1) {
+      const enemy: IWand & IEnemy = this.level.enemies[i];
+      const enemyCanvas: HTMLCanvasElement = document.createElement('canvas');
+
+      enemyCanvas.className = '-enemy-canvas';
+
+      enemyCanvas.width = this.cellSize * (GridDimensions.Width + 2);
+      enemyCanvas.height = this.cellSize * (GridDimensions.Height + 2);
+
+      boardGrid.appendChild(enemyCanvas);
+
+      renderEnemyWand.call(this, enemyCanvas.getContext('2d'), enemy);
+    }
+  }
 }
 
 function renderLevelMap() {
@@ -201,6 +219,43 @@ function renderAvatarWand() {
   };
 
   requestAnimationFrame(this.animateAvatarWand);
+}
+
+function renderEnemyWand(ctx: CanvasRenderingContext2D, enemy: IWand & IEnemy) {
+  this.animateEnemyWand[enemy.id] = () => {
+    if (this.isGameStopped) {
+      return requestAnimationFrame(this.animateEnemyWand[enemy.id]);
+    }
+
+    const { position, direction, angle } = enemy;
+    const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
+    const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
+
+    ctx.clearRect(
+      x - this.cellSize * 2,
+      y - this.cellSize * 2,
+      this.cellSize * 4,
+      this.cellSize * 4,
+    );
+
+    ctx.beginPath();
+    drawLineToAngle.call(this, ctx, x, y, this.cellSize * 2 - this.cellSize / 5, angle);
+    ctx.strokeStyle = WAND_COLORS[enemy.type];
+    ctx.lineWidth = 5;
+    ctx.stroke();
+
+    enemy.angle += direction * this.difficulty.correction;
+
+    if (enemy.angle < 0) {
+      enemy.angle += 360;
+    } else if (enemy.angle >= 360) {
+      enemy.angle -= 360;
+    }
+
+    requestAnimationFrame(this.animateEnemyWand[enemy.id]);
+  };
+
+  requestAnimationFrame(this.animateEnemyWand[enemy.id]);
 }
 
 export {

@@ -1,8 +1,9 @@
+import { Game } from './index';
+
 import { APP, MapDefinitions } from '../../constants/app';
+import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
-import { LEVELS } from '../../constants/levels';
-import { Game } from './index';
 
 function tryWandMove() {
   const { flip, bounce, swing } = this.keyDown;

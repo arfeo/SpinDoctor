@@ -70,20 +70,23 @@ export const LEVELS: ILevel[] = [
     },
     enemies: [
       {
+        id: 1,
         type: 'red',
-        position: [3, 13],
+        position: [2, 12],
         direction: 1,
         angle: 270,
       },
       {
+        id: 2,
         type: 'blue',
-        position: [11, 7],
+        position: [10, 6],
         direction: 1,
         angle: 270,
       },
       {
+        id: 3,
         type: 'yellow',
-        position: [7, 19],
+        position: [6, 18],
         direction: 1,
         angle: 270,
       },
