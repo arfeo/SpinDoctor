@@ -97,14 +97,14 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
   switch (dotType) {
     case MapDefinitions.Bonus1000: {
       this.score += 1000;
-      this.level.map[dotY][dotX] = 1;
+      this.level.map[dotY][dotX] = MapDefinitions.Regular;
 
       renderPanelCounters.call(this);
       break;
     }
     case MapDefinitions.Bonus2000: {
       this.score += 2000;
-      this.level.map[dotY][dotX] = 1;
+      this.level.map[dotY][dotX] = MapDefinitions.Regular;
 
       renderPanelCounters.call(this);
       break;
@@ -120,6 +120,27 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
         APP.pageInstance = new Game(this.level.id + 1, this.lives, this.score, this.difficulty.id);
       }
 
+      break;
+    }
+    case MapDefinitions.BonusRed: {
+      this.score += 1000;
+      this.level.map[dotY][dotX] = MapDefinitions.RegularRed;
+
+      renderPanelCounters.call(this);
+      break;
+    }
+    case MapDefinitions.BonusBlue: {
+      this.score += 1000;
+      this.level.map[dotY][dotX] = MapDefinitions.RegularBlue;
+
+      renderPanelCounters.call(this);
+      break;
+    }
+    case MapDefinitions.BonusYellow: {
+      this.score += 1000;
+      this.level.map[dotY][dotX] = MapDefinitions.RegularYellow;
+
+      renderPanelCounters.call(this);
       break;
     }
     default: break;
