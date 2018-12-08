@@ -5,7 +5,9 @@ import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
 
-import { intersects } from './utils';
+import { lineSegmentsIntersect, pointOnLineSegment } from './utils';
+
+import { ILineSegment } from '../../types/global';
 
 /**
  * Function checks the ability of the avatar wand to move to the next dot,
@@ -112,30 +114,42 @@ function checkIntersections(): boolean {
   if (this.avatarWandCoords && this.level.enemies && this.enemyWandsCoords) {
     for (let i = 0; i < this.level.enemies.length; i += 1) {
       if (this.enemyWandsCoords[i] !== undefined) {
-        const isIntersecting = intersects(
-          {
-            start: {
-              x: this.avatarWandCoords[0][0],
-              y: this.avatarWandCoords[0][1],
-            },
-            end: {
-              x: this.avatarWandCoords[1][0],
-              y: this.avatarWandCoords[1][1],
-            },
+        const avatarWandSegment: ILineSegment = {
+          start: {
+            x: this.avatarWandCoords[0][0],
+            y: this.avatarWandCoords[0][1],
           },
-          {
-            start: {
-              x: this.enemyWandsCoords[i][0][0],
-              y: this.enemyWandsCoords[i][0][1],
-            },
-            end: {
-              x: this.enemyWandsCoords[i][1][0],
-              y: this.enemyWandsCoords[i][1][1],
-            },
+          end: {
+            x: this.avatarWandCoords[1][0],
+            y: this.avatarWandCoords[1][1],
           },
+        };
+        const enemyWandSegment: ILineSegment = {
+          start: {
+            x: this.enemyWandsCoords[i][0][0],
+            y: this.enemyWandsCoords[i][0][1],
+          },
+          end: {
+            x: this.enemyWandsCoords[i][1][0],
+            y: this.enemyWandsCoords[i][1][1],
+          },
+        };
+
+        const isIntersecting: boolean = lineSegmentsIntersect(
+          avatarWandSegment,
+          enemyWandSegment,
         );
 
-        if (isIntersecting) {
+        const isAvatarWandEndOnEnemy: boolean = pointOnLineSegment(
+          enemyWandSegment,
+          {
+            x: avatarWandSegment.end.x,
+            y: avatarWandSegment.end.y,
+          },
+          5
+        );
+
+        if (isIntersecting || isAvatarWandEndOnEnemy) {
           return true;
         }
       }

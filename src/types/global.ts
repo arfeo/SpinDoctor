@@ -44,3 +44,13 @@ export interface IMapElementColors {
 export interface IWandColors {
   [key: string]: string;
 }
+
+export interface ILineSegment {
+  start: IPoint;
+  end: IPoint;
+}
+
+export interface IPoint {
+  x: number;
+  y: number;
+}
