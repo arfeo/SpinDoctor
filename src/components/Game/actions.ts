@@ -113,14 +113,26 @@ function checkIntersections(): boolean {
     for (let i = 0; i < this.level.enemies.length; i += 1) {
       if (this.enemyWandsCoords[i] !== undefined) {
         const isIntersecting = intersects(
-          this.avatarWandCoords[0][0],
-          this.avatarWandCoords[0][1],
-          this.avatarWandCoords[1][0],
-          this.avatarWandCoords[1][1],
-          this.enemyWandsCoords[i][0][0],
-          this.enemyWandsCoords[i][0][1],
-          this.enemyWandsCoords[i][1][0],
-          this.enemyWandsCoords[i][1][1],
+          {
+            start: {
+              x: this.avatarWandCoords[0][0],
+              y: this.avatarWandCoords[0][1],
+            },
+            end: {
+              x: this.avatarWandCoords[1][0],
+              y: this.avatarWandCoords[1][1],
+            },
+          },
+          {
+            start: {
+              x: this.enemyWandsCoords[i][0][0],
+              y: this.enemyWandsCoords[i][0][1],
+            },
+            end: {
+              x: this.enemyWandsCoords[i][1][0],
+              y: this.enemyWandsCoords[i][1][1],
+            },
+          },
         );
 
         if (isIntersecting) {
