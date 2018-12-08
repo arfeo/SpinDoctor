@@ -29,7 +29,6 @@ function tryAvatarWandMove() {
             this.level.wand.direction *= -1;
           }
         }
-
         break;
       }
       case 90: { // South
@@ -45,7 +44,6 @@ function tryAvatarWandMove() {
             this.level.wand.direction *= -1;
           }
         }
-
         break;
       }
       case 180: { // West
@@ -61,7 +59,6 @@ function tryAvatarWandMove() {
             this.level.wand.direction *= -1;
           }
         }
-
         break;
       }
       case 270: { // North
@@ -77,7 +74,6 @@ function tryAvatarWandMove() {
             this.level.wand.direction *= -1;
           }
         }
-
         break;
       }
       default: break;
@@ -119,7 +115,6 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
 
         APP.pageInstance = new Game(this.level.id + 1, this.lives, this.score, this.difficulty.id);
       }
-
       break;
     }
     case MapDefinitions.BonusRed: {
