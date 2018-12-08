@@ -6,6 +6,9 @@ import { checkAvatarWand } from './actions';
 
 import { IEnemy, IWand } from '../../types/global';
 
+/**
+ * Function creates game window element, game panel and all needed canvases
+ */
 function renderGameWindow() {
   const gameWindow: HTMLElement = document.createElement('div');
   const boardPanel: HTMLElement = document.createElement('div');
@@ -62,6 +65,10 @@ function renderGameWindow() {
   }
 }
 
+/**
+ * Function renders game board as described in `map` array of `constants/levels`
+ * for the current level, including dots and exit
+ */
 function renderLevelMap() {
   const { map } = this.level;
   let goalPos: number[];
@@ -159,6 +166,11 @@ function renderLevelMap() {
   renderGoal.call(this, goalPos);
 }
 
+/**
+ * Function renders and animates the goal (rotating star-like object beneath a regular dot)
+ *
+ * @param goalPos
+ */
 function renderGoal(goalPos: number[]) {
   let start: number = performance.now();
   let goalAnimationStep = 0;
@@ -221,6 +233,10 @@ function renderGoal(goalPos: number[]) {
   requestAnimationFrame(this.animateGoal);
 }
 
+/**
+ * Functions renders level number and its title as well as game counters (lives, score)
+ * in the game panel
+ */
 function renderPanelCounters() {
   this.boardPanel.level.innerHTML = (`
     <div class="-id">${this.level.id}:</div>
@@ -230,6 +246,9 @@ function renderPanelCounters() {
   this.boardPanel.score.innerText = this.score;
 }
 
+/**
+ * Function renders and animates the avatar wand
+ */
 function renderAvatarWand() {
   const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
 
@@ -278,6 +297,12 @@ function renderAvatarWand() {
   requestAnimationFrame(this.animateAvatarWand);
 }
 
+/**
+ * Function renders and animates enemy wands (red, blue and yellow)
+ *
+ * @param ctx
+ * @param enemy
+ */
 function renderEnemyWand(ctx: CanvasRenderingContext2D, enemy: IWand & IEnemy) {
   this.animateEnemyWand[enemy.id] = () => {
     if (this.isGameStopped) {
