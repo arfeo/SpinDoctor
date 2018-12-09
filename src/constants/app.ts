@@ -54,6 +54,9 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
     background: 'rgb(247, 244, 59)',
     border: 'rgb(30, 30, 30)',
   },
+  wall: {
+    background: 'rgb(255, 255, 255)',
+  }
 };
 
 export const WAND_COLORS: IWandColors = {
@@ -87,5 +90,20 @@ export enum MapDefinitions {
   BonusRed = 7,
   BonusBlue = 8,
   BonusYellow = 9,
+  WallHorizontal = 20,
+  WallVertical = 21,
+  WallHorizontalHalfLeft = 22,
+  WallHorizontalHalfRight = 23,
+  WallVerticalHalfBottom = 24,
+  WallVerticalHalfTop = 25,
+  WallTopLeftCorner = 26,
+  WallTopRightCorner = 27,
+  WallBottomRightCorner = 28,
+  WallBottomLeftCorner = 29,
+  WallHorizontalToBottom = 30,
+  WallHorizontalToTop = 31,
+  WallVerticalToRight = 32,
+  WallVerticalToLeft = 33,
+  WallX = 34,
   Goal = 100,
 }

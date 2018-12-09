@@ -37,7 +37,7 @@ export interface IEnemy {
 export interface IMapElementColors {
   [key: string]: {
     background: string;
-    border: string;
+    border?: string;
   };
 }
 

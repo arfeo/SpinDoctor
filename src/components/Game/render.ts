@@ -79,8 +79,10 @@ function renderLevelMap() {
 
       if (objectType !== undefined && objectType !== MapDefinitions.Empty) {
         const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
-        const dotX: number = this.cellSize + this.cellSize * x + this.cellSize / 2;
-        const dotY: number = this.cellSize + this.cellSize * y + this.cellSize / 2;
+        const top: number = this.cellSize + this.cellSize * y;
+        const left: number = this.cellSize + this.cellSize * x;
+        const dotX: number = left + this.cellSize / 2;
+        const dotY: number = top + this.cellSize / 2;
 
         switch (objectType) {
           case MapDefinitions.Regular:
@@ -97,7 +99,7 @@ function renderLevelMap() {
             );
 
             if (objectType === MapDefinitions.Goal) {
-              goalPos = [dotY - this.cellSize / 2, dotX - this.cellSize / 2];
+              goalPos = [top, left];
             }
             break;
           }
@@ -157,6 +159,291 @@ function renderLevelMap() {
             );
             break;
           }
+          case MapDefinitions.WallHorizontal: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left,
+              top + this.cellSize / 2,
+              this.cellSize,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallVertical: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top,
+              this.cellSize,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallHorizontalHalfLeft: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallHorizontalHalfRight: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallVerticalHalfBottom: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallVerticalHalfTop: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top,
+              this.cellSize / 2,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallTopLeftCorner: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallTopRightCorner: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallBottomRightCorner: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top,
+              this.cellSize / 2,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallBottomLeftCorner: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top,
+              this.cellSize / 2,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallHorizontalToBottom: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left,
+              top + this.cellSize / 2,
+              this.cellSize,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallHorizontalToTop: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left,
+              top + this.cellSize / 2,
+              this.cellSize,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top,
+              this.cellSize / 2,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallVerticalToRight: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top,
+              this.cellSize,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallVerticalToLeft: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top,
+              this.cellSize,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left,
+              top + this.cellSize / 2,
+              this.cellSize / 2,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
+          case MapDefinitions.WallX: {
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left,
+              top + this.cellSize / 2,
+              this.cellSize,
+              0,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top,
+              this.cellSize,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              5,
+            );
+            break;
+          }
           default: break;
         }
       }
@@ -172,6 +459,10 @@ function renderLevelMap() {
  * @param goalPos
  */
 function renderGoal(goalPos: number[]) {
+  if (!goalPos) {
+    return;
+  }
+
   let start: number = performance.now();
   let goalAnimationStep = 0;
 
@@ -268,7 +559,6 @@ function renderAvatarWand() {
       this.cellSize * 4,
     );
 
-    ctx.beginPath();
     this.avatarWandCoords = drawLineToAngle.call(
       this,
       ctx,
@@ -276,10 +566,9 @@ function renderAvatarWand() {
       y,
       this.cellSize * 2 - this.cellSize / 5,
       angle,
+      WAND_COLORS.avatar,
+      5,
     );
-    ctx.strokeStyle = WAND_COLORS.avatar;
-    ctx.lineWidth = 5;
-    ctx.stroke();
 
     this.level.wand.angle += direction * this.difficulty.correction;
 
@@ -320,7 +609,6 @@ function renderEnemyWand(ctx: CanvasRenderingContext2D, enemy: IWand & IEnemy) {
       this.cellSize * 4,
     );
 
-    ctx.beginPath();
     this.enemyWandsCoords[enemy.id] = drawLineToAngle.call(
       this,
       ctx,
@@ -328,10 +616,9 @@ function renderEnemyWand(ctx: CanvasRenderingContext2D, enemy: IWand & IEnemy) {
       y,
       this.cellSize * 2 - this.cellSize / 5,
       angle,
+      WAND_COLORS[enemy.type],
+      5,
     );
-    ctx.strokeStyle = WAND_COLORS[enemy.type];
-    ctx.lineWidth = 5;
-    ctx.stroke();
 
     enemy.angle += direction * this.difficulty.correction;
 

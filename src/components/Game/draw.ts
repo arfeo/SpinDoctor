@@ -42,6 +42,8 @@ function drawDot(
  * @param y1
  * @param length
  * @param angle
+ * @param strokeStyle
+ * @param lineWidth
  */
 function drawLineToAngle(
   ctx: CanvasRenderingContext2D,
@@ -49,13 +51,20 @@ function drawLineToAngle(
   y1: number,
   length: number,
   angle: number,
+  strokeStyle: string,
+  lineWidth: number,
 ): number[][] {
   const a = angle * Math.PI / 180;
   const x2 = x1 + length * Math.cos(a);
   const y2 = y1 + length * Math.sin(a);
 
+  ctx.strokeStyle = strokeStyle || null;
+  ctx.lineWidth = lineWidth || 0;
+
+  ctx.beginPath();
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
+  ctx.stroke();
 
   return [
     [x1, y1],
