@@ -50,6 +50,7 @@ class Game {
   enemyWandsCoords: {
     [key: number]: number[][];
   };
+  wallsCoords: number[][];
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
@@ -77,6 +78,7 @@ class Game {
 
     this.avatarWandCoords = [];
     this.enemyWandsCoords = {};
+    this.wallsCoords = [];
 
     APP.eventListeners = {
       onKeyDown: keyDownHandler.bind(this),

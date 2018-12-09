@@ -107,47 +107,76 @@ function checkAvatarWand() {
 
 /**
  * Function returns true if a lethal intersection occurs (with an enemy),
- * and false if the avatar wand intersects with a non-lethal object like a wall
+ * and false if the avatar wand intersects with a non-lethal object (e.g. wall)
  * or does not intersect with anything
  */
 function checkIntersections(): boolean {
-  if (this.avatarWandCoords && this.level.enemies && this.enemyWandsCoords) {
-    for (let i = 0; i < this.level.enemies.length; i += 1) {
-      if (this.enemyWandsCoords[i] !== undefined) {
-        const avatarWandSegment: ILineSegment = {
-          start: {
-            x: this.avatarWandCoords[0][0],
-            y: this.avatarWandCoords[0][1],
-          },
-          end: {
-            x: this.avatarWandCoords[1][0],
-            y: this.avatarWandCoords[1][1],
-          },
-        };
-        const enemyWandSegment: ILineSegment = {
-          start: {
-            x: this.enemyWandsCoords[i][0][0],
-            y: this.enemyWandsCoords[i][0][1],
-          },
-          end: {
-            x: this.enemyWandsCoords[i][1][0],
-            y: this.enemyWandsCoords[i][1][1],
-          },
-        };
+  if (this.avatarWandCoords) {
+    const avatarWandSegment: ILineSegment = {
+      start: {
+        x: this.avatarWandCoords[0][0],
+        y: this.avatarWandCoords[0][1],
+      },
+      end: {
+        x: this.avatarWandCoords[1][0],
+        y: this.avatarWandCoords[1][1],
+      },
+    };
 
-        const isIntersecting: boolean = lineSegmentsIntersect(avatarWandSegment, enemyWandSegment);
+    // Enemy wands
+    if (this.level.enemies && this.enemyWandsCoords) {
+      for (let i = 0; i < this.level.enemies.length; i += 1) {
+        if (this.enemyWandsCoords[i] !== undefined) {
+          const enemyWandSegment: ILineSegment = {
+            start: {
+              x: this.enemyWandsCoords[i][0][0],
+              y: this.enemyWandsCoords[i][0][1],
+            },
+            end: {
+              x: this.enemyWandsCoords[i][1][0],
+              y: this.enemyWandsCoords[i][1][1],
+            },
+          };
 
-        const isAvatarWandEndOnEnemy: boolean = pointOnLineSegment(
-          enemyWandSegment,
+          const isIntersecting: boolean = lineSegmentsIntersect(avatarWandSegment, enemyWandSegment);
+
+          const isAvatarWandEndOnEnemy: boolean = pointOnLineSegment(
+            enemyWandSegment,
+            {
+              x: avatarWandSegment.end.x,
+              y: avatarWandSegment.end.y,
+            },
+            5,
+          );
+
+          if (isIntersecting || isAvatarWandEndOnEnemy) {
+            return true;
+          }
+        }
+      }
+    }
+
+    // Walls
+    if (this.wallsCoords) {
+      for (let i = 0; i < this.wallsCoords.length; i += 1) {
+        const wall: number[][] = this.wallsCoords[i];
+
+        const isIntersecting: boolean = lineSegmentsIntersect(
+          avatarWandSegment,
           {
-            x: avatarWandSegment.end.x,
-            y: avatarWandSegment.end.y,
+            start: {
+              x: wall[0][0],
+              y: wall[0][1],
+            },
+            end: {
+              x: wall[1][0],
+              y: wall[1][1],
+            },
           },
-          5,
         );
 
-        if (isIntersecting || isAvatarWandEndOnEnemy) {
-          return true;
+        if (isIntersecting) {
+          this.level.wand.direction *= -1;
         }
       }
     }
