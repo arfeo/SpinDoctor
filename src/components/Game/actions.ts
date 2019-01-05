@@ -177,6 +177,7 @@ function checkIntersections(): boolean {
 
         if (isIntersecting) {
           this.level.wand.direction *= -1;
+          this.level.wand.angle += this.level.wand.direction * 5 * this.difficulty.correction;
         }
       }
     }
