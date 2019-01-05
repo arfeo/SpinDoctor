@@ -17,9 +17,16 @@ function checkAvatarWand() {
   const { flip, bounce, swing } = this.keyDown;
 
   if (checkIntersections.call(this)) {
+    this.lives -= 1;
     this.isGameStopped = true;
 
-    alert('Game over!');
+    if (this.lives > 0) {
+      this.destroy();
+      APP.pageInstance = new Game(this.level.id, this.lives, this.score, this.difficulty.id);
+    } else {
+      renderPanelCounters.call(this);
+      alert('Game over!');
+    }
 
     return;
   }

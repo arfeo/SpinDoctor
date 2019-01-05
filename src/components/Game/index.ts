@@ -55,10 +55,10 @@ class Game {
   constructor(level = 1, lives = 4, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
 
-    this.level = LEVELS[level - 1];
+    this.level = JSON.parse(JSON.stringify(LEVELS[level - 1]));
     this.lives = lives;
     this.score = score;
-    this.difficulty = DIFFICULTIES[difficulty - 1];
+    this.difficulty = JSON.parse(JSON.stringify(DIFFICULTIES[difficulty - 1]));
 
     this.cellSize = setCellSize();
 
