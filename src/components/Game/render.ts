@@ -1,5 +1,12 @@
 // tslint:disable:max-file-line-count
-import { MAP_ELEMENT_COLORS, WAND_COLORS, GridDimensions, MapDefinitions } from '../../constants/app';
+import {
+  MAP_ELEMENT_COLORS,
+  WAND_COLORS,
+  WAND_WIDTH,
+  WALL_WIDTH,
+  GridDimensions,
+  MapDefinitions,
+} from '../../constants/app';
 
 import { drawDot, drawLineToAngle, drawStar } from './draw';
 import { checkAvatarWand } from './actions';
@@ -168,7 +175,7 @@ function renderLevelMap() {
               this.cellSize,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -181,7 +188,7 @@ function renderLevelMap() {
               this.cellSize,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -191,10 +198,10 @@ function renderLevelMap() {
               ctx,
               left,
               top + this.cellSize / 2,
-              this.cellSize / 2,
+              this.cellSize / 2 + this.cellSize / 4,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -202,12 +209,12 @@ function renderLevelMap() {
             this.wallsCoords.push(drawLineToAngle.call(
               this,
               ctx,
-              left + this.cellSize / 2,
+              left + this.cellSize / 4,
               top + this.cellSize / 2,
-              this.cellSize / 2,
+              this.cellSize / 2 + this.cellSize / 4,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -216,11 +223,11 @@ function renderLevelMap() {
               this,
               ctx,
               left + this.cellSize / 2,
-              top + this.cellSize / 2,
-              this.cellSize / 2,
+              top + this.cellSize / 2 - this.cellSize / 4,
+              this.cellSize / 2 + this.cellSize / 4,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -230,10 +237,10 @@ function renderLevelMap() {
               ctx,
               left + this.cellSize / 2,
               top,
-              this.cellSize / 2,
+              this.cellSize / 2 + this.cellSize / 4,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -241,12 +248,12 @@ function renderLevelMap() {
             this.wallsCoords.push(drawLineToAngle.call(
               this,
               ctx,
-              left + this.cellSize / 2,
+              left + this.cellSize / 2 - WALL_WIDTH / 2,
               top + this.cellSize / 2,
-              this.cellSize / 2,
+              this.cellSize / 2 + WALL_WIDTH / 2,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle.call(
               this,
@@ -256,7 +263,7 @@ function renderLevelMap() {
               this.cellSize / 2,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -266,10 +273,10 @@ function renderLevelMap() {
               ctx,
               left,
               top + this.cellSize / 2,
-              this.cellSize / 2,
+              this.cellSize / 2 + WALL_WIDTH / 2,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle.call(
               this,
@@ -279,7 +286,7 @@ function renderLevelMap() {
               this.cellSize / 2,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -292,17 +299,17 @@ function renderLevelMap() {
               this.cellSize / 2,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle.call(
               this,
               ctx,
               left,
               top + this.cellSize / 2,
-              this.cellSize / 2,
+              this.cellSize / 2 + WALL_WIDTH / 2,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -315,17 +322,17 @@ function renderLevelMap() {
               this.cellSize / 2,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle.call(
               this,
               ctx,
-              left + this.cellSize / 2,
+              left + this.cellSize / 2 - WALL_WIDTH / 2,
               top + this.cellSize / 2,
-              this.cellSize / 2,
+              this.cellSize / 2 + WALL_WIDTH / 2,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -338,7 +345,7 @@ function renderLevelMap() {
               this.cellSize,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle.call(
               this,
@@ -348,7 +355,7 @@ function renderLevelMap() {
               this.cellSize / 2,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -361,7 +368,7 @@ function renderLevelMap() {
               this.cellSize,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle.call(
               this,
@@ -371,7 +378,7 @@ function renderLevelMap() {
               this.cellSize / 2,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -384,7 +391,7 @@ function renderLevelMap() {
               this.cellSize,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle.call(
               this,
@@ -394,7 +401,7 @@ function renderLevelMap() {
               this.cellSize / 2,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -407,7 +414,7 @@ function renderLevelMap() {
               this.cellSize,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle.call(
               this,
@@ -417,7 +424,7 @@ function renderLevelMap() {
               this.cellSize / 2,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -430,7 +437,7 @@ function renderLevelMap() {
               this.cellSize,
               0,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle.call(
               this,
@@ -440,7 +447,7 @@ function renderLevelMap() {
               this.cellSize,
               90,
               MAP_ELEMENT_COLORS.wall.background,
-              5,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -567,7 +574,7 @@ function renderAvatarWand() {
       this.cellSize * 2 - this.cellSize / 5,
       angle,
       WAND_COLORS.avatar,
-      5,
+      WAND_WIDTH,
     );
 
     this.level.wand.angle += direction * this.difficulty.correction;
@@ -617,7 +624,7 @@ function renderEnemyWand(ctx: CanvasRenderingContext2D, enemy: IWand & IEnemy) {
       this.cellSize * 2 - this.cellSize / 5,
       angle,
       WAND_COLORS[enemy.type],
-      5,
+      WAND_WIDTH,
     );
 
     enemy.angle += direction * this.difficulty.correction;

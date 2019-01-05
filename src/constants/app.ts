@@ -66,6 +66,10 @@ export const WAND_COLORS: IWandColors = {
   yellow: 'rgb(247, 244, 59)',
 };
 
+export const WAND_WIDTH = 5;
+
+export const WALL_WIDTH = 5;
+
 export enum FunctionalKeys {
   Reverse = ' ',
   Flip = 'Shift',
