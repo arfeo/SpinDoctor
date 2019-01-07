@@ -109,4 +109,13 @@ export enum MapDefinitions {
   WallVerticalToRight = 32,
   WallVerticalToLeft = 33,
   WallX = 34,
+  DoorBlueHorizontal = 40,
+  DoorBlueVertical = 41,
+  DoorRedHorizontal = 42,
+  DoorRedVertical = 43,
+  DoorYellowHorizontal = 44,
+  DoorYellowVertical = 45,
+  DoorSwitcherBlue = 46,
+  DoorSwitcherRed = 47,
+  DoorSwitcherYellow = 48,
 }

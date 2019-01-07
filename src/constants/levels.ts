@@ -28,12 +28,15 @@ import { ILevel } from '../types/global';
  *  32 - Wall (vertical to right)
  *  33 - Wall (vertical to left)
  *  34 - Wall (X)
- *  40 - Door (blue)
- *  41 - Door (red)
- *  42 - Door (yellow)
- *  45 - Door switcher (blue)
- *  46 - Door switcher (red)
- *  47 - Door switcher (yellow)
+ *  40 - Door (blue, horizontal)
+ *  41 - Door (blue, vertical)
+ *  42 - Door (red, horizontal)
+ *  43 - Door (red, vertical)
+ *  44 - Door (yellow, horizontal)
+ *  45 - Door (yellow, vertical)
+ *  46 - Door switcher (blue)
+ *  47 - Door switcher (red)
+ *  48 - Door switcher (yellow)
  */
 export const LEVELS: ILevel[] = [
   {
@@ -157,8 +160,8 @@ export const LEVELS: ILevel[] = [
       [0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0],
       [0, 1, 0, 1, 0, 1, 0, 1, 21, 1, 0, 1, 0, 1, 0, 1, 21, 1, 0, 1, 0, 1, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 41, 1, 0, 1, 0, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 21, 1, 0, 1, 0, 1, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 1, 0, 1, 0, 1, 21, 1, 0, 1, 0, 1, 0, 1, 21, 1, 0, 1, 0, 1, 0],
