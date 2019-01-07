@@ -44,9 +44,9 @@ function checkAvatarWand() {
         nextDotY = position[0] + 1;
         nextDotType = map[nextDotY][nextDotX];
 
-        if (nextDotType !== MapDefinitions.Empty) {
+        if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
-            this.level.wand.position[ 1 ] += 2;
+            this.level.wand.position[1] += 2;
             this.level.wand.angle = 180;
           } else {
             this.level.wand.direction *= -1;
@@ -59,7 +59,7 @@ function checkAvatarWand() {
         nextDotY = position[0] + 3;
         nextDotType = map[nextDotY][nextDotX];
 
-        if (nextDotType !== MapDefinitions.Empty) {
+        if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
             this.level.wand.position[0] += 2;
             this.level.wand.angle = 270;
@@ -74,7 +74,7 @@ function checkAvatarWand() {
         nextDotY = position[0] + 1;
         nextDotType = map[nextDotY][nextDotX];
 
-        if (nextDotType !== MapDefinitions.Empty) {
+        if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
             this.level.wand.position[1] -= 2;
             this.level.wand.angle = 0;
@@ -89,7 +89,7 @@ function checkAvatarWand() {
         nextDotY = position[0] - 1;
         nextDotType = map[nextDotY][nextDotX];
 
-        if (nextDotType !== MapDefinitions.Empty) {
+        if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
             this.level.wand.position[0] -= 2;
             this.level.wand.angle = 90;
@@ -102,7 +102,7 @@ function checkAvatarWand() {
       default: break;
     }
 
-    if (nextDotType !== MapDefinitions.Empty && !bounce) {
+    if (nextDotType && nextDotType !== MapDefinitions.Empty && !bounce) {
       if (flip) {
         this.level.wand.direction *= -1;
       }
