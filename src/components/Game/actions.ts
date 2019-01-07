@@ -216,18 +216,6 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
       renderPanelCounters.call(this);
       break;
     }
-    case MapDefinitions.Goal: {
-      this.isGameStopped = true;
-
-      if (LEVELS[this.level.id] === undefined) {
-        alert('Game over!');
-      } else {
-        this.destroy();
-
-        APP.pageInstance = new Game(this.level.id + 1, this.lives, this.score, this.difficulty.id);
-      }
-      break;
-    }
     case MapDefinitions.BonusRed: {
       this.score += 1000;
       this.level.map[dotY][dotX] = MapDefinitions.RegularRed;
@@ -250,6 +238,19 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
       break;
     }
     default: break;
+  }
+
+  // Avatar wand meets the goal
+  if ((dotY - 1) === this.goalPosition[0] && (dotX - 1) === this.goalPosition[1]) {
+    this.isGameStopped = true;
+
+    if (LEVELS[this.level.id] === undefined) {
+      alert('Game over!');
+    } else {
+      this.destroy();
+
+      APP.pageInstance = new Game(this.level.id + 1, this.lives, this.score, this.difficulty.id);
+    }
   }
 }
 

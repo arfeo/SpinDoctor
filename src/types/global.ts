@@ -19,6 +19,7 @@ export interface ILevel {
   id: number;
   title: string;
   map: number[][];
+  goal: number[];
   wand: IWand;
   enemies?: (IWand & IEnemy)[];
 }

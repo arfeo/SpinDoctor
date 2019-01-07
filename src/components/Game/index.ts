@@ -43,6 +43,7 @@ class Game {
     pause: boolean;
   };
   isGameStopped: boolean;
+  goalPosition: number[];
   animateGoal: number;
   animateAvatarWand: number;
   animateEnemyWand: number[];
@@ -73,6 +74,8 @@ class Game {
     this.wandCanvas = document.createElement('canvas');
 
     this.isGameStopped = false;
+
+    this.goalPosition = this.level.goal;
 
     this.animateEnemyWand = [];
 

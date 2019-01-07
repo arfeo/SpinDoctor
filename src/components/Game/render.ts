@@ -78,7 +78,6 @@ function renderGameWindow() {
  */
 function renderLevelMap() {
   const { map } = this.level;
-  let goalPos: number[];
 
   for (let y = 0; y < map.length; y += 1) {
     for (let x = 0; x < map[y].length; x += 1) {
@@ -92,8 +91,7 @@ function renderLevelMap() {
         const dotY: number = top + this.cellSize / 2;
 
         switch (objectType) {
-          case MapDefinitions.Regular:
-          case MapDefinitions.Goal: {
+          case MapDefinitions.Regular: {
             drawDot.call(
               this,
               ctx,
@@ -104,10 +102,6 @@ function renderLevelMap() {
               2,
               MAP_ELEMENT_COLORS.regular.border,
             );
-
-            if (objectType === MapDefinitions.Goal) {
-              goalPos = [top, left];
-            }
             break;
           }
           case MapDefinitions.Bonus1000:
@@ -457,19 +451,15 @@ function renderLevelMap() {
     }
   }
 
-  renderGoal.call(this, goalPos);
+  renderGoal.call(this);
 }
 
 /**
  * Function renders and animates the goal (rotating star-like object beneath a regular dot)
- *
- * @param goalPos
  */
-function renderGoal(goalPos: number[]) {
-  if (!goalPos) {
-    return;
-  }
-
+function renderGoal() {
+  const goalPosX: number = this.cellSize + this.cellSize * (this.goalPosition[1] + 1);
+  const goalPosY: number = this.cellSize + this.cellSize * (this.goalPosition[0] + 1);
   let start: number = performance.now();
   let goalAnimationStep = 0;
 
@@ -484,8 +474,8 @@ function renderGoal(goalPos: number[]) {
       }
 
       const goalCtx: CanvasRenderingContext2D = this.goalCanvas.getContext('2d');
-      const goalX: number = goalPos[1] + this.cellSize / 2;
-      const goalY: number = goalPos[0] + this.cellSize / 2;
+      const goalX: number = goalPosX + this.cellSize / 2;
+      const goalY: number = goalPosY + this.cellSize / 2;
 
       const goalOuterSize = (): number => {
         switch (goalAnimationStep) {
@@ -497,8 +487,8 @@ function renderGoal(goalPos: number[]) {
       };
 
       goalCtx.clearRect(
-        goalPos[1],
-        goalPos[0],
+        goalPosX,
+        goalPosY,
         this.cellSize,
         this.cellSize,
       );

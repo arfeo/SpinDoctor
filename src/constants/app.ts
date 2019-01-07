@@ -109,5 +109,4 @@ export enum MapDefinitions {
   WallVerticalToRight = 32,
   WallVerticalToLeft = 33,
   WallX = 34,
-  Goal = 100,
 }
