@@ -42,7 +42,7 @@ function checkAvatarWand() {
       case 0: { // East
         nextDotX = position[1] + 3;
         nextDotY = position[0] + 1;
-        nextDotType = map[nextDotY][nextDotX];
+        nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
@@ -57,7 +57,7 @@ function checkAvatarWand() {
       case 90: { // South
         nextDotX = position[1] + 1;
         nextDotY = position[0] + 3;
-        nextDotType = map[nextDotY][nextDotX];
+        nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
@@ -72,7 +72,7 @@ function checkAvatarWand() {
       case 180: { // West
         nextDotX = position[1] - 1;
         nextDotY = position[0] + 1;
-        nextDotType = map[nextDotY][nextDotX];
+        nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
@@ -87,7 +87,7 @@ function checkAvatarWand() {
       case 270: { // North
         nextDotX = position[1] + 1;
         nextDotY = position[0] - 1;
-        nextDotType = map[nextDotY][nextDotX];
+        nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
