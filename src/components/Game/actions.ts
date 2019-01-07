@@ -243,6 +243,7 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
   // Avatar wand meets the goal
   if ((dotY - 1) === this.goalPosition[0] && (dotX - 1) === this.goalPosition[1]) {
     this.isGameStopped = true;
+    this.isLevelCompleted = true;
 
     if (LEVELS[this.level.id] === undefined) {
       alert('Game over!');

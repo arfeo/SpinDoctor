@@ -33,19 +33,21 @@ function keyDownHandler(event: KeyboardEvent) {
       break;
     }
     case FunctionalKeys.Pause: {
-      if (!this.keyDown.pause) {
-        const pauseLabel: HTMLElement = document.getElementById('pause');
+      if (!this.isLevelCompleted) {
+        if (!this.keyDown.pause) {
+          const pauseLabel: HTMLElement = document.getElementById('pause');
 
-        this.isGameStopped = !this.isGameStopped;
+          this.isGameStopped = !this.isGameStopped;
 
-        if (this.isGameStopped) {
-          pauseLabel.classList.add('show');
-        } else {
-          pauseLabel.classList.remove('show');
+          if (this.isGameStopped) {
+            pauseLabel.classList.add('show');
+          } else {
+            pauseLabel.classList.remove('show');
+          }
         }
-      }
 
-      setActiveKey.call(this, 'pause');
+        setActiveKey.call(this, 'pause');
+      }
       break;
     }
     default: break;
