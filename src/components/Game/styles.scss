@@ -74,8 +74,13 @@
       z-index: 10;
     }
 
+    .-switchers-canvas {
+      z-index: 9;
+    }
+
     .-static-canvas,
     .-doors-canvas,
+    .-switchers-canvas,
     .-goal-canvas,
     .-wand-canvas,
     .-enemy-canvas {

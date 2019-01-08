@@ -90,3 +90,8 @@ export interface IDoorCoords {
     right: number[][];
   };
 }
+
+export interface ISwitcherCoords {
+  type: 'blue' | 'red' | 'yellow';
+  coords: number[];
+}

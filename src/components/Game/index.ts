@@ -25,6 +25,7 @@ import {
   IEnemyWandsCoords,
   IKeysDown,
   ILevel,
+  ISwitcherCoords,
 } from '../../types/global';
 
 class Game {
@@ -37,6 +38,7 @@ class Game {
   boardPanel: IBoardPanel;
   staticCanvas: HTMLCanvasElement;
   doorsCanvas: HTMLCanvasElement;
+  switchersCanvas: HTMLCanvasElement;
   goalCanvas: HTMLCanvasElement;
   wandCanvas: HTMLCanvasElement;
   keyDown: IKeysDown;
@@ -50,6 +52,7 @@ class Game {
   enemyWandsCoords: IEnemyWandsCoords;
   wallsCoords: number[][];
   doorsCoords: IDoorCoords[];
+  switchersCoords: ISwitcherCoords[];
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
@@ -69,6 +72,7 @@ class Game {
 
     this.staticCanvas = document.createElement('canvas');
     this.doorsCanvas = document.createElement('canvas');
+    this.switchersCanvas = document.createElement('canvas');
     this.goalCanvas = document.createElement('canvas');
     this.wandCanvas = document.createElement('canvas');
 
@@ -83,6 +87,7 @@ class Game {
     this.enemyWandsCoords = {};
     this.wallsCoords = [];
     this.doorsCoords = [];
+    this.switchersCoords = [];
 
     APP.eventListeners = {
       onKeyDown: keyDownHandler.bind(this),

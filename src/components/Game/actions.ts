@@ -1,3 +1,4 @@
+// tslint:disable:max-file-line-count
 import { Game } from './index';
 
 import { APP, WAND_REBOUND, MapDefinitions } from '../../constants/app';
@@ -226,6 +227,22 @@ function checkIntersections(): boolean {
           this.level.wand.direction *= -1;
           this.level.wand.angle += this.level.wand.direction * WAND_REBOUND * this.difficulty.correction;
         }
+      }
+    }
+
+    // Door switchers
+    for (let i = 0; i < this.switchersCoords.length; i += 1) {
+      const isSwitcherOnAvatarWand: boolean = pointOnLineSegment(
+        avatarWandSegment,
+        {
+          x: this.switchersCoords[i].coords[0],
+          y: this.switchersCoords[i].coords[1],
+        },
+        5,
+      );
+
+      if (isSwitcherOnAvatarWand) {
+        console.log('Intersects with', this.switchersCoords[i].type);
       }
     }
   }

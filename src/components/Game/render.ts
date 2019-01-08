@@ -43,6 +43,7 @@ function renderGameWindow() {
   this.boardPanel.score.className = '-score';
   this.staticCanvas.className = '-static-canvas';
   this.doorsCanvas.className = '-doors-canvas';
+  this.switchersCanvas.className = '-switchers-canvas';
   this.goalCanvas.className = '-goal-canvas';
   this.wandCanvas.className = '-wand-canvas';
 
@@ -50,6 +51,8 @@ function renderGameWindow() {
   this.staticCanvas.height = this.cellSize * (GridDimensions.Height + 2);
   this.doorsCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.doorsCanvas.height = this.cellSize * (GridDimensions.Height + 2);
+  this.switchersCanvas.width = this.cellSize * (GridDimensions.Width + 2);
+  this.switchersCanvas.height = this.cellSize * (GridDimensions.Height + 2);
   this.goalCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.goalCanvas.height = this.cellSize * (GridDimensions.Height + 2);
   this.wandCanvas.width = this.cellSize * (GridDimensions.Width + 2);
@@ -66,6 +69,7 @@ function renderGameWindow() {
 
   if (this.level.doors) {
     boardGrid.appendChild(this.doorsCanvas);
+    boardGrid.appendChild(this.switchersCanvas);
   }
 
   boardGrid.appendChild(this.staticCanvas);
@@ -437,14 +441,20 @@ function renderLevelMap() {
           case MapDefinitions.DoorSwitcherBlue:
           case MapDefinitions.DoorSwitcherRed:
           case MapDefinitions.DoorSwitcherYellow: {
+            const switchersCtx: CanvasRenderingContext2D = this.switchersCanvas.getContext('2d');
             const colorMap = {
               [MapDefinitions.DoorSwitcherBlue]: PILLAR_COLORS.blue,
               [MapDefinitions.DoorSwitcherRed]: PILLAR_COLORS.red,
               [MapDefinitions.DoorSwitcherYellow]: PILLAR_COLORS.yellow,
             };
+            const typesMap = {
+              [MapDefinitions.DoorSwitcherBlue]: 'blue',
+              [MapDefinitions.DoorSwitcherRed]: 'red',
+              [MapDefinitions.DoorSwitcherYellow]: 'yellow',
+            };
 
             drawDot(
-              ctx,
+              switchersCtx,
               dotX,
               dotY,
               this.cellSize / 3,
@@ -453,7 +463,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.switcher.border,
             );
             drawStrokeRectangle(
-              ctx,
+              switchersCtx,
               dotX - this.cellSize / 10,
               dotY - this.cellSize / 10,
               this.cellSize / 5,
@@ -462,13 +472,18 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.switcher.innerBorder,
             );
             drawFilledRectangle(
-              ctx,
+              switchersCtx,
               dotX - this.cellSize / 10,
               dotY - this.cellSize / 10,
               this.cellSize / 5,
               this.cellSize / 5,
               colorMap[objectType],
             );
+
+            this.switchersCoords.push({
+              type: typesMap[objectType],
+              coords: [dotX, dotY],
+            });
             break;
           }
           default: break;
