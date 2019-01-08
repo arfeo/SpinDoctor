@@ -15,6 +15,24 @@ export interface IDifficulty {
   correction: number;
 }
 
+export interface IBoardPanel {
+  level: HTMLElement;
+  lives: HTMLElement;
+  score: HTMLElement;
+}
+
+export interface IKeysDown {
+  reverse: boolean;
+  flip: boolean;
+  bounce: boolean;
+  swing: boolean;
+  pause: boolean;
+}
+
+export interface IEnemyWandsCoords {
+  [key: number]: number[][];
+}
+
 export interface ILevel {
   id: number;
   title: string;

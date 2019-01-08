@@ -18,7 +18,13 @@ import {
 
 import { setCellSize } from '../../utils/common';
 
-import { IDifficulty, ILevel } from '../../types/global';
+import {
+  IBoardPanel,
+  IDifficulty,
+  IEnemyWandsCoords,
+  IKeysDown,
+  ILevel,
+} from '../../types/global';
 
 class Game {
   appRoot: HTMLElement;
@@ -27,21 +33,11 @@ class Game {
   score: number;
   difficulty: IDifficulty;
   cellSize: number;
-  boardPanel: {
-    level: HTMLElement;
-    lives: HTMLElement;
-    score: HTMLElement;
-  };
+  boardPanel: IBoardPanel;
   staticCanvas: HTMLCanvasElement;
   goalCanvas: HTMLCanvasElement;
   wandCanvas: HTMLCanvasElement;
-  keyDown: {
-    reverse: boolean;
-    flip: boolean;
-    bounce: boolean;
-    swing: boolean;
-    pause: boolean;
-  };
+  keyDown: IKeysDown;
   isGameStopped: boolean;
   isLevelCompleted: boolean;
   goalPosition: number[];
@@ -49,10 +45,9 @@ class Game {
   animateAvatarWand: number;
   animateEnemyWand: number[];
   avatarWandCoords: number[][];
-  enemyWandsCoords: {
-    [key: number]: number[][];
-  };
+  enemyWandsCoords: IEnemyWandsCoords;
   wallsCoords: number[][];
+  doorsCoords: number[][];
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
@@ -84,6 +79,7 @@ class Game {
     this.avatarWandCoords = [];
     this.enemyWandsCoords = {};
     this.wallsCoords = [];
+    this.doorsCoords = [];
 
     APP.eventListeners = {
       onKeyDown: keyDownHandler.bind(this),
