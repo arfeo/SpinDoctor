@@ -109,6 +109,10 @@ class Game {
 
     cancelAnimationFrame(this.animateAvatarWand);
     cancelAnimationFrame(this.animateGoal);
+
+    for (const frame of this.animateEnemyWand) {
+      cancelAnimationFrame(frame);
+    }
   }
 }
 
