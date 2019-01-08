@@ -13,7 +13,7 @@ function removeEventHandlers() {
 function keyDownHandler(event: KeyboardEvent) {
   switch (event.key) {
     case FunctionalKeys.Reverse: {
-      if (!this.keyDown.reverse) {
+      if (!this.keyDown.reverse && !this.isGameStopped) {
         this.level.wand.direction *= -1;
       }
 
