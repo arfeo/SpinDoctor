@@ -72,6 +72,8 @@ export const WALL_WIDTH = 5;
 
 export const DOOR_WIDTH = 2;
 
+export const WAND_REBOUND = 3;
+
 export enum FunctionalKeys {
   Reverse = ' ',
   Flip = 'Shift',

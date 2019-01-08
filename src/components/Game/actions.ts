@@ -1,6 +1,6 @@
 import { Game } from './index';
 
-import { APP, MapDefinitions } from '../../constants/app';
+import { APP, WAND_REBOUND, MapDefinitions } from '../../constants/app';
 import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
@@ -184,7 +184,7 @@ function checkIntersections(): boolean {
 
         if (isIntersectingWall) {
           this.level.wand.direction *= -1;
-          this.level.wand.angle += this.level.wand.direction * 5 * this.difficulty.correction;
+          this.level.wand.angle += this.level.wand.direction * WAND_REBOUND * this.difficulty.correction;
         }
       }
     }
@@ -224,7 +224,7 @@ function checkIntersections(): boolean {
 
         if (isIntersectingLeftDoor || isIntersectingRightDoor) {
           this.level.wand.direction *= -1;
-          this.level.wand.angle += this.level.wand.direction * 5 * this.difficulty.correction;
+          this.level.wand.angle += this.level.wand.direction * WAND_REBOUND * this.difficulty.correction;
         }
       }
     }
