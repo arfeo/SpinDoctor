@@ -21,6 +21,7 @@ import { setCellSize } from '../../utils/common';
 import {
   IBoardPanel,
   IDifficulty,
+  IDoorCoords,
   IEnemyWandsCoords,
   IKeysDown,
   ILevel,
@@ -47,7 +48,7 @@ class Game {
   avatarWandCoords: number[][];
   enemyWandsCoords: IEnemyWandsCoords;
   wallsCoords: number[][];
-  doorsCoords: number[][];
+  doorsCoords: IDoorCoords[];
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');

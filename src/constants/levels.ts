@@ -167,12 +167,14 @@ export const LEVELS: ILevel[] = [
     ],
     doors: [
       {
+        id: 1,
         position: [7, 7],
         type: 'blue',
         orientation: 'vertical',
         opened: false,
       },
       {
+        id: 2,
         position: [6, 15],
         type: 'blue',
         orientation: 'vertical',

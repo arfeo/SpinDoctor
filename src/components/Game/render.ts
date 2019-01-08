@@ -480,26 +480,31 @@ function renderDoors() {
         break;
       }
       case 'vertical': {
-        this.wallsCoords.push(drawLineToAngle.call(
-          this,
-          ctx,
-          left + this.cellSize / 2,
-          top - this.cellSize,
-          this.cellSize * 2 - this.cellSize / 2 - 2,
-          90,
-          MAP_ELEMENT_COLORS.wall.background,
-          DOOR_WIDTH,
-        ));
-        this.wallsCoords.push(drawLineToAngle.call(
-          this,
-          ctx,
-          left + this.cellSize / 2,
-          top + this.cellSize / 2 + 2,
-          this.cellSize * 2 - this.cellSize / 2 - 2,
-          90,
-          MAP_ELEMENT_COLORS.wall.background,
-          DOOR_WIDTH,
-        ));
+        this.doorsCoords.push({
+          id: door.id,
+          coords: {
+            left: drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top - this.cellSize,
+              this.cellSize * 2 - this.cellSize / 2 - 2,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              DOOR_WIDTH,
+            ),
+            right: drawLineToAngle.call(
+              this,
+              ctx,
+              left + this.cellSize / 2,
+              top + this.cellSize / 2 + 2,
+              this.cellSize * 2 - this.cellSize / 2 - 2,
+              90,
+              MAP_ELEMENT_COLORS.wall.background,
+              DOOR_WIDTH,
+            ),
+          },
+        });
         break;
       }
       default: break;

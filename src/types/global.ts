@@ -55,6 +55,7 @@ export interface IEnemy {
 }
 
 export interface IDoor {
+  id: number;
   position: number[];
   type: 'blue' | 'red' | 'yellow';
   orientation: 'vertical' | 'horizontal';
@@ -80,4 +81,12 @@ export interface ILineSegment {
 export interface IPoint {
   x: number;
   y: number;
+}
+
+export interface IDoorCoords {
+  id: number;
+  coords: {
+    left: number[][];
+    right: number[][];
+  };
 }

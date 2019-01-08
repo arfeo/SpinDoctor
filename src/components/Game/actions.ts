@@ -7,7 +7,7 @@ import { renderPanelCounters } from './render';
 
 import { lineSegmentsIntersect, pointOnLineSegment } from './utils';
 
-import { ILineSegment } from '../../types/global';
+import { IDoorCoords, ILineSegment } from '../../types/global';
 
 /**
  * Function checks the ability of the avatar wand to move to the next dot,
@@ -114,7 +114,7 @@ function checkAvatarWand() {
 
 /**
  * Function returns true if a lethal intersection occurs (with an enemy),
- * and false if the avatar wand intersects with a non-lethal object (e.g. wall)
+ * and false if the avatar wand intersects with a non-lethal object (e.g. wall or door)
  * or does not intersect with anything
  */
 function checkIntersections(): boolean {
@@ -145,7 +145,7 @@ function checkIntersections(): boolean {
             },
           };
 
-          const isIntersecting: boolean = lineSegmentsIntersect(avatarWandSegment, enemyWandSegment);
+          const isIntersectingWand: boolean = lineSegmentsIntersect(avatarWandSegment, enemyWandSegment);
 
           const isAvatarWandEndOnEnemy: boolean = pointOnLineSegment(
             enemyWandSegment,
@@ -156,7 +156,7 @@ function checkIntersections(): boolean {
             5,
           );
 
-          if (isIntersecting || isAvatarWandEndOnEnemy) {
+          if (isIntersectingWand || isAvatarWandEndOnEnemy) {
             return true;
           }
         }
@@ -168,7 +168,7 @@ function checkIntersections(): boolean {
       for (let i = 0; i < this.wallsCoords.length; i += 1) {
         const wall: number[][] = this.wallsCoords[i];
 
-        const isIntersecting: boolean = lineSegmentsIntersect(
+        const isIntersectingWall: boolean = lineSegmentsIntersect(
           avatarWandSegment,
           {
             start: {
@@ -182,7 +182,47 @@ function checkIntersections(): boolean {
           },
         );
 
-        if (isIntersecting) {
+        if (isIntersectingWall) {
+          this.level.wand.direction *= -1;
+          this.level.wand.angle += this.level.wand.direction * 5 * this.difficulty.correction;
+        }
+      }
+    }
+
+    // Doors
+    if (this.doorsCoords) {
+      for (let i = 0; i < this.doorsCoords.length; i += 1) {
+        const door: IDoorCoords = this.doorsCoords[i];
+
+        const isIntersectingLeftDoor: boolean = lineSegmentsIntersect(
+          avatarWandSegment,
+          {
+            start: {
+              x: door.coords.left[0][0],
+              y: door.coords.left[0][1],
+            },
+            end: {
+              x: door.coords.left[1][0],
+              y: door.coords.left[1][1],
+            },
+          },
+        );
+
+        const isIntersectingRightDoor: boolean = lineSegmentsIntersect(
+          avatarWandSegment,
+          {
+            start: {
+              x: door.coords.right[0][0],
+              y: door.coords.right[0][1],
+            },
+            end: {
+              x: door.coords.right[1][0],
+              y: door.coords.right[1][1],
+            },
+          },
+        );
+
+        if (isIntersectingLeftDoor || isIntersectingRightDoor) {
           this.level.wand.direction *= -1;
           this.level.wand.angle += this.level.wand.direction * 5 * this.difficulty.correction;
         }
