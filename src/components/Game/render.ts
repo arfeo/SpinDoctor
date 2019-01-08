@@ -511,7 +511,24 @@ function renderDoors() {
 
     switch (door.orientation) {
       case 'horizontal': {
-        // ..
+        drawLineToAngle(
+          staticCtx,
+          left - this.cellSize - this.cellSize / 2 - 2,
+          top + this.cellSize / 2,
+          this.cellSize / 2,
+          0,
+          PILLAR_COLORS[door.type],
+          PILLAR_WIDTH,
+        );
+        drawLineToAngle(
+          staticCtx,
+          left + this.cellSize * 2 + 2,
+          top + this.cellSize / 2,
+          this.cellSize / 2,
+          0,
+          PILLAR_COLORS[door.type],
+          PILLAR_WIDTH,
+        );
         break;
       }
       case 'vertical': {
@@ -533,13 +550,13 @@ function renderDoors() {
           PILLAR_COLORS[door.type],
           PILLAR_WIDTH,
         );
-
-        if (!door.opened) {
-          renderDoor.call(this, door);
-        }
         break;
       }
       default: break;
+    }
+
+    if (!door.opened) {
+      renderDoor.call(this, door);
     }
   }
 }
@@ -564,29 +581,61 @@ function renderDoor(door: IDoor, doorWidth?: number) {
     this.cellSize * 3,
   );
 
-  this.doorsCoords.push({
-    id: door.id,
-    coords: {
-      left: drawLineToAngle(
-        doorsCtx,
-        left + this.cellSize / 2,
-        top - this.cellSize - 2,
-        doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
-        90,
-        MAP_ELEMENT_COLORS.door.background,
-        DOOR_WIDTH,
-      ),
-      right: drawLineToAngle(
-        doorsCtx,
-        left + this.cellSize / 2,
-        top + this.cellSize * 2 + 2,
-        doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
-        270,
-        MAP_ELEMENT_COLORS.door.background,
-        DOOR_WIDTH,
-      ),
-    },
-  });
+  switch (door.orientation) {
+    case 'horizontal': {
+      this.doorsCoords.push({
+        id: door.id,
+        coords: {
+          left: drawLineToAngle(
+            doorsCtx,
+            left - this.cellSize - 2,
+            top + this.cellSize / 2,
+            doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
+            0,
+            MAP_ELEMENT_COLORS.door.background,
+            DOOR_WIDTH,
+          ),
+          right: drawLineToAngle(
+            doorsCtx,
+            left + this.cellSize * 2 + 2,
+            top + this.cellSize / 2,
+            doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
+            180,
+            MAP_ELEMENT_COLORS.door.background,
+            DOOR_WIDTH,
+          ),
+        },
+      });
+      break;
+    }
+    case 'vertical': {
+      this.doorsCoords.push({
+        id: door.id,
+        coords: {
+          left: drawLineToAngle(
+            doorsCtx,
+            left + this.cellSize / 2,
+            top - this.cellSize - 2,
+            doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
+            90,
+            MAP_ELEMENT_COLORS.door.background,
+            DOOR_WIDTH,
+          ),
+          right: drawLineToAngle(
+            doorsCtx,
+            left + this.cellSize / 2,
+            top + this.cellSize * 2 + 2,
+            doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
+            270,
+            MAP_ELEMENT_COLORS.door.background,
+            DOOR_WIDTH,
+          ),
+        },
+      });
+      break;
+    }
+    default: break;
+  }
 }
 
 /**
