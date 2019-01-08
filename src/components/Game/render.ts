@@ -507,31 +507,33 @@ function renderDoors() {
           PILLAR_WIDTH,
         );
 
-        this.doorsCoords.push({
-          id: door.id,
-          coords: {
-            left: drawLineToAngle.call(
-              this,
-              doorsCtx,
-              left + this.cellSize / 2,
-              top - this.cellSize,
-              this.cellSize * 2 - this.cellSize / 2 - 2,
-              90,
-              MAP_ELEMENT_COLORS.door.background,
-              DOOR_WIDTH,
-            ),
-            right: drawLineToAngle.call(
-              this,
-              doorsCtx,
-              left + this.cellSize / 2,
-              top + this.cellSize * 2 + 2,
-              this.cellSize * 2 - this.cellSize / 2 - 2,
-              270,
-              MAP_ELEMENT_COLORS.door.background,
-              DOOR_WIDTH,
-            ),
-          },
-        });
+        if (!door.opened) {
+          this.doorsCoords.push({
+            id: door.id,
+            coords: {
+              left: drawLineToAngle.call(
+                this,
+                doorsCtx,
+                left + this.cellSize / 2,
+                top - this.cellSize,
+                this.cellSize * 2 - this.cellSize / 2 - 2,
+                90,
+                MAP_ELEMENT_COLORS.door.background,
+                DOOR_WIDTH,
+              ),
+              right: drawLineToAngle.call(
+                this,
+                doorsCtx,
+                left + this.cellSize / 2,
+                top + this.cellSize * 2 + 2,
+                this.cellSize * 2 - this.cellSize / 2 - 2,
+                270,
+                MAP_ELEMENT_COLORS.door.background,
+                DOOR_WIDTH,
+              ),
+            },
+          });
+        }
         break;
       }
       default: break;
