@@ -113,7 +113,7 @@ function renderLevelMap() {
         const dotY: number = top + this.cellSize / 2;
 
         switch (objectType) {
-          case MapDefinitions.Regular: {
+          case MapDefinitions.DotRegular: {
             drawDot(
               ctx,
               dotX,
@@ -125,8 +125,8 @@ function renderLevelMap() {
             );
             break;
           }
-          case MapDefinitions.Bonus1000:
-          case MapDefinitions.Bonus2000: {
+          case MapDefinitions.DotBonus1000:
+          case MapDefinitions.DotBonus2000: {
             drawDot(
               ctx,
               dotX,
@@ -138,8 +138,8 @@ function renderLevelMap() {
             );
             break;
           }
-          case MapDefinitions.RegularRed:
-          case MapDefinitions.BonusRed: {
+          case MapDefinitions.DotRegularRed:
+          case MapDefinitions.DotBonusRed: {
             drawDot(
               ctx,
               dotX,
@@ -151,8 +151,8 @@ function renderLevelMap() {
             );
             break;
           }
-          case MapDefinitions.RegularBlue:
-          case MapDefinitions.BonusBlue: {
+          case MapDefinitions.DotRegularBlue:
+          case MapDefinitions.DotBonusBlue: {
             drawDot(
               ctx,
               dotX,
@@ -164,8 +164,8 @@ function renderLevelMap() {
             );
             break;
           }
-          case MapDefinitions.RegularYellow:
-          case MapDefinitions.BonusYellow: {
+          case MapDefinitions.DotRegularYellow:
+          case MapDefinitions.DotBonusYellow: {
             drawDot(
               ctx,
               dotX,
@@ -484,6 +484,18 @@ function renderLevelMap() {
               type: typesMap[objectType],
               coords: [dotX, dotY],
             });
+            break;
+          }
+          case MapDefinitions.RingRegular: {
+            drawDot(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              MAP_ELEMENT_COLORS.ring.background,
+              2,
+              MAP_ELEMENT_COLORS.ring.border,
+            );
             break;
           }
           default: break;

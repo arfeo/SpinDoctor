@@ -65,6 +65,10 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
     border: 'rgb(61, 61, 61)',
     innerBorder: 'rgb(0, 0, 0)',
   },
+  ring: {
+    background: 'rgb(74, 74, 74)',
+    border: 'rgb(255, 255, 255)',
+  }
 };
 
 export const WAND_COLORS: IWandColors = {
@@ -107,15 +111,15 @@ export enum GridDimensions {
 
 export enum MapDefinitions {
   Empty = 0,
-  Regular = 1,
-  Bonus1000 = 2,
-  Bonus2000 = 3,
-  RegularRed = 4,
-  RegularBlue = 5,
-  RegularYellow = 6,
-  BonusRed = 7,
-  BonusBlue = 8,
-  BonusYellow = 9,
+  DotRegular = 1,
+  DotBonus1000 = 2,
+  DotBonus2000 = 3,
+  DotRegularRed = 4,
+  DotRegularBlue = 5,
+  DotRegularYellow = 6,
+  DotBonusRed = 7,
+  DotBonusBlue = 8,
+  DotBonusYellow = 9,
   WallHorizontal = 20,
   WallVertical = 21,
   WallHorizontalHalfLeft = 22,
@@ -134,4 +138,5 @@ export enum MapDefinitions {
   DoorSwitcherBlue = 40,
   DoorSwitcherRed = 41,
   DoorSwitcherYellow = 42,
+  RingRegular = 50,
 }

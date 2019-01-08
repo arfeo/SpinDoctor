@@ -261,37 +261,37 @@ function checkIntersections(): boolean {
  */
 function checkNextDot(dotType: number, dotX: number, dotY: number) {
   switch (dotType) {
-    case MapDefinitions.Bonus1000: {
+    case MapDefinitions.DotBonus1000: {
       this.score += 1000;
-      this.level.map[dotY][dotX] = MapDefinitions.Regular;
+      this.level.map[dotY][dotX] = MapDefinitions.DotRegular;
 
       renderPanelCounters.call(this);
       break;
     }
-    case MapDefinitions.Bonus2000: {
+    case MapDefinitions.DotBonus2000: {
       this.score += 2000;
-      this.level.map[dotY][dotX] = MapDefinitions.Regular;
+      this.level.map[dotY][dotX] = MapDefinitions.DotRegular;
 
       renderPanelCounters.call(this);
       break;
     }
-    case MapDefinitions.BonusRed: {
+    case MapDefinitions.DotBonusRed: {
       this.score += 1000;
-      this.level.map[dotY][dotX] = MapDefinitions.RegularRed;
+      this.level.map[dotY][dotX] = MapDefinitions.DotRegularRed;
 
       renderPanelCounters.call(this);
       break;
     }
-    case MapDefinitions.BonusBlue: {
+    case MapDefinitions.DotBonusBlue: {
       this.score += 1000;
-      this.level.map[dotY][dotX] = MapDefinitions.RegularBlue;
+      this.level.map[dotY][dotX] = MapDefinitions.DotRegularBlue;
 
       renderPanelCounters.call(this);
       break;
     }
-    case MapDefinitions.BonusYellow: {
+    case MapDefinitions.DotBonusYellow: {
       this.score += 1000;
-      this.level.map[dotY][dotX] = MapDefinitions.RegularYellow;
+      this.level.map[dotY][dotX] = MapDefinitions.DotRegularYellow;
 
       renderPanelCounters.call(this);
       break;
