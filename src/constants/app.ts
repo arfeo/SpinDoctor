@@ -70,6 +70,8 @@ export const WAND_WIDTH = 5;
 
 export const WALL_WIDTH = 5;
 
+export const DOOR_WIDTH = 2;
+
 export enum FunctionalKeys {
   Reverse = ' ',
   Flip = 'Shift',
@@ -109,13 +111,7 @@ export enum MapDefinitions {
   WallVerticalToRight = 32,
   WallVerticalToLeft = 33,
   WallX = 34,
-  DoorBlueHorizontal = 40,
-  DoorBlueVertical = 41,
-  DoorRedHorizontal = 42,
-  DoorRedVertical = 43,
-  DoorYellowHorizontal = 44,
-  DoorYellowVertical = 45,
-  DoorSwitcherBlue = 46,
-  DoorSwitcherRed = 47,
-  DoorSwitcherYellow = 48,
+  DoorSwitcherBlue = 40,
+  DoorSwitcherRed = 41,
+  DoorSwitcherYellow = 42,
 }

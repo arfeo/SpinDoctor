@@ -4,6 +4,7 @@ import {
   WAND_COLORS,
   WAND_WIDTH,
   WALL_WIDTH,
+  DOOR_WIDTH,
   GridDimensions,
   MapDefinitions,
 } from '../../constants/app';
@@ -451,7 +452,57 @@ function renderLevelMap() {
     }
   }
 
+  renderDoors.call(this);
   renderGoal.call(this);
+}
+
+/**
+ * Function renders doors (if available)
+ */
+function renderDoors() {
+  if (this.level.doors) {
+    const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+
+    for (const door of this.level.doors) {
+      const top: number = this.cellSize + this.cellSize * (door.position[0] + 1);
+      const left: number = this.cellSize + this.cellSize * (door.position[1] + 1);
+
+      switch (door.type) {
+        // ...
+        default: break;
+      }
+
+      switch (door.orientation) {
+        case 'horizontal': {
+          break;
+        }
+        case 'vertical': {
+          this.wallsCoords.push(drawLineToAngle.call(
+            this,
+            ctx,
+            left + this.cellSize / 2,
+            top - this.cellSize,
+            this.cellSize * 2,
+            90,
+            '#0000ff',
+            DOOR_WIDTH,
+          ));
+          this.wallsCoords.push(drawLineToAngle.call(
+            this,
+            ctx,
+            left + this.cellSize / 2,
+            top + this.cellSize / 2,
+            this.cellSize * 2,
+            90,
+            '#00ff00',
+            DOOR_WIDTH,
+          ));
+          break;
+        }
+        default: break;
+      }
+    }
+  }
 }
 
 /**

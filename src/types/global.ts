@@ -19,6 +19,7 @@ export interface ILevel {
   id: number;
   title: string;
   map: number[][];
+  doors?: IDoor[];
   goal: number[];
   wand: IWand;
   enemies?: (IWand & IEnemy)[];
@@ -33,6 +34,13 @@ export interface IWand {
 export interface IEnemy {
   id: number;
   type: string;
+}
+
+export interface IDoor {
+  position: number[];
+  type: 'blue' | 'red' | 'yellow';
+  orientation: 'vertical' | 'horizontal';
+  opened: boolean;
 }
 
 export interface IMapElementColors {
