@@ -52,10 +52,10 @@ class Game {
   constructor(level = 1, lives = 4, score = 0, difficulty = 1) {
     this.appRoot = document.getElementById('root');
 
-    this.level = JSON.parse(JSON.stringify(LEVELS[level - 1]));
+    this.level = JSON.parse(JSON.stringify(LEVELS.filter((item: ILevel) => item.id === level)[0]));
     this.lives = lives;
     this.score = score;
-    this.difficulty = JSON.parse(JSON.stringify(DIFFICULTIES[difficulty - 1]));
+    this.difficulty = JSON.parse(JSON.stringify(DIFFICULTIES.filter((item: IDifficulty) => item.id === difficulty)[0]));
 
     this.cellSize = setCellSize();
 
