@@ -57,27 +57,27 @@
     border-left: 1px solid $borderDark;
     background-color: $boardGridBackground;
 
-    .-static-cell {
-      width: $cellSize;
-      height: $cellSize;
-    }
-
     .-static-canvas {
       z-index: 100;
     }
 
-    .-goal-canvas {
+    .-doors-canvas {
       z-index: 99;
     }
 
-    .-ward-canvas,
+    .-goal-canvas {
+      z-index: 98;
+    }
+
+    .-wand-canvas,
     .-enemy-canvas {
       z-index: 10;
     }
 
     .-static-canvas,
+    .-doors-canvas,
     .-goal-canvas,
-    .-ward-canvas,
+    .-wand-canvas,
     .-enemy-canvas {
       position: absolute;
       top: 0;

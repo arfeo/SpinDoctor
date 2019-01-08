@@ -33,11 +33,14 @@ function renderGameWindow() {
   this.boardPanel.lives.className = '-lives';
   this.boardPanel.score.className = '-score';
   this.staticCanvas.className = '-static-canvas';
+  this.doorsCanvas.className = '-doors-canvas';
   this.goalCanvas.className = '-goal-canvas';
-  this.wandCanvas.className = '-ward-canvas';
+  this.wandCanvas.className = '-wand-canvas';
 
   this.staticCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.staticCanvas.height = this.cellSize * (GridDimensions.Height + 2);
+  this.doorsCanvas.width = this.cellSize * (GridDimensions.Width + 2);
+  this.doorsCanvas.height = this.cellSize * (GridDimensions.Height + 2);
   this.goalCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.goalCanvas.height = this.cellSize * (GridDimensions.Height + 2);
   this.wandCanvas.width = this.cellSize * (GridDimensions.Width + 2);
@@ -52,6 +55,11 @@ function renderGameWindow() {
   boardPanel.appendChild(this.boardPanel.score);
   gameWindow.appendChild(boardGrid);
   boardGrid.appendChild(this.staticCanvas);
+
+  if (this.level.doors) {
+    boardGrid.appendChild(this.doorsCanvas);
+  }
+
   boardGrid.appendChild(this.goalCanvas);
   boardGrid.appendChild(this.wandCanvas);
   boardGrid.appendChild(pauseLabel);
@@ -463,7 +471,7 @@ function renderLevelMap() {
  * Function renders doors (if applicable)
  */
 function renderDoors() {
-  const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+  const doorsCtx: CanvasRenderingContext2D = this.doorsCanvas.getContext('2d');
 
   for (const door of this.level.doors) {
     const top: number = this.cellSize + this.cellSize * (door.position[0] + 1);
@@ -485,7 +493,7 @@ function renderDoors() {
           coords: {
             left: drawLineToAngle.call(
               this,
-              ctx,
+              doorsCtx,
               left + this.cellSize / 2,
               top - this.cellSize,
               this.cellSize * 2 - this.cellSize / 2 - 2,
@@ -495,7 +503,7 @@ function renderDoors() {
             ),
             right: drawLineToAngle.call(
               this,
-              ctx,
+              doorsCtx,
               left + this.cellSize / 2,
               top + this.cellSize / 2 + 2,
               this.cellSize * 2 - this.cellSize / 2 - 2,

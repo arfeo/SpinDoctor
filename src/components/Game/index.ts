@@ -36,6 +36,7 @@ class Game {
   cellSize: number;
   boardPanel: IBoardPanel;
   staticCanvas: HTMLCanvasElement;
+  doorsCanvas: HTMLCanvasElement;
   goalCanvas: HTMLCanvasElement;
   wandCanvas: HTMLCanvasElement;
   keyDown: IKeysDown;
@@ -67,6 +68,7 @@ class Game {
     };
 
     this.staticCanvas = document.createElement('canvas');
+    this.doorsCanvas = document.createElement('canvas');
     this.goalCanvas = document.createElement('canvas');
     this.wandCanvas = document.createElement('canvas');
 
