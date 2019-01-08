@@ -21,7 +21,7 @@ import {
 
 import { checkAvatarWand } from './actions';
 
-import { IEnemy, IWand } from '../../types/global';
+import { IDoor, IDoorCoords, IEnemy, IWand } from '../../types/global';
 
 /**
  * Function creates game window element, game panel and all needed canvases
@@ -500,10 +500,9 @@ function renderLevelMap() {
 }
 
 /**
- * Function renders doors (if applicable)
+ * Function initially renders all doors on the game board (if applicable) including pillars
  */
 function renderDoors() {
-  const doorsCtx: CanvasRenderingContext2D = this.doorsCanvas.getContext('2d');
   const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
 
   for (const door of this.level.doors) {
@@ -536,35 +535,58 @@ function renderDoors() {
         );
 
         if (!door.opened) {
-          this.doorsCoords.push({
-            id: door.id,
-            coords: {
-              left: drawLineToAngle(
-                doorsCtx,
-                left + this.cellSize / 2,
-                top - this.cellSize,
-                this.cellSize * 2 - this.cellSize / 2 - 2,
-                90,
-                MAP_ELEMENT_COLORS.door.background,
-                DOOR_WIDTH,
-              ),
-              right: drawLineToAngle(
-                doorsCtx,
-                left + this.cellSize / 2,
-                top + this.cellSize * 2 + 2,
-                this.cellSize * 2 - this.cellSize / 2 - 2,
-                270,
-                MAP_ELEMENT_COLORS.door.background,
-                DOOR_WIDTH,
-              ),
-            },
-          });
+          renderDoor.call(this, door);
         }
         break;
       }
       default: break;
     }
   }
+}
+
+/**
+ * Function renders a single door
+ *
+ * @param door
+ * @param doorWidth
+ */
+function renderDoor(door: IDoor, doorWidth?: number) {
+  const doorsCtx: CanvasRenderingContext2D = this.doorsCanvas.getContext('2d');
+  const top: number = this.cellSize + this.cellSize * (door.position[0] + 1);
+  const left: number = this.cellSize + this.cellSize * (door.position[1] + 1);
+
+  this.doorsCoords = this.doorsCoords.filter((item: IDoorCoords) => item.id !== door.id);
+
+  doorsCtx.clearRect(
+    left - this.cellSize,
+    top - this.cellSize,
+    this.cellSize * 3,
+    this.cellSize * 3,
+  );
+
+  this.doorsCoords.push({
+    id: door.id,
+    coords: {
+      left: drawLineToAngle(
+        doorsCtx,
+        left + this.cellSize / 2,
+        top - this.cellSize - 2,
+        doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
+        90,
+        MAP_ELEMENT_COLORS.door.background,
+        DOOR_WIDTH,
+      ),
+      right: drawLineToAngle(
+        doorsCtx,
+        left + this.cellSize / 2,
+        top + this.cellSize * 2 + 2,
+        doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
+        270,
+        MAP_ELEMENT_COLORS.door.background,
+        DOOR_WIDTH,
+      ),
+    },
+  });
 }
 
 /**
@@ -576,9 +598,9 @@ function renderGoal() {
   let start: number = performance.now();
   let goalAnimationStep = 0;
 
-  this.animateGoal = (time: number) => {
+  const animateGoal = (time: number) => {
     if (this.isGameStopped) {
-      return requestAnimationFrame(this.animateGoal);
+      return this.animateGoal = requestAnimationFrame(animateGoal);
     }
 
     if (time - start > 100) {
@@ -628,10 +650,10 @@ function renderGoal() {
       start = time;
     }
 
-    requestAnimationFrame(this.animateGoal);
+    this.animateGoal = requestAnimationFrame(animateGoal);
   };
 
-  requestAnimationFrame(this.animateGoal);
+  this.animateGoal = requestAnimationFrame(animateGoal);
 }
 
 /**
@@ -653,9 +675,9 @@ function renderPanelCounters() {
 function renderAvatarWand() {
   const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
 
-  this.animateAvatarWand = () => {
+  const animateAvatarWand = () => {
     if (this.isGameStopped) {
-      return requestAnimationFrame(this.animateAvatarWand);
+      return this.animateAvatarWand = requestAnimationFrame(animateAvatarWand);
     }
 
     const { position, direction, angle } = this.level.wand;
@@ -673,7 +695,7 @@ function renderAvatarWand() {
       ctx,
       x,
       y,
-      this.cellSize * 2 - this.cellSize / 5,
+      this.cellSize * 2 - this.cellSize / 5 - 1,
       angle,
       WAND_COLORS.avatar,
       WAND_WIDTH,
@@ -689,10 +711,10 @@ function renderAvatarWand() {
 
     checkAvatarWand.call(this);
 
-    requestAnimationFrame(this.animateAvatarWand);
+    this.animateAvatarWand = requestAnimationFrame(animateAvatarWand);
   };
 
-  requestAnimationFrame(this.animateAvatarWand);
+  this.animateAvatarWand = requestAnimationFrame(animateAvatarWand);
 }
 
 /**
@@ -702,9 +724,9 @@ function renderAvatarWand() {
  * @param enemy
  */
 function renderEnemyWand(ctx: CanvasRenderingContext2D, enemy: IWand & IEnemy) {
-  this.animateEnemyWand[enemy.id] = () => {
+  const animateEnemyWand = () => {
     if (this.isGameStopped) {
-      return requestAnimationFrame(this.animateEnemyWand[enemy.id]);
+      return this.animateEnemyWand[enemy.id] = requestAnimationFrame(animateEnemyWand);
     }
 
     const { position, direction, angle } = enemy;
@@ -736,15 +758,16 @@ function renderEnemyWand(ctx: CanvasRenderingContext2D, enemy: IWand & IEnemy) {
       enemy.angle -= 360;
     }
 
-    requestAnimationFrame(this.animateEnemyWand[enemy.id]);
+    this.animateEnemyWand[enemy.id] = requestAnimationFrame(animateEnemyWand);
   };
 
-  requestAnimationFrame(this.animateEnemyWand[enemy.id]);
+  this.animateEnemyWand[enemy.id] = requestAnimationFrame(animateEnemyWand);
 }
 
 export {
   renderGameWindow,
   renderLevelMap,
   renderPanelCounters,
+  renderDoor,
   renderAvatarWand,
 };

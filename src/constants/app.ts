@@ -90,6 +90,8 @@ export const PILLAR_WIDTH = 3;
 
 export const WAND_REBOUND = 3;
 
+export const DOORS_ANIMATION_SPEED = 1.5;
+
 export enum FunctionalKeys {
   Reverse = ' ',
   Flip = 'Shift',

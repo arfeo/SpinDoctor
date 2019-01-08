@@ -5,8 +5,8 @@ import { APP, WAND_REBOUND, MapDefinitions } from '../../constants/app';
 import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
-
 import { lineSegmentsIntersect, pointOnLineSegment } from './utils';
+import { animateDoors } from './animations';
 
 import { IDoorCoords, ILineSegment } from '../../types/global';
 
@@ -241,8 +241,10 @@ function checkIntersections(): boolean {
         5,
       );
 
-      if (isSwitcherOnAvatarWand) {
-        console.log('Intersects with', this.switchersCoords[i].type);
+      if (isSwitcherOnAvatarWand && !this.isSwitcherActive) {
+        this.isSwitcherActive = true;
+
+        animateDoors.call(this, this.switchersCoords[i].type);
       }
     }
   }

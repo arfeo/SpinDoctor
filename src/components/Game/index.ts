@@ -44,6 +44,7 @@ class Game {
   keyDown: IKeysDown;
   isGameStopped: boolean;
   isLevelCompleted: boolean;
+  isSwitcherActive: boolean;
   goalPosition: number[];
   animateGoal: number;
   animateAvatarWand: number;
@@ -78,6 +79,7 @@ class Game {
 
     this.isGameStopped = false;
     this.isLevelCompleted = false;
+    this.isSwitcherActive = false;
 
     this.goalPosition = this.level.goal;
 
