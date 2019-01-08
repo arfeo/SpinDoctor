@@ -35,7 +35,8 @@ function drawDot(
 }
 
 /**
- * Function draws a line starting at the given coordinates of the given length at the given angle
+ * Function draws a line starting at the given coordinates of the given length at the given angle;
+ * it returns an array of start and end positions of the line
  *
  * @param ctx
  * @param x1
@@ -125,4 +126,57 @@ function drawStar(
   ctx.fill();
 }
 
-export { drawDot, drawLineToAngle, drawStar };
+/**
+ * Function draws a filled rectangle of the given size and style at the given coordinates
+ *
+ * @param ctx
+ * @param left
+ * @param top
+ * @param width
+ * @param height
+ * @param fillStyle
+ */
+function drawFilledRectangle(
+  ctx: CanvasRenderingContext2D,
+  left: number,
+  top: number,
+  width: number,
+  height: number,
+  fillStyle?: string,
+) {
+  ctx.fillStyle = fillStyle || null;
+  ctx.fillRect(left, top, width, height);
+}
+
+/**
+ * Function draws a stroke rectangle of the given size and style at the given coordinates
+ *
+ * @param ctx
+ * @param left
+ * @param top
+ * @param width
+ * @param height
+ * @param edgingWidth
+ * @param edgingColor
+ */
+function drawStrokeRectangle(
+  ctx: CanvasRenderingContext2D,
+  left: number,
+  top: number,
+  width: number,
+  height: number,
+  edgingWidth: number,
+  edgingColor: string,
+) {
+  ctx.lineWidth = edgingWidth || 0;
+  ctx.strokeStyle = edgingColor || null;
+  ctx.strokeRect(left, top, width, height);
+}
+
+export {
+  drawDot,
+  drawLineToAngle,
+  drawStar,
+  drawFilledRectangle,
+  drawStrokeRectangle,
+};

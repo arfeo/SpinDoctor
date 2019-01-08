@@ -11,7 +11,14 @@ import {
   MapDefinitions,
 } from '../../constants/app';
 
-import { drawDot, drawLineToAngle, drawStar } from './draw';
+import {
+  drawDot,
+  drawLineToAngle,
+  drawStar,
+  drawFilledRectangle,
+  drawStrokeRectangle,
+} from './draw';
+
 import { checkAvatarWand } from './actions';
 
 import { IEnemy, IWand } from '../../types/global';
@@ -103,8 +110,7 @@ function renderLevelMap() {
 
         switch (objectType) {
           case MapDefinitions.Regular: {
-            drawDot.call(
-              this,
+            drawDot(
               ctx,
               dotX,
               dotY,
@@ -117,8 +123,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.Bonus1000:
           case MapDefinitions.Bonus2000: {
-            drawDot.call(
-              this,
+            drawDot(
               ctx,
               dotX,
               dotY,
@@ -131,8 +136,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.RegularRed:
           case MapDefinitions.BonusRed: {
-            drawDot.call(
-              this,
+            drawDot(
               ctx,
               dotX,
               dotY,
@@ -145,8 +149,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.RegularBlue:
           case MapDefinitions.BonusBlue: {
-            drawDot.call(
-              this,
+            drawDot(
               ctx,
               dotX,
               dotY,
@@ -159,8 +162,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.RegularYellow:
           case MapDefinitions.BonusYellow: {
-            drawDot.call(
-              this,
+            drawDot(
               ctx,
               dotX,
               dotY,
@@ -172,8 +174,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallHorizontal: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left,
               top + this.cellSize / 2,
@@ -185,8 +186,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallVertical: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top,
@@ -198,8 +198,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallHorizontalHalfLeft: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left,
               top + this.cellSize / 2,
@@ -211,8 +210,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallHorizontalHalfRight: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 4,
               top + this.cellSize / 2,
@@ -224,8 +222,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallVerticalHalfBottom: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top + this.cellSize / 2 - this.cellSize / 4,
@@ -237,8 +234,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallVerticalHalfTop: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top,
@@ -250,8 +246,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallTopLeftCorner: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2 - WALL_WIDTH / 2,
               top + this.cellSize / 2,
@@ -260,8 +255,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.wall.background,
               WALL_WIDTH,
             ));
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
@@ -273,8 +267,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallTopRightCorner: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left,
               top + this.cellSize / 2,
@@ -283,8 +276,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.wall.background,
               WALL_WIDTH,
             ));
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
@@ -296,8 +288,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallBottomRightCorner: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top,
@@ -306,8 +297,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.wall.background,
               WALL_WIDTH,
             ));
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left,
               top + this.cellSize / 2,
@@ -319,8 +309,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallBottomLeftCorner: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top,
@@ -329,8 +318,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.wall.background,
               WALL_WIDTH,
             ));
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2 - WALL_WIDTH / 2,
               top + this.cellSize / 2,
@@ -342,8 +330,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallHorizontalToBottom: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left,
               top + this.cellSize / 2,
@@ -352,8 +339,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.wall.background,
               WALL_WIDTH,
             ));
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
@@ -365,8 +351,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallHorizontalToTop: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left,
               top + this.cellSize / 2,
@@ -375,8 +360,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.wall.background,
               WALL_WIDTH,
             ));
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top,
@@ -388,8 +372,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallVerticalToRight: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top,
@@ -398,8 +381,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.wall.background,
               WALL_WIDTH,
             ));
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
@@ -411,8 +393,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallVerticalToLeft: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top,
@@ -421,8 +402,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.wall.background,
               WALL_WIDTH,
             ));
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left,
               top + this.cellSize / 2,
@@ -434,8 +414,7 @@ function renderLevelMap() {
             break;
           }
           case MapDefinitions.WallX: {
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left,
               top + this.cellSize / 2,
@@ -444,8 +423,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.wall.background,
               WALL_WIDTH,
             ));
-            this.wallsCoords.push(drawLineToAngle.call(
-              this,
+            this.wallsCoords.push(drawLineToAngle(
               ctx,
               left + this.cellSize / 2,
               top,
@@ -454,6 +432,43 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.wall.background,
               WALL_WIDTH,
             ));
+            break;
+          }
+          case MapDefinitions.DoorSwitcherBlue:
+          case MapDefinitions.DoorSwitcherRed:
+          case MapDefinitions.DoorSwitcherYellow: {
+            const colorMap = {
+              [MapDefinitions.DoorSwitcherBlue]: PILLAR_COLORS.blue,
+              [MapDefinitions.DoorSwitcherRed]: PILLAR_COLORS.red,
+              [MapDefinitions.DoorSwitcherYellow]: PILLAR_COLORS.yellow,
+            };
+
+            drawDot(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 3,
+              MAP_ELEMENT_COLORS.switcher.background,
+              2,
+              MAP_ELEMENT_COLORS.switcher.border,
+            );
+            drawStrokeRectangle(
+              ctx,
+              dotX - this.cellSize / 10,
+              dotY - this.cellSize / 10,
+              this.cellSize / 5,
+              this.cellSize / 5,
+              2,
+              MAP_ELEMENT_COLORS.switcher.innerBorder,
+            );
+            drawFilledRectangle(
+              ctx,
+              dotX - this.cellSize / 10,
+              dotY - this.cellSize / 10,
+              this.cellSize / 5,
+              this.cellSize / 5,
+              colorMap[objectType],
+            );
             break;
           }
           default: break;
@@ -486,8 +501,7 @@ function renderDoors() {
         break;
       }
       case 'vertical': {
-        drawLineToAngle.call(
-          this,
+        drawLineToAngle(
           staticCtx,
           left + this.cellSize / 2,
           top - this.cellSize - this.cellSize / 2 - 2,
@@ -496,8 +510,7 @@ function renderDoors() {
           PILLAR_COLORS[door.type],
           PILLAR_WIDTH,
         );
-        drawLineToAngle.call(
-          this,
+        drawLineToAngle(
           staticCtx,
           left + this.cellSize / 2,
           top + this.cellSize * 2 + 2,
@@ -511,8 +524,7 @@ function renderDoors() {
           this.doorsCoords.push({
             id: door.id,
             coords: {
-              left: drawLineToAngle.call(
-                this,
+              left: drawLineToAngle(
                 doorsCtx,
                 left + this.cellSize / 2,
                 top - this.cellSize,
@@ -521,8 +533,7 @@ function renderDoors() {
                 MAP_ELEMENT_COLORS.door.background,
                 DOOR_WIDTH,
               ),
-              right: drawLineToAngle.call(
-                this,
+              right: drawLineToAngle(
                 doorsCtx,
                 left + this.cellSize / 2,
                 top + this.cellSize * 2 + 2,
@@ -643,8 +654,7 @@ function renderAvatarWand() {
       this.cellSize * 4,
     );
 
-    this.avatarWandCoords = drawLineToAngle.call(
-      this,
+    this.avatarWandCoords = drawLineToAngle(
       ctx,
       x,
       y,
@@ -693,8 +703,7 @@ function renderEnemyWand(ctx: CanvasRenderingContext2D, enemy: IWand & IEnemy) {
       this.cellSize * 4,
     );
 
-    this.enemyWandsCoords[enemy.id] = drawLineToAngle.call(
-      this,
+    this.enemyWandsCoords[enemy.id] = drawLineToAngle(
       ctx,
       x,
       y,

@@ -65,7 +65,7 @@ export interface IDoor {
 export interface IMapElementColors {
   [key: string]: {
     background: string;
-    border?: string;
+    [key: string]: string;
   };
 }
 

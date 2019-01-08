@@ -60,6 +60,11 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
   door: {
     background: 'rgb(255, 255, 255)',
   },
+  switcher: {
+    background: 'rgb(112, 112, 112)',
+    border: 'rgb(61, 61, 61)',
+    innerBorder: 'rgb(0, 0, 0)',
+  },
 };
 
 export const WAND_COLORS: IWandColors = {
