@@ -2,9 +2,11 @@
 import {
   MAP_ELEMENT_COLORS,
   WAND_COLORS,
+  PILLAR_COLORS,
   WAND_WIDTH,
   WALL_WIDTH,
   DOOR_WIDTH,
+  PILLAR_WIDTH,
   GridDimensions,
   MapDefinitions,
 } from '../../constants/app';
@@ -54,12 +56,12 @@ function renderGameWindow() {
   boardPanel.appendChild(this.boardPanel.lives);
   boardPanel.appendChild(this.boardPanel.score);
   gameWindow.appendChild(boardGrid);
-  boardGrid.appendChild(this.staticCanvas);
 
   if (this.level.doors) {
     boardGrid.appendChild(this.doorsCanvas);
   }
 
+  boardGrid.appendChild(this.staticCanvas);
   boardGrid.appendChild(this.goalCanvas);
   boardGrid.appendChild(this.wandCanvas);
   boardGrid.appendChild(pauseLabel);
@@ -472,15 +474,11 @@ function renderLevelMap() {
  */
 function renderDoors() {
   const doorsCtx: CanvasRenderingContext2D = this.doorsCanvas.getContext('2d');
+  const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
 
   for (const door of this.level.doors) {
     const top: number = this.cellSize + this.cellSize * (door.position[0] + 1);
     const left: number = this.cellSize + this.cellSize * (door.position[1] + 1);
-
-    switch (door.type) {
-      // ...
-      default: break;
-    }
 
     switch (door.orientation) {
       case 'horizontal': {
@@ -488,6 +486,27 @@ function renderDoors() {
         break;
       }
       case 'vertical': {
+        drawLineToAngle.call(
+          this,
+          staticCtx,
+          left + this.cellSize / 2,
+          top - this.cellSize - this.cellSize / 2 - 2,
+          this.cellSize / 2,
+          90,
+          PILLAR_COLORS[door.type],
+          PILLAR_WIDTH,
+        );
+        drawLineToAngle.call(
+          this,
+          staticCtx,
+          left + this.cellSize / 2,
+          top + this.cellSize * 2 + 2,
+          this.cellSize / 2,
+          90,
+          PILLAR_COLORS[door.type],
+          PILLAR_WIDTH,
+        );
+
         this.doorsCoords.push({
           id: door.id,
           coords: {
@@ -498,7 +517,7 @@ function renderDoors() {
               top - this.cellSize,
               this.cellSize * 2 - this.cellSize / 2 - 2,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              MAP_ELEMENT_COLORS.door.background,
               DOOR_WIDTH,
             ),
             right: drawLineToAngle.call(
@@ -508,7 +527,7 @@ function renderDoors() {
               top + this.cellSize / 2 + 2,
               this.cellSize * 2 - this.cellSize / 2 - 2,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              MAP_ELEMENT_COLORS.door.background,
               DOOR_WIDTH,
             ),
           },

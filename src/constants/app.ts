@@ -56,11 +56,20 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
   },
   wall: {
     background: 'rgb(255, 255, 255)',
-  }
+  },
+  door: {
+    background: 'rgb(255, 255, 255)',
+  },
 };
 
 export const WAND_COLORS: IWandColors = {
   avatar: 'rgb(200, 200, 200)',
+  red: 'rgb(227, 100, 100)',
+  blue: 'rgb(48, 118, 171)',
+  yellow: 'rgb(247, 244, 59)',
+};
+
+export const PILLAR_COLORS: IWandColors = {
   red: 'rgb(227, 100, 100)',
   blue: 'rgb(48, 118, 171)',
   yellow: 'rgb(247, 244, 59)',
@@ -71,6 +80,8 @@ export const WAND_WIDTH = 5;
 export const WALL_WIDTH = 5;
 
 export const DOOR_WIDTH = 2;
+
+export const PILLAR_WIDTH = 3;
 
 export const WAND_REBOUND = 3;
 
