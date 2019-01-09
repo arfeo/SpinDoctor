@@ -133,16 +133,16 @@ function checkIntersections(): boolean {
 
     // Enemy wands
     if (this.level.enemies && this.enemyWandsCoords) {
-      for (let i = 0; i < this.level.enemies.length; i += 1) {
-        if (this.enemyWandsCoords[i] !== undefined) {
+      for (const wand in this.enemyWandsCoords) {
+        if (this.enemyWandsCoords[wand] !== undefined) {
           const enemyWandSegment: ILineSegment = {
             start: {
-              x: this.enemyWandsCoords[i][0][0],
-              y: this.enemyWandsCoords[i][0][1],
+              x: this.enemyWandsCoords[wand][0][0],
+              y: this.enemyWandsCoords[wand][0][1],
             },
             end: {
-              x: this.enemyWandsCoords[i][1][0],
-              y: this.enemyWandsCoords[i][1][1],
+              x: this.enemyWandsCoords[wand][1][0],
+              y: this.enemyWandsCoords[wand][1][1],
             },
           };
 
