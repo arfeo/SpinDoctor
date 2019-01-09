@@ -19,7 +19,7 @@ import {
   drawStrokeRectangle,
 } from './draw';
 
-import { checkAvatarWand } from './actions';
+import { checkAvatarWand, checkEnemyWand } from './actions';
 
 import { IDoor, IDoorCoords, IEnemy, IWand } from '../../types/global';
 
@@ -89,7 +89,7 @@ function renderGameWindow() {
 
       boardGrid.appendChild(enemyCanvas);
 
-      renderEnemyWand.call(this, enemyCanvas.getContext('2d'), enemy);
+      renderEnemyWand.call(this, enemyCanvas.getContext('2d'), enemy.id);
     }
   }
 }
@@ -442,12 +442,12 @@ function renderLevelMap() {
           case MapDefinitions.DoorSwitcherRed:
           case MapDefinitions.DoorSwitcherYellow: {
             const switchersCtx: CanvasRenderingContext2D = this.switchersCanvas.getContext('2d');
-            const colorMap = {
+            const colorMap: {[key: number]: string} = {
               [MapDefinitions.DoorSwitcherBlue]: PILLAR_COLORS.blue,
               [MapDefinitions.DoorSwitcherRed]: PILLAR_COLORS.red,
               [MapDefinitions.DoorSwitcherYellow]: PILLAR_COLORS.yellow,
             };
-            const typesMap = {
+            const typesMap: {[key: number]: string} = {
               [MapDefinitions.DoorSwitcherBlue]: 'blue',
               [MapDefinitions.DoorSwitcherRed]: 'red',
               [MapDefinitions.DoorSwitcherYellow]: 'yellow',
@@ -782,12 +782,14 @@ function renderAvatarWand() {
  * Function renders and animates enemy wands (red, blue and yellow)
  *
  * @param ctx
- * @param enemy
+ * @param enemyId
  */
-function renderEnemyWand(ctx: CanvasRenderingContext2D, enemy: IWand & IEnemy) {
+function renderEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
+  const enemy = this.level.enemies.filter((item: IWand & IEnemy) => item.id === enemyId)[0];
+
   const animateEnemyWand = () => {
     if (this.isGameStopped) {
-      return this.animateEnemyWand[enemy.id] = requestAnimationFrame(animateEnemyWand);
+      return this.animateEnemyWand[enemyId] = requestAnimationFrame(animateEnemyWand);
     }
 
     const { position, direction, angle } = enemy;
@@ -819,10 +821,12 @@ function renderEnemyWand(ctx: CanvasRenderingContext2D, enemy: IWand & IEnemy) {
       enemy.angle -= 360;
     }
 
-    this.animateEnemyWand[enemy.id] = requestAnimationFrame(animateEnemyWand);
+    checkEnemyWand.call(this, enemyId);
+
+    this.animateEnemyWand[enemyId] = requestAnimationFrame(animateEnemyWand);
   };
 
-  this.animateEnemyWand[enemy.id] = requestAnimationFrame(animateEnemyWand);
+  this.animateEnemyWand[enemyId] = requestAnimationFrame(animateEnemyWand);
 }
 
 export {

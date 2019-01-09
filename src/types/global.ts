@@ -52,6 +52,7 @@ export interface IWand {
 export interface IEnemy {
   id: number;
   type: string;
+  move?: 'flip' | 'bounce' | 'swing';
 }
 
 export interface IDoor {

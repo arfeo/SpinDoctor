@@ -224,6 +224,7 @@ export const LEVELS: ILevel[] = [
         position: [2, 10],
         direction: 1,
         angle: 270,
+        move: 'flip',
       },
       {
         id: 2,
@@ -231,6 +232,7 @@ export const LEVELS: ILevel[] = [
         position: [8, 10],
         direction: -1,
         angle: 270,
+        move: 'flip',
       },
     ],
   },

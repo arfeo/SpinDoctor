@@ -8,7 +8,7 @@ import { renderPanelCounters } from './render';
 import { lineSegmentsIntersect, pointOnLineSegment } from './utils';
 import { animateDoors } from './animations';
 
-import { IDoorCoords, ILineSegment } from '../../types/global';
+import { IDoorCoords, IEnemy, ILineSegment, IWand } from '../../types/global';
 
 /**
  * Function checks the ability of the avatar wand to move to the next dot,
@@ -110,6 +110,116 @@ function checkAvatarWand() {
 
       checkNextDot.call(this, nextDotType, nextDotX, nextDotY);
     }
+  }
+}
+
+/**
+ * Function checks the ability of an enemy wand to move to the next dot
+ *
+ * @param enemyId
+ */
+function checkEnemyWand(enemyId: number) {
+  const enemy = this.level.enemies.filter((item: IWand & IEnemy) => item.id === enemyId)[0];
+
+  if (enemy.move) {
+    const { map } = this.level;
+    const { position, angle } = enemy;
+    let nextDotX = 0;
+    let nextDotY = 0;
+    let nextDotType = 0;
+
+    const dotsMap: {[key: string]: number[]} = {
+      blue: [
+        MapDefinitions.DotRegularBlue,
+        MapDefinitions.DotBonusBlue,
+      ],
+      red: [
+        MapDefinitions.DotRegularRed,
+        MapDefinitions.DotBonusRed,
+      ],
+      yellow: [
+        MapDefinitions.DotRegularYellow,
+        MapDefinitions.DotBonusYellow,
+      ],
+    };
+
+    switch (angle) {
+      case 0: { // East
+        nextDotX = position[1] + 3;
+        nextDotY = position[0] + 1;
+        nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
+
+        if (nextDotType && nextDotType !== MapDefinitions.Empty && dotsMap[enemy.type].indexOf(nextDotType) > -1) {
+          if (enemy.move !== 'bounce') {
+            enemy.position[1] += 2;
+            enemy.angle = 180;
+          } else {
+            enemy.direction *= -1;
+          }
+        }
+        break;
+      }
+      case 90: { // South
+        nextDotX = position[1] + 1;
+        nextDotY = position[0] + 3;
+        nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
+
+        if (nextDotType && nextDotType !== MapDefinitions.Empty && dotsMap[enemy.type].indexOf(nextDotType) > -1) {
+          if (enemy.move !== 'bounce') {
+            enemy.position[0] += 2;
+            enemy.angle = 270;
+          } else {
+            enemy.direction *= -1;
+          }
+        }
+        break;
+      }
+      case 180: { // West
+        nextDotX = position[1] - 1;
+        nextDotY = position[0] + 1;
+        nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
+
+        if (nextDotType && nextDotType !== MapDefinitions.Empty && dotsMap[enemy.type].indexOf(nextDotType) > -1) {
+          if (enemy.move !== 'bounce') {
+            enemy.position[1] -= 2;
+            enemy.angle = 0;
+          } else {
+            enemy.direction *= -1;
+          }
+        }
+        break;
+      }
+      case 270: { // North
+        nextDotX = position[1] + 1;
+        nextDotY = position[0] - 1;
+        nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
+
+        if (nextDotType && nextDotType !== MapDefinitions.Empty && dotsMap[enemy.type].indexOf(nextDotType) > -1) {
+          if (enemy.move !== 'bounce') {
+            enemy.position[0] -= 2;
+            enemy.angle = 90;
+          } else {
+            enemy.direction *= -1;
+          }
+        }
+        break;
+      }
+      default: break;
+    }
+
+    const isNextDotEmpty: boolean = nextDotType === MapDefinitions.Empty;
+    const isDotTypeCorrect: boolean = dotsMap[enemy.type].indexOf(nextDotType) > -1;
+
+    if (nextDotType && !isNextDotEmpty && isDotTypeCorrect && enemy.move !== 'bounce') {
+      if (enemy.move === 'flip') {
+        enemy.direction *= -1;
+      }
+    }
+
+    this.level.enemies = [
+      ...this.level.enemies.filter((item: IWand & IEnemy) => item.id !== enemy.id),
+      enemy,
+    ];
   }
 }
 
@@ -314,4 +424,4 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
   }
 }
 
-export { checkAvatarWand };
+export { checkAvatarWand, checkEnemyWand };
