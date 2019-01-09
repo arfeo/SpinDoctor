@@ -6,7 +6,7 @@ import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
 import { lineSegmentsIntersect, pointOnLineSegment } from './utils';
-import { animateDoors } from './animations';
+import { animateDoors, animateRingElimination } from './animations';
 
 import { IDoorCoords, IEnemy, ILineSegment, IWand } from '../../types/global';
 
@@ -35,20 +35,23 @@ function checkAvatarWand() {
   if (flip || bounce || swing) {
     const { map } = this.level;
     const { position, angle } = this.level.wand;
+    const currDotX: number = position[1];
+    const currDotY: number = position[0];
     let nextDotX = 0;
     let nextDotY = 0;
     let nextDotType = 0;
 
     switch (angle) {
       case 0: { // East
-        nextDotX = position[1] + 3;
-        nextDotY = position[0] + 1;
+        nextDotX = currDotX + 3;
+        nextDotY = currDotY + 1;
         nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
             this.level.wand.position[1] += 2;
             this.level.wand.angle = 180;
+            checkRingLeaving.call(this, currDotX, currDotY);
           } else {
             this.level.wand.direction *= -1;
           }
@@ -56,14 +59,15 @@ function checkAvatarWand() {
         break;
       }
       case 90: { // South
-        nextDotX = position[1] + 1;
-        nextDotY = position[0] + 3;
+        nextDotX = currDotX + 1;
+        nextDotY = currDotY + 3;
         nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
             this.level.wand.position[0] += 2;
             this.level.wand.angle = 270;
+            checkRingLeaving.call(this, currDotX, currDotY);
           } else {
             this.level.wand.direction *= -1;
           }
@@ -71,14 +75,15 @@ function checkAvatarWand() {
         break;
       }
       case 180: { // West
-        nextDotX = position[1] - 1;
-        nextDotY = position[0] + 1;
+        nextDotX = currDotX - 1;
+        nextDotY = currDotY + 1;
         nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
             this.level.wand.position[1] -= 2;
             this.level.wand.angle = 0;
+            checkRingLeaving.call(this, currDotX, currDotY);
           } else {
             this.level.wand.direction *= -1;
           }
@@ -86,14 +91,15 @@ function checkAvatarWand() {
         break;
       }
       case 270: { // North
-        nextDotX = position[1] + 1;
-        nextDotY = position[0] - 1;
+        nextDotX = currDotX + 1;
+        nextDotY = currDotY - 1;
         nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty) {
           if (!bounce) {
             this.level.wand.position[0] -= 2;
             this.level.wand.angle = 90;
+            checkRingLeaving.call(this, currDotX, currDotY);
           } else {
             this.level.wand.direction *= -1;
           }
@@ -124,6 +130,8 @@ function checkEnemyWand(enemyId: number) {
   if (enemy.move) {
     const { map } = this.level;
     const { position, angle } = enemy;
+    const currDotX: number = position[1];
+    const currDotY: number = position[0];
     let nextDotX = 0;
     let nextDotY = 0;
     let nextDotType = 0;
@@ -145,8 +153,8 @@ function checkEnemyWand(enemyId: number) {
 
     switch (angle) {
       case 0: { // East
-        nextDotX = position[1] + 3;
-        nextDotY = position[0] + 1;
+        nextDotX = currDotX + 3;
+        nextDotY = currDotY + 1;
         nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty && dotsMap[enemy.type].indexOf(nextDotType) > -1) {
@@ -160,8 +168,8 @@ function checkEnemyWand(enemyId: number) {
         break;
       }
       case 90: { // South
-        nextDotX = position[1] + 1;
-        nextDotY = position[0] + 3;
+        nextDotX = currDotX + 1;
+        nextDotY = currDotY + 3;
         nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty && dotsMap[enemy.type].indexOf(nextDotType) > -1) {
@@ -175,8 +183,8 @@ function checkEnemyWand(enemyId: number) {
         break;
       }
       case 180: { // West
-        nextDotX = position[1] - 1;
-        nextDotY = position[0] + 1;
+        nextDotX = currDotX - 1;
+        nextDotY = currDotY + 1;
         nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty && dotsMap[enemy.type].indexOf(nextDotType) > -1) {
@@ -190,8 +198,8 @@ function checkEnemyWand(enemyId: number) {
         break;
       }
       case 270: { // North
-        nextDotX = position[1] + 1;
-        nextDotY = position[0] - 1;
+        nextDotX = currDotX + 1;
+        nextDotY = currDotY - 1;
         nextDotType = map[nextDotY] ? map[nextDotY][nextDotX] : 0;
 
         if (nextDotType && nextDotType !== MapDefinitions.Empty && dotsMap[enemy.type].indexOf(nextDotType) > -1) {
@@ -421,6 +429,20 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
 
       APP.pageInstance = new Game(this.level.id + 1, this.lives, this.score, this.difficulty.id);
     }
+  }
+}
+
+/**
+ * Function checks if the avatar wand leaves a ring dot
+ *
+ * @param currDotX
+ * @param currDotY
+ */
+function checkRingLeaving(currDotX: number, currDotY: number) {
+  if (this.level.map[currDotY + 1][currDotX + 1] === MapDefinitions.RingRegular) {
+    this.level.map[currDotY + 1][currDotX + 1] = 0;
+
+    animateRingElimination.call(this, currDotX, currDotY);
   }
 }
 

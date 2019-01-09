@@ -1,6 +1,11 @@
-import { DOORS_ANIMATION_SPEED } from '../../constants/app';
+import {
+  DOORS_ANIMATION_SPEED,
+  MAP_ELEMENT_COLORS,
+  RING_FADE_OUT_ANIMATION_SPEED,
+} from '../../constants/app';
 
 import { renderDoor } from './render';
+import { drawDot } from './draw';
 
 import { IDoor } from '../../types/global';
 
@@ -12,13 +17,18 @@ import { IDoor } from '../../types/global';
 function animateDoors(type: string) {
   this.level.doors.map((door: IDoor) => {
     if (door.type === type) {
+      let animate: () => void;
+      let frame: number;
+
       if (door.opened) {
         let doorWidth = 0;
 
-        const closeDoor = () => {
+        animate = () => {
           doorWidth += DOORS_ANIMATION_SPEED;
 
           if (doorWidth >= this.cellSize * 2 - this.cellSize / 2 - 2) {
+            cancelAnimationFrame(frame);
+
             return this.level.doors = [
               ...this.level.doors.filter((item: IDoor) => item.id !== door.id),
               {
@@ -30,17 +40,19 @@ function animateDoors(type: string) {
 
           renderDoor.call(this, door, doorWidth);
 
-          requestAnimationFrame(closeDoor);
+          frame = requestAnimationFrame(animate);
         };
 
-        requestAnimationFrame(closeDoor);
+        frame = requestAnimationFrame(animate);
       } else {
         let doorWidth = this.cellSize * 2 - this.cellSize / 2 - 2;
 
-        const openDoor = () => {
+        animate = () => {
           doorWidth -= DOORS_ANIMATION_SPEED;
 
           if (doorWidth <= 0) {
+            cancelAnimationFrame(frame);
+
             return this.level.doors = [
               ...this.level.doors.filter((item: IDoor) => item.id !== door.id),
               {
@@ -52,10 +64,10 @@ function animateDoors(type: string) {
 
           renderDoor.call(this, door, doorWidth);
 
-          requestAnimationFrame(openDoor);
+          frame = requestAnimationFrame(animate);
         };
 
-        requestAnimationFrame(openDoor);
+        frame = requestAnimationFrame(animate);
       }
     }
   });
@@ -63,4 +75,46 @@ function animateDoors(type: string) {
   this.isSwitcherActive = false;
 }
 
-export { animateDoors };
+/**
+ * Function eliminates a ring from the game board with fade out effect
+ *
+ * @param currDotX
+ * @param currDotY
+ */
+function animateRingElimination(currDotX: number, currDotY: number) {
+  const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+  const top: number = this.cellSize + this.cellSize * (currDotY + 1);
+  const left: number = this.cellSize + this.cellSize * (currDotX + 1);
+  const dotX: number = left + this.cellSize / 2;
+  const dotY: number = top + this.cellSize / 2;
+  let frame: number;
+  let alpha = 1;
+
+  const animate = () => {
+    if (alpha <= 0) {
+      return cancelAnimationFrame(frame);
+    }
+
+    alpha -= RING_FADE_OUT_ANIMATION_SPEED;
+
+    ctx.globalAlpha = alpha;
+
+    ctx.clearRect(left, top, this.cellSize, this.cellSize);
+
+    drawDot(
+      ctx,
+      dotX,
+      dotY,
+      this.cellSize / 5,
+      MAP_ELEMENT_COLORS.ring.background,
+      2,
+      MAP_ELEMENT_COLORS.ring.border,
+    );
+
+    frame = requestAnimationFrame(animate);
+  };
+
+  frame = requestAnimationFrame(animate);
+}
+
+export { animateDoors, animateRingElimination };
