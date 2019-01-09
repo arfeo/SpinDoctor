@@ -5,7 +5,6 @@ import {
   renderGameWindow,
   renderLevelMap,
   renderPanelCounters,
-  renderAvatarWand,
 } from './render';
 
 import {
@@ -102,9 +101,16 @@ class Game {
   }
 
   render() {
+    const { map, goal } = this.level;
+
+    if (!map || !goal) {
+      alert('The level description is invalid: there is no "map" and/or "goal" found.');
+
+      return;
+    }
+
     renderGameWindow.call(this);
     renderLevelMap.call(this);
-    renderAvatarWand.call(this);
     renderPanelCounters.call(this);
 
     setUpEventHandlers.call(this);

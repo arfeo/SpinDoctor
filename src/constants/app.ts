@@ -30,29 +30,34 @@ export const DIFFICULTIES: IDifficulty[] = [
 ];
 
 export const MAP_ELEMENT_COLORS: IMapElementColors = {
-  regular: {
+  dotRegular: {
     background: 'rgb(200, 200, 200)',
     border: 'rgb(30, 30, 30)',
   },
-  bonus: {
-    background: 'rgb(50, 50, 50)',
+  dotRed: {
+    background: 'rgb(227, 100, 100)',
     border: 'rgb(30, 30, 30)',
+  },
+  dotBlue: {
+    background: 'rgb(48, 118, 171)',
+    border: 'rgb(30, 30, 30)',
+  },
+  dotYellow: {
+    background: 'rgb(247, 244, 59)',
+    border: 'rgb(30, 30, 30)',
+  },
+  ring: {
+    background: 'rgb(74, 74, 74)',
+    border: 'rgb(200, 200, 200)',
+  },
+  bonus: {
+    background: 'rgba(0, 0, 0, 0.45)',
+    border: 'rgb(30, 30, 30)',
+    innerCircle: 'rgba(255, 255, 255, 0.3)',
   },
   goal: {
     background: 'rgb(221, 239, 255)',
     border: 'rgb(76, 183, 240)',
-  },
-  red: {
-    background: 'rgb(227, 100, 100)',
-    border: 'rgb(30, 30, 30)',
-  },
-  blue: {
-    background: 'rgb(48, 118, 171)',
-    border: 'rgb(30, 30, 30)',
-  },
-  yellow: {
-    background: 'rgb(247, 244, 59)',
-    border: 'rgb(30, 30, 30)',
   },
   wall: {
     background: 'rgb(255, 255, 255)',
@@ -65,10 +70,6 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
     border: 'rgb(61, 61, 61)',
     innerBorder: 'rgb(0, 0, 0)',
   },
-  ring: {
-    background: 'rgb(74, 74, 74)',
-    border: 'rgb(255, 255, 255)',
-  }
 };
 
 export const WAND_COLORS: IWandColors = {
@@ -84,7 +85,7 @@ export const PILLAR_COLORS: IWandColors = {
   yellow: 'rgb(247, 244, 59)',
 };
 
-export const WAND_WIDTH = 5;
+export const WAND_WIDTH = 4;
 
 export const WALL_WIDTH = 5;
 
@@ -114,14 +115,10 @@ export enum GridDimensions {
 export enum MapDefinitions {
   Empty = 0,
   DotRegular = 1,
-  DotBonus1000 = 2,
-  DotBonus2000 = 3,
-  DotRegularRed = 4,
-  DotRegularBlue = 5,
-  DotRegularYellow = 6,
-  DotBonusRed = 7,
-  DotBonusBlue = 8,
-  DotBonusYellow = 9,
+  DotRegularRed = 2,
+  DotRegularBlue = 3,
+  DotRegularYellow = 4,
+  RingRegular = 5,
   WallHorizontal = 20,
   WallVertical = 21,
   WallHorizontalHalfLeft = 22,
@@ -140,5 +137,4 @@ export enum MapDefinitions {
   DoorSwitcherBlue = 40,
   DoorSwitcherRed = 41,
   DoorSwitcherYellow = 42,
-  RingRegular = 50,
 }

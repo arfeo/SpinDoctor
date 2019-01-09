@@ -8,7 +8,7 @@ import { renderPanelCounters } from './render';
 import { lineSegmentsIntersect, pointOnLineSegment } from './utils';
 import { animateDoors, animateRingElimination } from './animations';
 
-import { IDoorCoords, IEnemy, ILineSegment, IWand } from '../../types/global';
+import { IBonus, IDoorCoords, IEnemy, ILineSegment, IWand } from '../../types/global';
 
 /**
  * Function checks the ability of the avatar wand to move to the next dot,
@@ -139,15 +139,12 @@ function checkEnemyWand(enemyId: number) {
     const dotsMap: {[key: string]: number[]} = {
       blue: [
         MapDefinitions.DotRegularBlue,
-        MapDefinitions.DotBonusBlue,
       ],
       red: [
         MapDefinitions.DotRegularRed,
-        MapDefinitions.DotBonusRed,
       ],
       yellow: [
         MapDefinitions.DotRegularYellow,
-        MapDefinitions.DotBonusYellow,
       ],
     };
 
@@ -378,43 +375,16 @@ function checkIntersections(): boolean {
  * @param dotY
  */
 function checkNextDot(dotType: number, dotX: number, dotY: number) {
-  switch (dotType) {
-    case MapDefinitions.DotBonus1000: {
-      this.score += 1000;
-      this.level.map[dotY][dotX] = MapDefinitions.DotRegular;
+  // Avatar wand meets bonus
+  const bonus: IBonus[] = this.level.bonus.filter((item: IBonus) => {
+    return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
+  });
 
-      renderPanelCounters.call(this);
-      break;
-    }
-    case MapDefinitions.DotBonus2000: {
-      this.score += 2000;
-      this.level.map[dotY][dotX] = MapDefinitions.DotRegular;
+  if (bonus.length) {
+    this.score += bonus[0].size;
+    this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonus[0].id);
 
-      renderPanelCounters.call(this);
-      break;
-    }
-    case MapDefinitions.DotBonusRed: {
-      this.score += 1000;
-      this.level.map[dotY][dotX] = MapDefinitions.DotRegularRed;
-
-      renderPanelCounters.call(this);
-      break;
-    }
-    case MapDefinitions.DotBonusBlue: {
-      this.score += 1000;
-      this.level.map[dotY][dotX] = MapDefinitions.DotRegularBlue;
-
-      renderPanelCounters.call(this);
-      break;
-    }
-    case MapDefinitions.DotBonusYellow: {
-      this.score += 1000;
-      this.level.map[dotY][dotX] = MapDefinitions.DotRegularYellow;
-
-      renderPanelCounters.call(this);
-      break;
-    }
-    default: break;
+    renderPanelCounters.call(this);
   }
 
   // Avatar wand meets the goal

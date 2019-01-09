@@ -37,10 +37,17 @@ export interface ILevel {
   id: number;
   title: string;
   map: number[][];
+  bonus?: IBonus[];
   doors?: IDoor[];
   goal: number[];
   wand: IWand;
   enemies?: (IWand & IEnemy)[];
+}
+
+export interface IBonus {
+  id: number;
+  size: number;
+  position: number[];
 }
 
 export interface IWand {

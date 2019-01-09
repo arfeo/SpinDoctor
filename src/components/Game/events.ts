@@ -1,15 +1,26 @@
 import { APP, FunctionalKeys } from '../../constants/app';
 
+/**
+ * Function creates all game's event listeners
+ */
 function setUpEventHandlers() {
   document.body.addEventListener('keydown', APP.eventListeners.onKeyDown);
   document.body.addEventListener('keyup', APP.eventListeners.onKeyUp);
 }
 
+/**
+ * Function removes all game's event listeners
+ */
 function removeEventHandlers() {
   document.body.removeEventListener('keydown', APP.eventListeners.onKeyDown);
   document.body.removeEventListener('keyup', APP.eventListeners.onKeyUp);
 }
 
+/**
+ * Function fires at key down event
+ *
+ * @param event
+ */
 function keyDownHandler(event: KeyboardEvent) {
   switch (event.key) {
     case FunctionalKeys.Reverse: {
@@ -54,10 +65,19 @@ function keyDownHandler(event: KeyboardEvent) {
   }
 }
 
+/**
+ * Function fires at key up event
+ */
 function keyUpHandler() {
   setActiveKey.call(this);
 }
 
+/**
+ * Function stores currently pressed key (if any) in a state variable;
+ * if no key type is passed, all previously stored states are cleared
+ *
+ * @param type
+ */
 function setActiveKey(type?: string) {
   this.keyDown = {
     reverse: false,

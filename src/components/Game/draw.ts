@@ -15,8 +15,8 @@ function drawDot(
   dotY: number,
   radius: number,
   fillStyle: string,
-  edgingWidth: number,
-  edgingColor: string,
+  edgingWidth?: number,
+  edgingColor?: string,
 ) {
   ctx.beginPath();
   ctx.arc(
@@ -27,10 +27,10 @@ function drawDot(
     Math.PI * 2,
     false,
   );
-  ctx.fillStyle = fillStyle || null;
+  ctx.fillStyle = fillStyle || 'transparent';
   ctx.fill();
   ctx.lineWidth = edgingWidth || 0;
-  ctx.strokeStyle = edgingColor || null;
+  ctx.strokeStyle = edgingColor || 'transparent';
   ctx.stroke();
 }
 
@@ -59,7 +59,7 @@ function drawLineToAngle(
   const x2 = x1 + length * Math.cos(a);
   const y2 = y1 + length * Math.sin(a);
 
-  ctx.strokeStyle = strokeStyle || null;
+  ctx.strokeStyle = strokeStyle || 'transparent';
   ctx.lineWidth = lineWidth || 0;
 
   ctx.beginPath();
@@ -120,9 +120,9 @@ function drawStar(
   ctx.lineTo(cx, cy - outerRadius);
   ctx.closePath();
   ctx.lineWidth = edgingWidth || 0;
-  ctx.strokeStyle = edgingColor || null;
+  ctx.strokeStyle = edgingColor || 'transparent';
   ctx.stroke();
-  ctx.fillStyle = fillStyle || null;
+  ctx.fillStyle = fillStyle || 'transparent';
   ctx.fill();
 }
 
@@ -144,7 +144,7 @@ function drawFilledRectangle(
   height: number,
   fillStyle?: string,
 ) {
-  ctx.fillStyle = fillStyle || null;
+  ctx.fillStyle = fillStyle || 'transparent';
   ctx.fillRect(left, top, width, height);
 }
 
@@ -169,7 +169,7 @@ function drawStrokeRectangle(
   edgingColor: string,
 ) {
   ctx.lineWidth = edgingWidth || 0;
-  ctx.strokeStyle = edgingColor || null;
+  ctx.strokeStyle = edgingColor || 'transparent';
   ctx.strokeRect(left, top, width, height);
 }
 

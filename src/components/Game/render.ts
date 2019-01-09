@@ -1,9 +1,7 @@
 // tslint:disable:max-file-line-count
 import {
   MAP_ELEMENT_COLORS,
-  WAND_COLORS,
   PILLAR_COLORS,
-  WAND_WIDTH,
   WALL_WIDTH,
   DOOR_WIDTH,
   PILLAR_WIDTH,
@@ -14,14 +12,17 @@ import {
 import {
   drawDot,
   drawLineToAngle,
-  drawStar,
   drawFilledRectangle,
   drawStrokeRectangle,
 } from './draw';
 
-import { checkAvatarWand, checkEnemyWand } from './actions';
+import {
+  animateAvatarWand,
+  animateEnemyWand,
+  animateGoal,
+} from './animations';
 
-import { IDoor, IDoorCoords, IEnemy, IWand } from '../../types/global';
+import { IBonus, IDoor, IDoorCoords, IEnemy, IWand } from '../../types/global';
 
 /**
  * Function creates game window element, game panel and all needed canvases
@@ -77,6 +78,10 @@ function renderGameWindow() {
   boardGrid.appendChild(this.wandCanvas);
   boardGrid.appendChild(pauseLabel);
 
+  if (this.level.wand) {
+    animateAvatarWand.call(this);
+  }
+
   if (this.level.enemies) {
     for (let i = 0; i < this.level.enemies.length; i += 1) {
       const enemy: IWand & IEnemy = this.level.enemies[i];
@@ -89,7 +94,7 @@ function renderGameWindow() {
 
       boardGrid.appendChild(enemyCanvas);
 
-      renderEnemyWand.call(this, enemyCanvas.getContext('2d'), enemy.id);
+      animateEnemyWand.call(this, enemyCanvas.getContext('2d'), enemy.id);
     }
   }
 }
@@ -99,7 +104,7 @@ function renderGameWindow() {
  * for the current level, including dots and exit
  */
 function renderLevelMap() {
-  const { map } = this.level;
+  const { map, bonus, doors } = this.level;
 
   for (let y = 0; y < map.length; y += 1) {
     for (let x = 0; x < map[y].length; x += 1) {
@@ -119,61 +124,57 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.regular.background,
+              MAP_ELEMENT_COLORS.dotRegular.background,
               2,
-              MAP_ELEMENT_COLORS.regular.border,
+              MAP_ELEMENT_COLORS.dotRegular.border,
             );
             break;
           }
-          case MapDefinitions.DotBonus1000:
-          case MapDefinitions.DotBonus2000: {
+          case MapDefinitions.DotRegularRed: {
             drawDot(
               ctx,
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.bonus.background,
+              MAP_ELEMENT_COLORS.dotRed.background,
               2,
-              MAP_ELEMENT_COLORS.bonus.border,
+              MAP_ELEMENT_COLORS.dotRed.border,
             );
             break;
           }
-          case MapDefinitions.DotRegularRed:
-          case MapDefinitions.DotBonusRed: {
+          case MapDefinitions.DotRegularBlue: {
             drawDot(
               ctx,
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.red.background,
+              MAP_ELEMENT_COLORS.dotBlue.background,
               2,
-              MAP_ELEMENT_COLORS.red.border,
+              MAP_ELEMENT_COLORS.dotBlue.border,
             );
             break;
           }
-          case MapDefinitions.DotRegularBlue:
-          case MapDefinitions.DotBonusBlue: {
+          case MapDefinitions.DotRegularYellow: {
             drawDot(
               ctx,
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.blue.background,
+              MAP_ELEMENT_COLORS.dotYellow.background,
               2,
-              MAP_ELEMENT_COLORS.blue.border,
+              MAP_ELEMENT_COLORS.dotYellow.border,
             );
             break;
           }
-          case MapDefinitions.DotRegularYellow:
-          case MapDefinitions.DotBonusYellow: {
+          case MapDefinitions.RingRegular: {
             drawDot(
               ctx,
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.yellow.background,
+              MAP_ELEMENT_COLORS.ring.background,
               2,
-              MAP_ELEMENT_COLORS.yellow.border,
+              MAP_ELEMENT_COLORS.ring.border,
             );
             break;
           }
@@ -486,33 +487,56 @@ function renderLevelMap() {
             });
             break;
           }
-          case MapDefinitions.RingRegular: {
-            drawDot(
-              ctx,
-              dotX,
-              dotY,
-              this.cellSize / 5,
-              MAP_ELEMENT_COLORS.ring.background,
-              2,
-              MAP_ELEMENT_COLORS.ring.border,
-            );
-            break;
-          }
           default: break;
         }
       }
     }
   }
 
-  if (this.level.doors) {
-    renderDoors.call(this);
+  animateGoal.call(this);
+
+  if (bonus) {
+    renderBonus.call(this);
   }
 
-  renderGoal.call(this);
+  if (doors) {
+    renderDoors.call(this);
+  }
 }
 
 /**
- * Function initially renders all doors on the game board (if applicable) including pillars
+ * Function renders bonus points on the game board (if applicable)
+ */
+function renderBonus() {
+  const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+
+  this.level.bonus.map((bonus: IBonus) => {
+    const bonusX: number = this.cellSize + this.cellSize * (bonus.position[1] + 1) + this.cellSize / 2;
+    const bonusY: number = this.cellSize + this.cellSize * (bonus.position[0] + 1) + this.cellSize / 2;
+
+    drawDot(
+      ctx,
+      bonusX,
+      bonusY,
+      this.cellSize / 5,
+      MAP_ELEMENT_COLORS.bonus.background,
+      2,
+      MAP_ELEMENT_COLORS.bonus.border,
+    );
+    drawDot(
+      ctx,
+      bonusX - 1,
+      bonusY - 1,
+      this.cellSize / 12,
+      MAP_ELEMENT_COLORS.bonus.innerCircle,
+      2,
+      null,
+    );
+  });
+}
+
+/**
+ * Function initially renders all pillars and doors on the game board (if applicable)
  */
 function renderDoors() {
   const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
@@ -574,7 +598,7 @@ function renderDoors() {
 }
 
 /**
- * Function renders a single door
+ * Function renders a single door (two door leafs)
  *
  * @param door
  * @param doorWidth
@@ -651,73 +675,6 @@ function renderDoor(door: IDoor, doorWidth?: number) {
 }
 
 /**
- * Function renders and animates the goal (rotating star-like object beneath a regular dot)
- */
-function renderGoal() {
-  const goalPosX: number = this.cellSize + this.cellSize * (this.goalPosition[1] + 1);
-  const goalPosY: number = this.cellSize + this.cellSize * (this.goalPosition[0] + 1);
-  let start: number = performance.now();
-  let goalAnimationStep = 0;
-
-  const animateGoal = (time: number) => {
-    if (this.isGameStopped) {
-      return this.animateGoal = requestAnimationFrame(animateGoal);
-    }
-
-    if (time - start > 100) {
-      if (goalAnimationStep > 2) {
-        goalAnimationStep = 0;
-      }
-
-      const goalCtx: CanvasRenderingContext2D = this.goalCanvas.getContext('2d');
-      const goalX: number = goalPosX + this.cellSize / 2;
-      const goalY: number = goalPosY + this.cellSize / 2;
-
-      const goalOuterSize = (): number => {
-        switch (goalAnimationStep) {
-          case 0: return 3;
-          case 1: return 4;
-          case 2: return 5;
-          default: return;
-        }
-      };
-
-      goalCtx.clearRect(
-        goalPosX,
-        goalPosY,
-        this.cellSize,
-        this.cellSize,
-      );
-
-      if (goalAnimationStep !== 0) {
-        goalCtx.translate(goalX, goalY);
-        goalCtx.rotate(Math.PI / 360 * 30 * goalAnimationStep);
-        goalCtx.translate(-goalX, -goalY);
-      }
-
-      drawStar(
-        goalCtx,
-        goalX,
-        goalY,
-        4,
-        this.cellSize / goalOuterSize(),
-        this.cellSize / (goalOuterSize() * 2),
-        MAP_ELEMENT_COLORS.goal.background,
-        4,
-        MAP_ELEMENT_COLORS.goal.border,
-      );
-
-      goalAnimationStep += 1;
-      start = time;
-    }
-
-    this.animateGoal = requestAnimationFrame(animateGoal);
-  };
-
-  this.animateGoal = requestAnimationFrame(animateGoal);
-}
-
-/**
  * Functions renders level number and its title as well as game counters (lives, score)
  * in the game panel
  */
@@ -730,109 +687,9 @@ function renderPanelCounters() {
   this.boardPanel.score.innerText = this.score;
 }
 
-/**
- * Function renders and animates the avatar wand
- */
-function renderAvatarWand() {
-  const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
-
-  const animateAvatarWand = () => {
-    if (this.isGameStopped) {
-      return this.animateAvatarWand = requestAnimationFrame(animateAvatarWand);
-    }
-
-    const { position, direction, angle } = this.level.wand;
-    const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
-    const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
-
-    ctx.clearRect(
-      x - this.cellSize * 2,
-      y - this.cellSize * 2,
-      this.cellSize * 4,
-      this.cellSize * 4,
-    );
-
-    this.avatarWandCoords = drawLineToAngle(
-      ctx,
-      x,
-      y,
-      this.cellSize * 2 - this.cellSize / 5 - 1,
-      angle,
-      WAND_COLORS.avatar,
-      WAND_WIDTH,
-    );
-
-    this.level.wand.angle += direction * this.difficulty.correction;
-
-    if (this.level.wand.angle < 0) {
-      this.level.wand.angle += 360;
-    } else if (this.level.wand.angle >= 360) {
-      this.level.wand.angle -= 360;
-    }
-
-    checkAvatarWand.call(this);
-
-    this.animateAvatarWand = requestAnimationFrame(animateAvatarWand);
-  };
-
-  this.animateAvatarWand = requestAnimationFrame(animateAvatarWand);
-}
-
-/**
- * Function renders and animates enemy wands (red, blue and yellow)
- *
- * @param ctx
- * @param enemyId
- */
-function renderEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
-  const enemy = this.level.enemies.filter((item: IWand & IEnemy) => item.id === enemyId)[0];
-
-  const animateEnemyWand = () => {
-    if (this.isGameStopped) {
-      return this.animateEnemyWand[enemyId] = requestAnimationFrame(animateEnemyWand);
-    }
-
-    const { position, direction, angle } = enemy;
-    const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
-    const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
-
-    ctx.clearRect(
-      x - this.cellSize * 2,
-      y - this.cellSize * 2,
-      this.cellSize * 4,
-      this.cellSize * 4,
-    );
-
-    this.enemyWandsCoords[enemy.id] = drawLineToAngle(
-      ctx,
-      x,
-      y,
-      this.cellSize * 2 - this.cellSize / 5,
-      angle,
-      WAND_COLORS[enemy.type],
-      WAND_WIDTH,
-    );
-
-    enemy.angle += direction * this.difficulty.correction;
-
-    if (enemy.angle < 0) {
-      enemy.angle += 360;
-    } else if (enemy.angle >= 360) {
-      enemy.angle -= 360;
-    }
-
-    checkEnemyWand.call(this, enemyId);
-
-    this.animateEnemyWand[enemyId] = requestAnimationFrame(animateEnemyWand);
-  };
-
-  this.animateEnemyWand[enemyId] = requestAnimationFrame(animateEnemyWand);
-}
-
 export {
   renderGameWindow,
   renderLevelMap,
   renderPanelCounters,
   renderDoor,
-  renderAvatarWand,
 };
