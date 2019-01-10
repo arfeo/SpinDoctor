@@ -2,8 +2,8 @@ import { Modal } from '../common/Modal';
 import { Game } from '../Game';
 
 class Alert extends Modal {
-  constructor(game: Game, alertText: string) {
-    super(game, null, alertText);
+  constructor(game: Game, text: string, size?: 'large' | 'medium' | 'small') {
+    super(game, text, size);
   }
 
   render() {

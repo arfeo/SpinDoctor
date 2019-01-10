@@ -2,8 +2,6 @@ import { Game } from '../../Game';
 
 import { removeEventHandlers, setUpEventHandlers } from '../../Game/events';
 
-type ModalSize = 'large' | 'medium' | 'small';
-
 abstract class Modal {
   game: Game;
   appRoot: HTMLElement;
@@ -15,7 +13,7 @@ abstract class Modal {
   modalContent: string;
   abstract render(): void;
 
-  protected constructor(game: Game, size?: ModalSize, content?: string) {
+  protected constructor(game: Game, text?: string, size?: 'large' | 'medium' | 'small') {
     this.game = game;
 
     this.modalContainer = document.createElement('div');
@@ -40,7 +38,7 @@ abstract class Modal {
     this.modalWindow.appendChild(this.modalClose);
     this.modalWindow.appendChild(this.modal);
 
-    this.modalContent = content;
+    this.modalContent = text || '';
 
     this.render();
 
