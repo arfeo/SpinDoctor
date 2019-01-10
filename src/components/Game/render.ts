@@ -345,6 +345,145 @@ function renderLevelMap() {
             );
             break;
           }
+          case MapDefinitions.RingRedBlue: {
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI,
+              0,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotRed.background,
+            );
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              0,
+              Math.PI,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotBlue.background,
+            );
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5 - 2,
+              MAP_ELEMENT_COLORS.ringRegular.background,
+            );
+            break;
+          }
+          case MapDefinitions.RingRedYellow: {
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI,
+              0,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotRed.background,
+            );
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              0,
+              Math.PI,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotYellow.background,
+            );
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5 - 2,
+              MAP_ELEMENT_COLORS.ringRegular.background,
+            );
+            break;
+          }
+          case MapDefinitions.RingBlueYellow: {
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI,
+              0,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotBlue.background,
+            );
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              0,
+              Math.PI,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotYellow.background,
+            );
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5 - 2,
+              MAP_ELEMENT_COLORS.ringRegular.background,
+            );
+            break;
+          }
+          case MapDefinitions.RingRedBlueYellow: {
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              0,
+              Math.PI * 2 / 3,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotRed.background,
+            );
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI * 2 / 3,
+              Math.PI * 4 / 3,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotBlue.background,
+            );
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI * 4 / 3,
+              0,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotYellow.background,
+            );
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5 - 2,
+              MAP_ELEMENT_COLORS.ringRegular.background,
+            );
+            break;
+          }
           case MapDefinitions.WallHorizontal: {
             this.wallsCoords.push(drawLineToAngle(
               ctx,
