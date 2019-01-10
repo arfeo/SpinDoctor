@@ -15,6 +15,10 @@ export interface IDifficulty {
   correction: number;
 }
 
+export interface IDisabled {
+  bonus: number[];
+}
+
 export interface IBoardPanel {
   level: HTMLElement;
   lives: HTMLElement;
@@ -73,6 +77,7 @@ export interface IDoor {
 export interface IMapElementColors {
   [key: string]: {
     background: string;
+    border?: string;
     [key: string]: string;
   };
 }

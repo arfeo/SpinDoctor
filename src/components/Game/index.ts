@@ -20,6 +20,7 @@ import { setCellSize } from '../../utils/common';
 import {
   IBoardPanel,
   IDifficulty,
+  IDisabled,
   IDoorCoords,
   IEnemyWandsCoords,
   IKeysDown,
@@ -33,6 +34,7 @@ class Game {
   lives: number;
   score: number;
   difficulty: IDifficulty;
+  disabledElements: IDisabled;
   cellSize: number;
   boardPanel: IBoardPanel;
   staticCanvas: HTMLCanvasElement;
@@ -54,13 +56,14 @@ class Game {
   doorsCoords: IDoorCoords[];
   switchersCoords: ISwitcherCoords[];
 
-  constructor(level = 1, lives = 4, score = 0, difficulty = 1) {
+  constructor(level = 1, lives = 4, score = 0, difficulty = 1, disabledElements: IDisabled = { bonus: [] }) {
     this.appRoot = document.getElementById('root');
 
     this.level = JSON.parse(JSON.stringify(LEVELS.filter((item: ILevel) => item.id === level)[0]));
     this.lives = lives;
     this.score = score;
     this.difficulty = JSON.parse(JSON.stringify(DIFFICULTIES.filter((item: IDifficulty) => item.id === difficulty)[0]));
+    this.disabledElements = JSON.parse(JSON.stringify(disabledElements));
 
     this.cellSize = setCellSize();
 

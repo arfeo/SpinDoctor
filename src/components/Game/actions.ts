@@ -23,7 +23,7 @@ function checkAvatarWand() {
 
     if (this.lives > 0) {
       this.destroy();
-      APP.pageInstance = new Game(this.level.id, this.lives, this.score, this.difficulty.id);
+      APP.pageInstance = new Game(this.level.id, this.lives, this.score, this.difficulty.id, this.disabledElements);
     } else {
       renderPanelCounters.call(this);
       alert('Game over!');
@@ -381,6 +381,7 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
   });
 
   if (bonus.length) {
+    this.disabledElements.bonus.push(bonus[0].id);
     this.score += bonus[0].size;
     this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonus[0].id);
 

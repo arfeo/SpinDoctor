@@ -533,6 +533,12 @@ function renderBonus() {
       null,
     );
   });
+
+  if (this.disabledElements.bonus) {
+    this.disabledElements.bonus.map((bonusId: number) => {
+      this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonusId);
+    });
+  }
 }
 
 /**
