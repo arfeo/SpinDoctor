@@ -1,4 +1,5 @@
 import { Game } from './index';
+import { GameOver } from '../GameOver';
 
 import { APP } from '../../constants/global';
 import { MapDefinitions, WAND_REBOUND } from '../../constants/game';
@@ -28,7 +29,8 @@ function checkAvatarWand() {
       APP.pageInstance = new Game(this.level.id, this.lives, this.score, this.difficulty.id, this.disabledElements);
     } else {
       renderPanelCounters.call(this);
-      alert('Game over!');
+
+      new GameOver(this);
     }
 
     return;
