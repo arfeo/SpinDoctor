@@ -162,7 +162,7 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
       WAND_WIDTH,
     );
 
-    enemy.angle += direction * this.difficulty.correction;
+    enemy.angle += direction * this.difficulty.correction / this.enemiesSpeedCorrection;
 
     if (enemy.angle < 0) {
       enemy.angle += 360;

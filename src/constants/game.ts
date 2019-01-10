@@ -143,6 +143,7 @@ export enum MapDefinitions {
   RingRedYellow = 14,
   RingBlueYellow = 15,
   RingRedBlueYellow = 16,
+  Slowdown = 17,
   WallHorizontal = 20,
   WallVertical = 21,
   WallHorizontalHalfLeft = 22,

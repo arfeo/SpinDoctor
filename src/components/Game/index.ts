@@ -58,6 +58,7 @@ class Game {
   doorsCoords: IDoorCoords[];
   switchersCoords: ISwitcherCoords[];
   spikesCoords: number[][];
+  enemiesSpeedCorrection: number;
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1, disabledElements: IDisabled = { bonus: [] }) {
     this.appRoot = document.getElementById('root');
@@ -97,6 +98,8 @@ class Game {
     this.doorsCoords = [];
     this.switchersCoords = [];
     this.spikesCoords = [];
+
+    this.enemiesSpeedCorrection = 1;
 
     APP.eventListeners = {
       onKeyDown: keyDownHandler.bind(this),

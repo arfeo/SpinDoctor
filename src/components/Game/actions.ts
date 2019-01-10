@@ -404,6 +404,11 @@ function checkIntersections(): boolean {
  * @param dotY
  */
 function checkNextDot(dotType: number, dotX: number, dotY: number) {
+  // Avatar wand grabs slowdown -- all enemy wands move twice slower
+  if (dotType === 17) {
+    this.enemiesSpeedCorrection = 2;
+  }
+
   // Avatar wand grabs bonus
   const bonus: IBonus[] = this.level.bonus.filter((item: IBonus) => {
     return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);

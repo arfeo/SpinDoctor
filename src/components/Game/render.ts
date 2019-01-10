@@ -305,6 +305,52 @@ function renderLevelMap() {
             );
             break;
           }
+          case MapDefinitions.Slowdown: {
+            drawCircle(
+              staticCtx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              MAP_ELEMENT_COLORS.board.background,
+            );
+            drawArc(
+              staticCtx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              0,
+              Math.PI * 2 / 3,
+              MAP_ELEMENT_COLORS.dotRegular.background,
+            );
+            drawArc(
+              staticCtx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI * 2 / 3,
+              Math.PI * 4 / 3,
+              MAP_ELEMENT_COLORS.dotRegular.background,
+            );
+            drawArc(
+              staticCtx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI * 4 / 3,
+              0,
+              MAP_ELEMENT_COLORS.dotRegular.background,
+            );
+            drawCircle(
+              staticCtx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotRegular.border,
+            );
+            break;
+          }
           // ----------------------------------------------------------------
           //                            RINGS
           // ----------------------------------------------------------------
