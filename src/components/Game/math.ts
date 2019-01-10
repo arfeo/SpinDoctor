@@ -42,4 +42,41 @@ function pointOnLineSegment(segment: ILineSegment, point: IPoint, tolerance: num
   return (Math.abs(crossProd) / Math.sqrt(squareLen) <= tolerance && dotProd >= 0 && dotProd <= squareLen);
 }
 
-export { lineSegmentsIntersect, pointOnLineSegment };
+/**
+ * Function checks if a line segment intersects with a rectangle by checking intersection
+ *  with each of its sides
+ *
+ * @param segment
+ * @param rectCoords
+ */
+function lineSegmentIntersectsWithRect(segment: ILineSegment, rectCoords: number[]): boolean {
+  const segment1: ILineSegment = {
+    start: { x: rectCoords[0], y: rectCoords[1] },
+    end: { x: rectCoords[2], y: rectCoords[1] },
+  };
+  const segment2: ILineSegment = {
+    start: { x: rectCoords[0], y: rectCoords[1] },
+    end: { x: rectCoords[0], y: rectCoords[3] },
+  };
+  const segment3: ILineSegment = {
+    start: { x: rectCoords[0], y: rectCoords[3] },
+    end: { x: rectCoords[2], y: rectCoords[3] },
+  };
+  const segment4: ILineSegment = {
+    start: { x: rectCoords[2], y: rectCoords[1] },
+    end: { x: rectCoords[2], y: rectCoords[3] },
+  };
+
+  return (
+    lineSegmentsIntersect(segment, segment1) ||
+    lineSegmentsIntersect(segment, segment2) ||
+    lineSegmentsIntersect(segment, segment3) ||
+    lineSegmentsIntersect(segment, segment4)
+  );
+}
+
+export {
+  lineSegmentsIntersect,
+  pointOnLineSegment,
+  lineSegmentIntersectsWithRect,
+};

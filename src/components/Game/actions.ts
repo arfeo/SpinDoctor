@@ -5,7 +5,7 @@ import { APP, MapDefinitions, WAND_REBOUND } from '../../constants/app';
 import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
-import { lineSegmentsIntersect, pointOnLineSegment } from './math';
+import { lineSegmentIntersectsWithRect, lineSegmentsIntersect, pointOnLineSegment } from './math';
 import { animateDoors, animateMapElementElimination } from './animations';
 
 import { IBonus, IDoorCoords, IEnemy, ILineSegment, IWand } from '../../types/global';
@@ -378,6 +378,13 @@ function checkIntersections(): boolean {
         this.isSwitcherActive = true;
 
         animateDoors.call(this, this.switchersCoords[i].type);
+      }
+    }
+
+    // Spikes
+    for (const spike of this.spikesCoords) {
+      if (lineSegmentIntersectsWithRect(avatarWandSegment, spike)) {
+        return true;
       }
     }
   }

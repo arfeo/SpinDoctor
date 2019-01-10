@@ -82,8 +82,6 @@ function renderGameWindow() {
     boardGrid.appendChild(this.switchersCanvas);
   }
 
-  boardGrid.appendChild(pauseLabel);
-
   if (this.level.wand) {
     animateAvatarWand.call(this);
   }
@@ -103,6 +101,8 @@ function renderGameWindow() {
       animateEnemyWand.call(this, enemyCanvas.getContext('2d'), enemy.id);
     }
   }
+
+  boardGrid.appendChild(pauseLabel);
 }
 
 /**
@@ -830,44 +830,65 @@ function renderLevelMap() {
               2,
               null,
             );
+
+            this.spikesCoords.push([
+              dotX - this.cellSize / 10,
+              dotY - this.cellSize / 10,
+              dotX - this.cellSize / 10 + this.cellSize / 5,
+              dotY - this.cellSize / 10 + this.cellSize / 5,
+            ]);
             break;
           }
           case MapDefinitions.SpikeShiftedX: {
             drawCircle(
               spikesCtx,
-              dotX + this.cellSize / 2,
+              dotX + this.cellSize / 1.5,
               dotY,
               this.cellSize / 10,
               MAP_ELEMENT_COLORS.spike.background,
             );
             drawCircle(
               spikesCtx,
-              dotX + this.cellSize / 2 - 1,
+              dotX + this.cellSize / 1.5 - 1,
               dotY - 1,
               this.cellSize / 15,
               MAP_ELEMENT_COLORS.bonus.innerCircle,
               2,
               null,
             );
+
+            this.spikesCoords.push([
+              dotX + this.cellSize / 1.5 - this.cellSize / 10,
+              dotY - this.cellSize / 10,
+              dotX + this.cellSize / 1.5 - this.cellSize / 10 + this.cellSize / 5,
+              dotY - this.cellSize / 10 + this.cellSize / 5,
+            ]);
             break;
           }
           case MapDefinitions.SpikeShiftedY: {
             drawCircle(
               spikesCtx,
               dotX,
-              dotY + this.cellSize / 2,
+              dotY + this.cellSize / 1.5,
               this.cellSize / 10,
               MAP_ELEMENT_COLORS.spike.background,
             );
             drawCircle(
               spikesCtx,
               dotX - 1,
-              dotY + this.cellSize / 2 - 1,
+              dotY + this.cellSize / 1.5 - 1,
               this.cellSize / 15,
               MAP_ELEMENT_COLORS.bonus.innerCircle,
               2,
               null,
             );
+
+            this.spikesCoords.push([
+              dotX - this.cellSize / 10,
+              dotY + this.cellSize / 1.5 - this.cellSize / 10,
+              dotX - this.cellSize / 10 + this.cellSize / 5,
+              dotY + this.cellSize / 1.5 - this.cellSize / 10 + this.cellSize / 5,
+            ]);
             break;
           }
           default: break;
