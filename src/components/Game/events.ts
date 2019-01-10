@@ -1,4 +1,5 @@
-import { APP, FunctionalKeys } from '../../constants/app';
+import { APP } from '../../constants/global';
+import { FunctionalKeys } from '../../constants/game';
 
 /**
  * Function creates all game's event listeners

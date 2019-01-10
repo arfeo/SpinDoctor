@@ -1,10 +1,4 @@
-import { IDifficulty, IMapElementColors, IGlobals, IWandColors } from '../types/global';
-
-export const APP: IGlobals = {
-  pageInstance: null,
-  cellSize: 0,
-  eventListeners: null,
-};
+import { IDifficulty, IMapElementColors, IWandColors } from '../types/game';
 
 export const DIFFICULTIES: IDifficulty[] = [
   {

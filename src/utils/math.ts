@@ -1,4 +1,4 @@
-import { ILineSegment, IPoint } from '../../types/global';
+import { ILineSegment, IPoint } from '../types/utils';
 
 /**
  * Function returns true if one line segment intersects with another

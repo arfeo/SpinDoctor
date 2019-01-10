@@ -1,4 +1,4 @@
-import { APP } from '../constants/app';
+import { APP } from '../constants/global';
 
 /**
  * Function calculates the analogue of CSS vmin in pixels
@@ -18,3 +18,21 @@ export const calculateVMin = (): number => {
 export const setCellSize = (): number => {
   return APP.cellSize > 0 ? APP.cellSize : Math.round(calculateVMin() * 4  / 10) * 10;
 };
+
+/**
+ * Function looks for all mandatory objects in level description object;
+ * returns false if there's no one or more mandatory object
+ */
+function validateLevel(): boolean {
+  const { map, goal } = this.level;
+
+  if (!map || !goal) {
+    alert('The level description is invalid: there is no "map" and/or "goal" found.');
+
+    return false;
+  }
+
+  return true;
+}
+
+export { validateLevel };

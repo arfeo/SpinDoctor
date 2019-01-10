@@ -4,13 +4,13 @@ import {
   WAND_WIDTH,
   DOORS_ANIMATION_SPEED,
   FADE_OUT_ANIMATION_SPEED,
-} from '../../constants/app';
+} from '../../constants/game';
 
 import { renderDoor } from './render';
-import { drawCircle, drawLineToAngle, drawStar } from './draw';
+import { drawCircle, drawLineToAngle, drawStar } from '../../utils/drawing';
 import { checkAvatarWand, checkEnemyWand } from './actions';
 
-import { IDoor, IEnemy, IWand } from '../../types/global';
+import { IDoor, IEnemy, IWand } from '../../types/game';
 
 /**
  * Function animates the goal (rotating star-like object beneath a regular dot)

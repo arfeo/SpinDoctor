@@ -6,7 +6,7 @@ import {
   PILLAR_WIDTH,
   GridDimensions,
   MapDefinitions,
-} from '../../constants/app';
+} from '../../constants/game';
 
 import {
   drawCircle,
@@ -15,7 +15,7 @@ import {
   drawLineToAngle,
   drawFilledRectangle,
   drawStrokeRectangle,
-} from './draw';
+} from '../../utils/drawing';
 
 import {
   animateAvatarWand,
@@ -23,7 +23,7 @@ import {
   animateGoal,
 } from './animations';
 
-import { IBonus, IDoor, IDoorCoords, IEnemy, IWand } from '../../types/global';
+import { IBonus, IDoor, IDoorCoords, IEnemy, IWand } from '../../types/game';
 
 /**
  * Function creates game window element, game panel and all needed canvases

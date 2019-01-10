@@ -1,5 +1,6 @@
+import { APP } from '../../constants/global';
+import { DIFFICULTIES } from '../../constants/game';
 import { LEVELS } from '../../constants/levels';
-import { APP, DIFFICULTIES } from '../../constants/app';
 
 import {
   renderGameWindow,
@@ -15,8 +16,7 @@ import {
   setActiveKey,
 } from './events';
 
-import { setCellSize } from '../../utils/common';
-import { validateLevel } from './utils';
+import { setCellSize, validateLevel } from '../../utils/game';
 
 import {
   IBoardPanel,
@@ -27,7 +27,7 @@ import {
   IKeysDown,
   ILevel,
   ISwitcherCoords,
-} from '../../types/global';
+} from '../../types/game';
 
 class Game {
   appRoot: HTMLElement;

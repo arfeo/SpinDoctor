@@ -1,13 +1,15 @@
 import { Game } from './index';
 
-import { APP, MapDefinitions, WAND_REBOUND } from '../../constants/app';
+import { APP } from '../../constants/global';
+import { MapDefinitions, WAND_REBOUND } from '../../constants/game';
 import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
-import { lineSegmentIntersectsWithRect, lineSegmentsIntersect, pointOnLineSegment } from './math';
+import { lineSegmentIntersectsWithRect, lineSegmentsIntersect, pointOnLineSegment } from '../../utils/math';
 import { animateDoors, animateMapElementElimination } from './animations';
 
-import { IBonus, IDoorCoords, IEnemy, ILineSegment, IWand } from '../../types/global';
+import { IBonus, IDoorCoords, IEnemy, IWand } from '../../types/game';
+import { ILineSegment } from '../../types/utils';
 
 /**
  * Function checks the ability of the avatar wand to move to the next dot,

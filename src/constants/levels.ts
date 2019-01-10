@@ -1,4 +1,4 @@
-import { ILevel } from '../types/global';
+import { ILevel } from '../types/game';
 
 /**
  *  Map legend:
