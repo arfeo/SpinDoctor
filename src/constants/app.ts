@@ -168,6 +168,8 @@ export enum MapDefinitions {
   DoorSwitcherRed = 41,
   DoorSwitcherYellow = 42,
   SpikeRegular = 50,
-  SpikeShiftedX = 51,
-  SpikeShiftedY = 52,
+  SpikeShiftedXRight = 51,
+  SpikeShiftedYBottom = 52,
+  SpikeShiftedXLeft = 53,
+  SpikeShiftedYTop = 54,
 }

@@ -13,6 +13,7 @@ import { IBonus, IDoorCoords, IEnemy, ILineSegment, IWand } from '../../types/gl
 /**
  * Function checks the ability of the avatar wand to move to the next dot,
  * as well as checks the intersections with enemy wands and other objects on the game board
+ * (e.g., walls, switchers, spikes, etc.)
  */
 function checkAvatarWand() {
   const { flip, bounce, swing } = this.keyDown;
@@ -247,9 +248,9 @@ function checkEnemyWand(enemyId: number) {
 }
 
 /**
- * Function returns true if a lethal intersection occurs (with an enemy),
- * and false if the avatar wand intersects with a non-lethal object (e.g. wall or door)
- * or does not intersect with anything
+ * Function returns true if a lethal intersection occurs (with an enemy or an obstacle),
+ * and false if the avatar wand intersects with a non-lethal object (e.g. wall or door),
+ * functional object (e.g., switcher) or does not intersect with anything at all
  */
 function checkIntersections(): boolean {
   if (this.avatarWandCoords) {

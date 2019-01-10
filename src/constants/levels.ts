@@ -40,8 +40,10 @@ import { ILevel } from '../types/global';
  *  41 - Door switcher (red)
  *  42 - Door switcher (yellow)
  *  50 - Spike (regular)
- *  51 - Spike (shifted along the X-axis)
- *  52 - Spike (shifted along the Y-axis)
+ *  51 - Spike (shifted along the X-axis to the right)
+ *  52 - Spike (shifted along the Y-axis to the bottom)
+ *  53 - Spike (shifted along the X-axis to the left)
+ *  54 - Spike (shifted along the Y-axis to the top)
  *
  *  NB: The first and the last rows, as well as the first and the last columns of the map
  *  are not supposed to contain any elements, they're service ones!
@@ -342,8 +344,8 @@ export const LEVELS: ILevel[] = [
       [0, 0, 0, 0, 0, 0, 52, 50, 0, 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 0, 1, 52, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 50, 2, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 50, 2, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 54, 50, 0, 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 1, 0, 1, 0, 1, 50, 1, 50, 1, 50, 1, 0, 1, 0, 1, 50, 1, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0],

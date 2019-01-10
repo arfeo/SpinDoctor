@@ -49,7 +49,7 @@ function renderGameWindow() {
   this.wandCanvas.className = '-wand-canvas';
   this.doorsCanvas.className = '-doors-canvas';
   this.switchersCanvas.className = '-switchers-canvas';
-  this.spikesCanvas.className = '-spikes-canvas';
+  this.obstaclesCanvas.className = '-obstacles-canvas';
 
   this.staticCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.staticCanvas.height = this.cellSize * (GridDimensions.Height + 2);
@@ -61,8 +61,8 @@ function renderGameWindow() {
   this.doorsCanvas.height = this.cellSize * (GridDimensions.Height + 2);
   this.switchersCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.switchersCanvas.height = this.cellSize * (GridDimensions.Height + 2);
-  this.spikesCanvas.width = this.cellSize * (GridDimensions.Width + 2);
-  this.spikesCanvas.height = this.cellSize * (GridDimensions.Height + 2);
+  this.obstaclesCanvas.width = this.cellSize * (GridDimensions.Width + 2);
+  this.obstaclesCanvas.height = this.cellSize * (GridDimensions.Height + 2);
 
   this.appRoot.innerHTML = '';
 
@@ -75,7 +75,7 @@ function renderGameWindow() {
   boardGrid.appendChild(this.staticCanvas);
   boardGrid.appendChild(this.goalCanvas);
   boardGrid.appendChild(this.wandCanvas);
-  boardGrid.appendChild(this.spikesCanvas);
+  boardGrid.appendChild(this.obstaclesCanvas);
 
   if (this.level.doors) {
     boardGrid.appendChild(this.doorsCanvas);
@@ -118,7 +118,7 @@ function renderLevelMap() {
 
       if (objectType !== undefined && objectType !== MapDefinitions.Empty) {
         const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
-        const spikesCtx: CanvasRenderingContext2D = this.spikesCanvas.getContext('2d');
+        const obstaclesCtx: CanvasRenderingContext2D = this.obstaclesCanvas.getContext('2d');
         const top: number = this.cellSize + this.cellSize * y;
         const left: number = this.cellSize + this.cellSize * x;
         const dotX: number = left + this.cellSize / 2;
@@ -815,14 +815,14 @@ function renderLevelMap() {
           // ----------------------------------------------------------------
           case MapDefinitions.SpikeRegular: {
             drawCircle(
-              spikesCtx,
+              obstaclesCtx,
               dotX,
               dotY,
               this.cellSize / 10,
               MAP_ELEMENT_COLORS.spike.background,
             );
             drawCircle(
-              spikesCtx,
+              obstaclesCtx,
               dotX - 1,
               dotY - 1,
               this.cellSize / 15,
@@ -839,16 +839,16 @@ function renderLevelMap() {
             ]);
             break;
           }
-          case MapDefinitions.SpikeShiftedX: {
+          case MapDefinitions.SpikeShiftedXRight: {
             drawCircle(
-              spikesCtx,
+              obstaclesCtx,
               dotX + this.cellSize / 1.5,
               dotY,
               this.cellSize / 10,
               MAP_ELEMENT_COLORS.spike.background,
             );
             drawCircle(
-              spikesCtx,
+              obstaclesCtx,
               dotX + this.cellSize / 1.5 - 1,
               dotY - 1,
               this.cellSize / 15,
@@ -865,16 +865,16 @@ function renderLevelMap() {
             ]);
             break;
           }
-          case MapDefinitions.SpikeShiftedY: {
+          case MapDefinitions.SpikeShiftedYBottom: {
             drawCircle(
-              spikesCtx,
+              obstaclesCtx,
               dotX,
               dotY + this.cellSize / 1.5,
               this.cellSize / 10,
               MAP_ELEMENT_COLORS.spike.background,
             );
             drawCircle(
-              spikesCtx,
+              obstaclesCtx,
               dotX - 1,
               dotY + this.cellSize / 1.5 - 1,
               this.cellSize / 15,
@@ -888,6 +888,58 @@ function renderLevelMap() {
               dotY + this.cellSize / 1.5 - this.cellSize / 10,
               dotX - this.cellSize / 10 + this.cellSize / 5,
               dotY + this.cellSize / 1.5 - this.cellSize / 10 + this.cellSize / 5,
+            ]);
+            break;
+          }
+          case MapDefinitions.SpikeShiftedXLeft: {
+            drawCircle(
+              obstaclesCtx,
+              dotX - this.cellSize / 1.5,
+              dotY,
+              this.cellSize / 10,
+              MAP_ELEMENT_COLORS.spike.background,
+            );
+            drawCircle(
+              obstaclesCtx,
+              dotX - this.cellSize / 1.5 - 1,
+              dotY - 1,
+              this.cellSize / 15,
+              MAP_ELEMENT_COLORS.bonus.innerCircle,
+              2,
+              null,
+            );
+
+            this.spikesCoords.push([
+              dotX - this.cellSize / 1.5 - this.cellSize / 10,
+              dotY - this.cellSize / 10,
+              dotX - this.cellSize / 1.5 - this.cellSize / 10 + this.cellSize / 5,
+              dotY - this.cellSize / 10 + this.cellSize / 5,
+            ]);
+            break;
+          }
+          case MapDefinitions.SpikeShiftedYTop: {
+            drawCircle(
+              obstaclesCtx,
+              dotX,
+              dotY - this.cellSize / 1.5,
+              this.cellSize / 10,
+              MAP_ELEMENT_COLORS.spike.background,
+            );
+            drawCircle(
+              obstaclesCtx,
+              dotX - 1,
+              dotY - this.cellSize / 1.5 - 1,
+              this.cellSize / 15,
+              MAP_ELEMENT_COLORS.bonus.innerCircle,
+              2,
+              null,
+            );
+
+            this.spikesCoords.push([
+              dotX - this.cellSize / 10,
+              dotY - this.cellSize / 1.5 - this.cellSize / 10,
+              dotX - this.cellSize / 10 + this.cellSize / 5,
+              dotY - this.cellSize / 1.5 - this.cellSize / 10 + this.cellSize / 5,
             ]);
             break;
           }

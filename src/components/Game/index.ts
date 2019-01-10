@@ -43,7 +43,7 @@ class Game {
   wandCanvas: HTMLCanvasElement;
   doorsCanvas: HTMLCanvasElement;
   switchersCanvas: HTMLCanvasElement;
-  spikesCanvas: HTMLCanvasElement;
+  obstaclesCanvas: HTMLCanvasElement;
   keyDown: IKeysDown;
   isGameStopped: boolean;
   isLevelCompleted: boolean;
@@ -81,7 +81,7 @@ class Game {
     this.wandCanvas = document.createElement('canvas');
     this.doorsCanvas = document.createElement('canvas');
     this.switchersCanvas = document.createElement('canvas');
-    this.spikesCanvas = document.createElement('canvas');
+    this.obstaclesCanvas = document.createElement('canvas');
 
     this.isGameStopped = false;
     this.isLevelCompleted = false;

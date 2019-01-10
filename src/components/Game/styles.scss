@@ -75,7 +75,7 @@
     }
 
     .-switchers-canvas
-    .-spikes-canvas{
+    .-obstacles-canvas{
       z-index: 9;
     }
 
@@ -85,7 +85,7 @@
     .-enemy-canvas,
     .-doors-canvas,
     .-switchers-canvas,
-    .-spikes-canvas {
+    .-obstacles-canvas {
       position: absolute;
       top: 0;
       left: 0;
