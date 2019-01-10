@@ -1,3 +1,5 @@
+import { Alert } from '../components/Alert';
+
 import { APP } from '../constants/global';
 
 /**
@@ -27,7 +29,7 @@ function validateLevel(): boolean {
   const { map, goal } = this.level;
 
   if (!map || !goal) {
-    alert('The level description is invalid: there is no "map" and/or "goal" found.');
+    new Alert(this, 'The level description is invalid: there is no "map" and/or "goal" found.');
 
     return false;
   }

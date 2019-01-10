@@ -12,9 +12,10 @@ abstract class Modal {
   modalWindow: HTMLElement;
   modalClose: HTMLElement;
   modal: HTMLElement;
+  modalContent: string;
   abstract render(): void;
 
-  protected constructor(game: Game, size?: ModalSize) {
+  protected constructor(game: Game, size?: ModalSize, content?: string) {
     this.game = game;
 
     this.modalContainer = document.createElement('div');
@@ -38,6 +39,8 @@ abstract class Modal {
     this.mask.appendChild(this.modalWindow);
     this.modalWindow.appendChild(this.modalClose);
     this.modalWindow.appendChild(this.modal);
+
+    this.modalContent = content;
 
     this.render();
 
