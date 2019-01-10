@@ -1,5 +1,5 @@
 /**
- * Function draws a dot of the given size and style at the given coordinates
+ * Alias for drawSector, this function draws a dot of the given size and style at the given coordinates
  *
  * @param ctx
  * @param dotX
@@ -14,17 +14,44 @@ function drawDot(
   dotX: number,
   dotY: number,
   radius: number,
-  fillStyle: string,
+  fillStyle?: string,
+  edgingWidth?: number,
+  edgingColor?: string,
+) {
+  drawSector(ctx, dotX, dotY, radius, 0, Math.PI * 2, fillStyle, edgingWidth, edgingColor);
+}
+
+/**
+ * Function draws a circle sector at the given coordinates
+ *
+ * @param ctx
+ * @param cx
+ * @param cy
+ * @param radius
+ * @param startAngle
+ * @param endAngle
+ * @param fillStyle
+ * @param edgingWidth
+ * @param edgingColor
+ */
+function drawSector(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+  fillStyle?: string,
   edgingWidth?: number,
   edgingColor?: string,
 ) {
   ctx.beginPath();
   ctx.arc(
-    dotX,
-    dotY,
+    cx,
+    cy,
     radius,
-    0,
-    Math.PI * 2,
+    startAngle,
+    endAngle,
     false,
   );
   ctx.fillStyle = fillStyle || 'transparent';
@@ -52,8 +79,8 @@ function drawLineToAngle(
   y1: number,
   length: number,
   angle: number,
-  strokeStyle: string,
-  lineWidth: number,
+  strokeStyle?: string,
+  lineWidth?: number,
 ): number[][] {
   const a = angle * Math.PI / 180;
   const x2 = x1 + length * Math.cos(a);
@@ -93,9 +120,9 @@ function drawStar(
   spikes: number,
   outerRadius: number,
   innerRadius: number,
-  fillStyle: string,
-  edgingWidth: number,
-  edgingColor: string,
+  fillStyle?: string,
+  edgingWidth?: number,
+  edgingColor?: string,
 ) {
   let rotation: number = Math.PI / 2 * 3;
   let x: number = cx;
@@ -165,8 +192,8 @@ function drawStrokeRectangle(
   top: number,
   width: number,
   height: number,
-  edgingWidth: number,
-  edgingColor: string,
+  edgingWidth?: number,
+  edgingColor?: string,
 ) {
   ctx.lineWidth = edgingWidth || 0;
   ctx.strokeStyle = edgingColor || 'transparent';
@@ -175,6 +202,7 @@ function drawStrokeRectangle(
 
 export {
   drawDot,
+  drawSector,
   drawLineToAngle,
   drawStar,
   drawFilledRectangle,
