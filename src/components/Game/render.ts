@@ -120,6 +120,9 @@ function renderLevelMap() {
         const dotY: number = top + this.cellSize / 2;
 
         switch (objectType) {
+          // ----------------------------------------------------------------
+          //                            DOTS
+          // ----------------------------------------------------------------
           case MapDefinitions.DotRegular: {
             drawCircle(
               ctx,
@@ -297,6 +300,9 @@ function renderLevelMap() {
             );
             break;
           }
+          // ----------------------------------------------------------------
+          //                            RINGS
+          // ----------------------------------------------------------------
           case MapDefinitions.RingRegular: {
             drawCircle(
               ctx,
@@ -484,6 +490,9 @@ function renderLevelMap() {
             );
             break;
           }
+          // ----------------------------------------------------------------
+          //                            WALLS
+          // ----------------------------------------------------------------
           case MapDefinitions.WallHorizontal: {
             this.wallsCoords.push(drawLineToAngle(
               ctx,
@@ -745,6 +754,9 @@ function renderLevelMap() {
             ));
             break;
           }
+          // ----------------------------------------------------------------
+          //                         DOOR SWITCHERS
+          // ----------------------------------------------------------------
           case MapDefinitions.DoorSwitcherBlue:
           case MapDefinitions.DoorSwitcherRed:
           case MapDefinitions.DoorSwitcherYellow: {
@@ -791,6 +803,66 @@ function renderLevelMap() {
               type: typesMap[objectType],
               coords: [dotX, dotY],
             });
+            break;
+          }
+          // ----------------------------------------------------------------
+          //                            SPIKES
+          // ----------------------------------------------------------------
+          case MapDefinitions.SpikeRegular: {
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 10,
+              MAP_ELEMENT_COLORS.spike.background,
+            );
+            drawCircle(
+              ctx,
+              dotX - 1,
+              dotY - 1,
+              this.cellSize / 15,
+              MAP_ELEMENT_COLORS.bonus.innerCircle,
+              2,
+              null,
+            );
+            break;
+          }
+          case MapDefinitions.SpikeShiftedX: {
+            drawCircle(
+              ctx,
+              dotX + this.cellSize / 2,
+              dotY,
+              this.cellSize / 10,
+              MAP_ELEMENT_COLORS.spike.background,
+            );
+            drawCircle(
+              ctx,
+              dotX + this.cellSize / 2 - 1,
+              dotY - 1,
+              this.cellSize / 15,
+              MAP_ELEMENT_COLORS.bonus.innerCircle,
+              2,
+              null,
+            );
+            break;
+          }
+          case MapDefinitions.SpikeShiftedY: {
+            drawCircle(
+              ctx,
+              dotX,
+              dotY + this.cellSize / 2,
+              this.cellSize / 10,
+              MAP_ELEMENT_COLORS.spike.background,
+            );
+            drawCircle(
+              ctx,
+              dotX - 1,
+              dotY + this.cellSize / 2 - 1,
+              this.cellSize / 15,
+              MAP_ELEMENT_COLORS.bonus.innerCircle,
+              2,
+              null,
+            );
             break;
           }
           default: break;

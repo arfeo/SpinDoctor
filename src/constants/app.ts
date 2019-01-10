@@ -68,7 +68,7 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
   bonus: {
     background: 'rgba(0, 0, 0, 0.45)',
     border: 'rgb(30, 30, 30)',
-    innerCircle: 'rgba(255, 255, 255, 0.3)',
+    innerCircle: 'rgba(255, 255, 255, 0.2)',
   },
   goal: {
     background: 'rgb(221, 239, 255)',
@@ -84,6 +84,10 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
     background: 'rgb(112, 112, 112)',
     border: 'rgb(61, 61, 61)',
     innerBorder: 'rgb(0, 0, 0)',
+  },
+  spike: {
+    background: 'rgb(134, 14, 14)',
+    innerCircle: 'rgb(254, 52, 52)',
   },
 };
 
@@ -163,4 +167,7 @@ export enum MapDefinitions {
   DoorSwitcherBlue = 40,
   DoorSwitcherRed = 41,
   DoorSwitcherYellow = 42,
+  SpikeRegular = 50,
+  SpikeShiftedX = 51,
+  SpikeShiftedY = 52,
 }
