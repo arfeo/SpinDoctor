@@ -39,10 +39,11 @@ class Game {
   cellSize: number;
   boardPanel: IBoardPanel;
   staticCanvas: HTMLCanvasElement;
-  doorsCanvas: HTMLCanvasElement;
-  switchersCanvas: HTMLCanvasElement;
   goalCanvas: HTMLCanvasElement;
   wandCanvas: HTMLCanvasElement;
+  doorsCanvas: HTMLCanvasElement;
+  switchersCanvas: HTMLCanvasElement;
+  spikesCanvas: HTMLCanvasElement;
   keyDown: IKeysDown;
   isGameStopped: boolean;
   isLevelCompleted: boolean;
@@ -75,10 +76,11 @@ class Game {
     };
 
     this.staticCanvas = document.createElement('canvas');
-    this.doorsCanvas = document.createElement('canvas');
-    this.switchersCanvas = document.createElement('canvas');
     this.goalCanvas = document.createElement('canvas');
     this.wandCanvas = document.createElement('canvas');
+    this.doorsCanvas = document.createElement('canvas');
+    this.switchersCanvas = document.createElement('canvas');
+    this.spikesCanvas = document.createElement('canvas');
 
     this.isGameStopped = false;
     this.isLevelCompleted = false;

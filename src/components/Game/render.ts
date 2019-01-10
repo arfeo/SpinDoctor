@@ -45,21 +45,24 @@ function renderGameWindow() {
   this.boardPanel.lives.className = '-lives';
   this.boardPanel.score.className = '-score';
   this.staticCanvas.className = '-static-canvas';
-  this.doorsCanvas.className = '-doors-canvas';
-  this.switchersCanvas.className = '-switchers-canvas';
   this.goalCanvas.className = '-goal-canvas';
   this.wandCanvas.className = '-wand-canvas';
+  this.doorsCanvas.className = '-doors-canvas';
+  this.switchersCanvas.className = '-switchers-canvas';
+  this.spikesCanvas.className = '-spikes-canvas';
 
   this.staticCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.staticCanvas.height = this.cellSize * (GridDimensions.Height + 2);
-  this.doorsCanvas.width = this.cellSize * (GridDimensions.Width + 2);
-  this.doorsCanvas.height = this.cellSize * (GridDimensions.Height + 2);
-  this.switchersCanvas.width = this.cellSize * (GridDimensions.Width + 2);
-  this.switchersCanvas.height = this.cellSize * (GridDimensions.Height + 2);
   this.goalCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.goalCanvas.height = this.cellSize * (GridDimensions.Height + 2);
   this.wandCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.wandCanvas.height = this.cellSize * (GridDimensions.Height + 2);
+  this.doorsCanvas.width = this.cellSize * (GridDimensions.Width + 2);
+  this.doorsCanvas.height = this.cellSize * (GridDimensions.Height + 2);
+  this.switchersCanvas.width = this.cellSize * (GridDimensions.Width + 2);
+  this.switchersCanvas.height = this.cellSize * (GridDimensions.Height + 2);
+  this.spikesCanvas.width = this.cellSize * (GridDimensions.Width + 2);
+  this.spikesCanvas.height = this.cellSize * (GridDimensions.Height + 2);
 
   this.appRoot.innerHTML = '';
 
@@ -69,15 +72,16 @@ function renderGameWindow() {
   boardPanel.appendChild(this.boardPanel.lives);
   boardPanel.appendChild(this.boardPanel.score);
   gameWindow.appendChild(boardGrid);
+  boardGrid.appendChild(this.staticCanvas);
+  boardGrid.appendChild(this.goalCanvas);
+  boardGrid.appendChild(this.wandCanvas);
+  boardGrid.appendChild(this.spikesCanvas);
 
   if (this.level.doors) {
     boardGrid.appendChild(this.doorsCanvas);
     boardGrid.appendChild(this.switchersCanvas);
   }
 
-  boardGrid.appendChild(this.staticCanvas);
-  boardGrid.appendChild(this.goalCanvas);
-  boardGrid.appendChild(this.wandCanvas);
   boardGrid.appendChild(pauseLabel);
 
   if (this.level.wand) {
@@ -113,7 +117,8 @@ function renderLevelMap() {
       const objectType: number = map[y][x];
 
       if (objectType !== undefined && objectType !== MapDefinitions.Empty) {
-        const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+        const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+        const spikesCtx: CanvasRenderingContext2D = this.spikesCanvas.getContext('2d');
         const top: number = this.cellSize + this.cellSize * y;
         const left: number = this.cellSize + this.cellSize * x;
         const dotX: number = left + this.cellSize / 2;
@@ -125,7 +130,7 @@ function renderLevelMap() {
           // ----------------------------------------------------------------
           case MapDefinitions.DotRegular: {
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -137,7 +142,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.DotRed: {
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -149,7 +154,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.DotBlue: {
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -161,7 +166,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.DotYellow: {
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -173,7 +178,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.DotRedBlue: {
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -182,7 +187,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotRed.background,
             );
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -191,7 +196,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotBlue.background,
             );
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -203,7 +208,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.DotRedYellow: {
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -212,7 +217,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotRed.background,
             );
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -221,7 +226,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotYellow.background,
             );
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -233,7 +238,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.DotBlueYellow: {
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -242,7 +247,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotBlue.background,
             );
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -251,7 +256,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotYellow.background,
             );
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -263,7 +268,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.DotRedBlueYellow: {
             drawSector(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -272,7 +277,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotRed.background,
             );
             drawSector(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -281,7 +286,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotBlue.background,
             );
             drawSector(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -290,7 +295,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotYellow.background,
             );
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -305,7 +310,7 @@ function renderLevelMap() {
           // ----------------------------------------------------------------
           case MapDefinitions.RingRegular: {
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -317,7 +322,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.RingRed: {
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -329,7 +334,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.RingBlue: {
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -341,7 +346,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.RingYellow: {
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -353,7 +358,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.RingRedBlue: {
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -364,7 +369,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotRed.background,
             );
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -375,7 +380,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotBlue.background,
             );
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
@@ -385,7 +390,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.RingRedYellow: {
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -396,7 +401,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotRed.background,
             );
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -407,7 +412,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotYellow.background,
             );
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
@@ -417,7 +422,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.RingBlueYellow: {
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -428,7 +433,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotBlue.background,
             );
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -439,7 +444,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotYellow.background,
             );
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
@@ -449,7 +454,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.RingRedBlueYellow: {
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -460,7 +465,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotRed.background,
             );
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -471,7 +476,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotBlue.background,
             );
             drawArc(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
@@ -482,7 +487,7 @@ function renderLevelMap() {
               MAP_ELEMENT_COLORS.dotYellow.background,
             );
             drawCircle(
-              ctx,
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
@@ -495,7 +500,7 @@ function renderLevelMap() {
           // ----------------------------------------------------------------
           case MapDefinitions.WallHorizontal: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize,
@@ -507,7 +512,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallVertical: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize,
@@ -519,7 +524,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallHorizontalHalfLeft: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize / 2 + this.cellSize / 4,
@@ -531,7 +536,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallHorizontalHalfRight: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 4,
               top + this.cellSize / 2,
               this.cellSize / 2 + this.cellSize / 4,
@@ -543,7 +548,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallVerticalHalfBottom: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top + this.cellSize / 2 - this.cellSize / 4,
               this.cellSize / 2 + this.cellSize / 4,
@@ -555,7 +560,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallVerticalHalfTop: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize / 2 + this.cellSize / 4,
@@ -567,7 +572,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallTopLeftCorner: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2 - WALL_WIDTH / 2,
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
@@ -576,7 +581,7 @@ function renderLevelMap() {
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
               this.cellSize / 2,
@@ -588,7 +593,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallTopRightCorner: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
@@ -597,7 +602,7 @@ function renderLevelMap() {
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
               this.cellSize / 2,
@@ -609,7 +614,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallBottomRightCorner: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize / 2,
@@ -618,7 +623,7 @@ function renderLevelMap() {
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
@@ -630,7 +635,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallBottomLeftCorner: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize / 2,
@@ -639,7 +644,7 @@ function renderLevelMap() {
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2 - WALL_WIDTH / 2,
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
@@ -651,7 +656,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallHorizontalToBottom: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize,
@@ -660,7 +665,7 @@ function renderLevelMap() {
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
               this.cellSize / 2,
@@ -672,7 +677,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallHorizontalToTop: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize,
@@ -681,7 +686,7 @@ function renderLevelMap() {
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize / 2,
@@ -693,7 +698,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallVerticalToRight: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize,
@@ -702,7 +707,7 @@ function renderLevelMap() {
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
               this.cellSize / 2,
@@ -714,7 +719,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallVerticalToLeft: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize,
@@ -723,7 +728,7 @@ function renderLevelMap() {
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize / 2,
@@ -735,7 +740,7 @@ function renderLevelMap() {
           }
           case MapDefinitions.WallX: {
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize,
@@ -744,7 +749,7 @@ function renderLevelMap() {
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
-              ctx,
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize,
@@ -810,14 +815,14 @@ function renderLevelMap() {
           // ----------------------------------------------------------------
           case MapDefinitions.SpikeRegular: {
             drawCircle(
-              ctx,
+              spikesCtx,
               dotX,
               dotY,
               this.cellSize / 10,
               MAP_ELEMENT_COLORS.spike.background,
             );
             drawCircle(
-              ctx,
+              spikesCtx,
               dotX - 1,
               dotY - 1,
               this.cellSize / 15,
@@ -829,14 +834,14 @@ function renderLevelMap() {
           }
           case MapDefinitions.SpikeShiftedX: {
             drawCircle(
-              ctx,
+              spikesCtx,
               dotX + this.cellSize / 2,
               dotY,
               this.cellSize / 10,
               MAP_ELEMENT_COLORS.spike.background,
             );
             drawCircle(
-              ctx,
+              spikesCtx,
               dotX + this.cellSize / 2 - 1,
               dotY - 1,
               this.cellSize / 15,
@@ -848,14 +853,14 @@ function renderLevelMap() {
           }
           case MapDefinitions.SpikeShiftedY: {
             drawCircle(
-              ctx,
+              spikesCtx,
               dotX,
               dotY + this.cellSize / 2,
               this.cellSize / 10,
               MAP_ELEMENT_COLORS.spike.background,
             );
             drawCircle(
-              ctx,
+              spikesCtx,
               dotX - 1,
               dotY + this.cellSize / 2 - 1,
               this.cellSize / 15,

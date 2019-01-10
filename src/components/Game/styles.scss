@@ -74,16 +74,18 @@
       z-index: 10;
     }
 
-    .-switchers-canvas {
+    .-switchers-canvas
+    .-spikes-canvas{
       z-index: 9;
     }
 
     .-static-canvas,
-    .-doors-canvas,
-    .-switchers-canvas,
     .-goal-canvas,
     .-wand-canvas,
-    .-enemy-canvas {
+    .-enemy-canvas,
+    .-doors-canvas,
+    .-switchers-canvas,
+    .-spikes-canvas {
       position: absolute;
       top: 0;
       left: 0;
