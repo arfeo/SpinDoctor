@@ -1,4 +1,3 @@
-// tslint:disable:max-file-line-count
 import { Game } from './index';
 
 import { APP, MapDefinitions, WAND_REBOUND } from '../../constants/app';

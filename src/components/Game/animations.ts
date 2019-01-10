@@ -1,4 +1,3 @@
-// tslint:disable:max-file-line-count
 import {
   MAP_ELEMENT_COLORS,
   WAND_COLORS,
