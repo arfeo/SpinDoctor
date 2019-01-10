@@ -10,7 +10,9 @@ import {
 } from '../../constants/app';
 
 import {
-  drawDot,
+  drawCircle,
+  drawSector,
+  drawArc,
   drawLineToAngle,
   drawFilledRectangle,
   drawStrokeRectangle,
@@ -119,7 +121,7 @@ function renderLevelMap() {
 
         switch (objectType) {
           case MapDefinitions.DotRegular: {
-            drawDot(
+            drawCircle(
               ctx,
               dotX,
               dotY,
@@ -130,8 +132,8 @@ function renderLevelMap() {
             );
             break;
           }
-          case MapDefinitions.DotRegularRed: {
-            drawDot(
+          case MapDefinitions.DotRed: {
+            drawCircle(
               ctx,
               dotX,
               dotY,
@@ -142,8 +144,8 @@ function renderLevelMap() {
             );
             break;
           }
-          case MapDefinitions.DotRegularBlue: {
-            drawDot(
+          case MapDefinitions.DotBlue: {
+            drawCircle(
               ctx,
               dotX,
               dotY,
@@ -154,8 +156,8 @@ function renderLevelMap() {
             );
             break;
           }
-          case MapDefinitions.DotRegularYellow: {
-            drawDot(
+          case MapDefinitions.DotYellow: {
+            drawCircle(
               ctx,
               dotX,
               dotY,
@@ -166,8 +168,137 @@ function renderLevelMap() {
             );
             break;
           }
+          case MapDefinitions.DotRedBlue: {
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI,
+              0,
+              MAP_ELEMENT_COLORS.dotRed.background,
+            );
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              0,
+              Math.PI,
+              MAP_ELEMENT_COLORS.dotBlue.background,
+            );
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotRegular.border,
+            );
+            break;
+          }
+          case MapDefinitions.DotRedYellow: {
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI,
+              0,
+              MAP_ELEMENT_COLORS.dotRed.background,
+            );
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              0,
+              Math.PI,
+              MAP_ELEMENT_COLORS.dotYellow.background,
+            );
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotRegular.border,
+            );
+            break;
+          }
+          case MapDefinitions.DotBlueYellow: {
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI,
+              0,
+              MAP_ELEMENT_COLORS.dotBlue.background,
+            );
+            drawArc(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              0,
+              Math.PI,
+              MAP_ELEMENT_COLORS.dotYellow.background,
+            );
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotRegular.border,
+            );
+            break;
+          }
+          case MapDefinitions.DotRedBlueYellow: {
+            drawSector(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              0,
+              Math.PI * 2 / 3,
+              MAP_ELEMENT_COLORS.dotRed.background,
+            );
+            drawSector(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI * 2 / 3,
+              Math.PI * 4 / 3,
+              MAP_ELEMENT_COLORS.dotBlue.background,
+            );
+            drawSector(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              Math.PI * 4 / 3,
+              0,
+              MAP_ELEMENT_COLORS.dotYellow.background,
+            );
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              null,
+              2,
+              MAP_ELEMENT_COLORS.dotRegular.border,
+            );
+            break;
+          }
           case MapDefinitions.RingRegular: {
-            drawDot(
+            drawCircle(
               ctx,
               dotX,
               dotY,
@@ -454,7 +585,7 @@ function renderLevelMap() {
               [MapDefinitions.DoorSwitcherYellow]: 'yellow',
             };
 
-            drawDot(
+            drawCircle(
               switchersCtx,
               dotX,
               dotY,
@@ -514,7 +645,7 @@ function renderBonus() {
     const bonusX: number = this.cellSize + this.cellSize * (bonus.position[1] + 1) + this.cellSize / 2;
     const bonusY: number = this.cellSize + this.cellSize * (bonus.position[0] + 1) + this.cellSize / 2;
 
-    drawDot(
+    drawCircle(
       ctx,
       bonusX,
       bonusY,
@@ -523,7 +654,7 @@ function renderBonus() {
       2,
       MAP_ELEMENT_COLORS.bonus.border,
     );
-    drawDot(
+    drawCircle(
       ctx,
       bonusX - 1,
       bonusY - 1,

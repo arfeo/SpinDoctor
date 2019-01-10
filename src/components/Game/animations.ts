@@ -7,7 +7,7 @@ import {
 } from '../../constants/app';
 
 import { renderDoor } from './render';
-import { drawDot, drawLineToAngle, drawStar } from './draw';
+import { drawCircle, drawLineToAngle, drawStar } from './draw';
 import { checkAvatarWand, checkEnemyWand } from './actions';
 
 import { IDoor, IEnemy, IWand } from '../../types/global';
@@ -270,7 +270,7 @@ function animateRingElimination(currDotX: number, currDotY: number) {
 
     ctx.clearRect(left, top, this.cellSize, this.cellSize);
 
-    drawDot(
+    drawCircle(
       ctx,
       dotX,
       dotY,

@@ -1,5 +1,5 @@
 /**
- * Alias for drawSector, this function draws a dot of the given size and style at the given coordinates
+ * Alias for drawArc, this function draws a circle of the given size and style at the given coordinates
  *
  * @param ctx
  * @param dotX
@@ -9,7 +9,7 @@
  * @param edgingWidth
  * @param edgingColor
  */
-function drawDot(
+function drawCircle(
   ctx: CanvasRenderingContext2D,
   dotX: number,
   dotY: number,
@@ -18,7 +18,37 @@ function drawDot(
   edgingWidth?: number,
   edgingColor?: string,
 ) {
-  drawSector(ctx, dotX, dotY, radius, 0, Math.PI * 2, fillStyle, edgingWidth, edgingColor);
+  drawArc(ctx, dotX, dotY, radius, 0, Math.PI * 2, fillStyle, edgingWidth, edgingColor);
+}
+
+/**
+ * Function draws a circle sector at the given coordinates
+ *
+ * @param ctx
+ * @param dotX
+ * @param dotY
+ * @param radius
+ * @param startAngle
+ * @param endAngle
+ * @param fillStyle
+ */
+function drawSector(
+  ctx: CanvasRenderingContext2D,
+  dotX: number,
+  dotY: number,
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+  fillStyle: string,
+) {
+  ctx.fillStyle = fillStyle;
+
+  ctx.beginPath();
+  ctx.moveTo(dotX, dotY);
+  ctx.arc(dotX, dotY, radius, startAngle, endAngle);
+  ctx.lineTo(dotX, dotY);
+  ctx.fill();
+  ctx.closePath();
 }
 
 /**
@@ -34,7 +64,7 @@ function drawDot(
  * @param edgingWidth
  * @param edgingColor
  */
-function drawSector(
+function drawArc(
   ctx: CanvasRenderingContext2D,
   cx: number,
   cy: number,
@@ -45,19 +75,13 @@ function drawSector(
   edgingWidth?: number,
   edgingColor?: string,
 ) {
-  ctx.beginPath();
-  ctx.arc(
-    cx,
-    cy,
-    radius,
-    startAngle,
-    endAngle,
-    false,
-  );
   ctx.fillStyle = fillStyle || 'transparent';
-  ctx.fill();
   ctx.lineWidth = edgingWidth || 0;
   ctx.strokeStyle = edgingColor || 'transparent';
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, startAngle, endAngle);
+  ctx.fill();
   ctx.stroke();
 }
 
@@ -129,6 +153,10 @@ function drawStar(
   let y: number = cy;
   const step = Math.PI / spikes;
 
+  ctx.fillStyle = fillStyle || 'transparent';
+  ctx.lineWidth = edgingWidth || 0;
+  ctx.strokeStyle = edgingColor || 'transparent';
+
   ctx.beginPath();
   ctx.moveTo(cx, cy - outerRadius);
 
@@ -146,10 +174,7 @@ function drawStar(
 
   ctx.lineTo(cx, cy - outerRadius);
   ctx.closePath();
-  ctx.lineWidth = edgingWidth || 0;
-  ctx.strokeStyle = edgingColor || 'transparent';
   ctx.stroke();
-  ctx.fillStyle = fillStyle || 'transparent';
   ctx.fill();
 }
 
@@ -172,6 +197,7 @@ function drawFilledRectangle(
   fillStyle?: string,
 ) {
   ctx.fillStyle = fillStyle || 'transparent';
+
   ctx.fillRect(left, top, width, height);
 }
 
@@ -197,12 +223,14 @@ function drawStrokeRectangle(
 ) {
   ctx.lineWidth = edgingWidth || 0;
   ctx.strokeStyle = edgingColor || 'transparent';
+
   ctx.strokeRect(left, top, width, height);
 }
 
 export {
-  drawDot,
+  drawCircle,
   drawSector,
+  drawArc,
   drawLineToAngle,
   drawStar,
   drawFilledRectangle,

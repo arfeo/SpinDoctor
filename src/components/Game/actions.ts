@@ -1,7 +1,7 @@
 // tslint:disable:max-file-line-count
 import { Game } from './index';
 
-import { APP, WAND_REBOUND, MapDefinitions } from '../../constants/app';
+import { APP, MapDefinitions, WAND_REBOUND } from '../../constants/app';
 import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
@@ -138,13 +138,22 @@ function checkEnemyWand(enemyId: number) {
 
     const dotsMap: {[key: string]: number[]} = {
       blue: [
-        MapDefinitions.DotRegularBlue,
+        MapDefinitions.DotBlue,
+        MapDefinitions.DotRedBlue,
+        MapDefinitions.DotBlueYellow,
+        MapDefinitions.DotRedBlueYellow,
       ],
       red: [
-        MapDefinitions.DotRegularRed,
+        MapDefinitions.DotRed,
+        MapDefinitions.DotRedBlue,
+        MapDefinitions.DotRedYellow,
+        MapDefinitions.DotRedBlueYellow,
       ],
       yellow: [
-        MapDefinitions.DotRegularYellow,
+        MapDefinitions.DotYellow,
+        MapDefinitions.DotRedYellow,
+        MapDefinitions.DotBlueYellow,
+        MapDefinitions.DotRedBlueYellow,
       ],
     };
 
