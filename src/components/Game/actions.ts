@@ -400,7 +400,7 @@ function checkIntersections(): boolean {
  * @param dotY
  */
 function checkNextDot(dotType: number, dotX: number, dotY: number) {
-  // Avatar wand meets bonus
+  // Avatar wand grabs bonus
   const bonus: IBonus[] = this.level.bonus.filter((item: IBonus) => {
     return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
   });
@@ -413,7 +413,7 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
     renderPanelCounters.call(this);
   }
 
-  // Avatar wand meets the goal
+  // Avatar wand grabs the goal dot
   if ((dotY - 1) === this.goalPosition[0] && (dotX - 1) === this.goalPosition[1]) {
     this.isGameStopped = true;
     this.isLevelCompleted = true;

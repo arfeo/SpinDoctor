@@ -105,8 +105,9 @@ function renderGameWindow() {
 }
 
 /**
- * Function renders game board as described in `map` array of `constants/levels`
- * for the current level, including dots and exit
+ * Function renders game board as described in `constants/levels`
+ * for the current level, including dots, walls, doors, enemies, obstacles,
+ * and the goal
  */
 function renderLevelMap() {
   const { map, bonus, doors } = this.level;
