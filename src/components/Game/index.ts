@@ -16,6 +16,7 @@ import {
 } from './events';
 
 import { setCellSize } from '../../utils/common';
+import { validateLevel } from './utils';
 
 import {
   IBoardPanel,
@@ -104,11 +105,7 @@ class Game {
   }
 
   render() {
-    const { map, goal } = this.level;
-
-    if (!map || !goal) {
-      alert('The level description is invalid: there is no "map" and/or "goal" found.');
-
+    if (!validateLevel.call(this)) {
       return;
     }
 

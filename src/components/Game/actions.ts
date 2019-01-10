@@ -5,7 +5,7 @@ import { APP, MapDefinitions, WAND_REBOUND } from '../../constants/app';
 import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
-import { lineSegmentsIntersect, pointOnLineSegment } from './utils';
+import { lineSegmentsIntersect, pointOnLineSegment } from './math';
 import { animateDoors, animateMapElementElimination } from './animations';
 
 import { IBonus, IDoorCoords, IEnemy, ILineSegment, IWand } from '../../types/global';
