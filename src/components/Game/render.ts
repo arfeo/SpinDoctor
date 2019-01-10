@@ -303,9 +303,45 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.ring.background,
+              MAP_ELEMENT_COLORS.ringRegular.background,
               2,
-              MAP_ELEMENT_COLORS.ring.border,
+              MAP_ELEMENT_COLORS.ringRegular.border,
+            );
+            break;
+          }
+          case MapDefinitions.RingRed: {
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              MAP_ELEMENT_COLORS.ringRed.background,
+              2,
+              MAP_ELEMENT_COLORS.ringRed.border,
+            );
+            break;
+          }
+          case MapDefinitions.RingBlue: {
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              MAP_ELEMENT_COLORS.ringBlue.background,
+              2,
+              MAP_ELEMENT_COLORS.ringBlue.border,
+            );
+            break;
+          }
+          case MapDefinitions.RingYellow: {
+            drawCircle(
+              ctx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              MAP_ELEMENT_COLORS.ringYellow.background,
+              2,
+              MAP_ELEMENT_COLORS.ringYellow.border,
             );
             break;
           }

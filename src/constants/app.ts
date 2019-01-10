@@ -30,6 +30,9 @@ export const DIFFICULTIES: IDifficulty[] = [
 ];
 
 export const MAP_ELEMENT_COLORS: IMapElementColors = {
+  board: {
+    background: 'rgb(74, 74, 74)',
+  },
   dotRegular: {
     background: 'rgb(200, 200, 200)',
     border: 'rgb(30, 30, 30)',
@@ -46,9 +49,21 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
     background: 'rgb(247, 244, 59)',
     border: 'rgb(30, 30, 30)',
   },
-  ring: {
+  ringRegular: {
     background: 'rgb(74, 74, 74)',
     border: 'rgb(200, 200, 200)',
+  },
+  ringRed: {
+    background: 'rgb(74, 74, 74)',
+    border: 'rgb(227, 100, 100)',
+  },
+  ringBlue: {
+    background: 'rgb(74, 74, 74)',
+    border: 'rgb(48, 118, 171)',
+  },
+  ringYellow: {
+    background: 'rgb(74, 74, 74)',
+    border: 'rgb(247, 244, 59)',
   },
   bonus: {
     background: 'rgba(0, 0, 0, 0.45)',
@@ -97,7 +112,7 @@ export const WAND_REBOUND = 3;
 
 export const DOORS_ANIMATION_SPEED = 1.5;
 
-export const RING_FADE_OUT_ANIMATION_SPEED = 0.1;
+export const FADE_OUT_ANIMATION_SPEED = 0.1;
 
 export enum FunctionalKeys {
   Reverse = ' ',
@@ -123,6 +138,13 @@ export enum MapDefinitions {
   DotBlueYellow = 7,
   DotRedBlueYellow = 8,
   RingRegular = 9,
+  RingRed = 10,
+  RingBlue = 11,
+  RingYellow = 12,
+  RingRedBlue = 13,
+  RingRedYellow = 14,
+  RingBlueYellow = 15,
+  RingRedBlueYellow = 16,
   WallHorizontal = 20,
   WallVertical = 21,
   WallHorizontalHalfLeft = 22,

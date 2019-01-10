@@ -1,9 +1,10 @@
+// tslint:disable:max-file-line-count
 import {
-  DOORS_ANIMATION_SPEED,
   MAP_ELEMENT_COLORS,
-  RING_FADE_OUT_ANIMATION_SPEED,
   WAND_COLORS,
   WAND_WIDTH,
+  DOORS_ANIMATION_SPEED,
+  FADE_OUT_ANIMATION_SPEED,
 } from '../../constants/app';
 
 import { renderDoor } from './render';
@@ -245,39 +246,37 @@ function animateDoors(type: string) {
 }
 
 /**
- * Function eliminates a ring from the game board with fade out effect
+ * Function eliminates a map element from the game board with fade out effect
  *
  * @param currDotX
  * @param currDotY
  */
-function animateRingElimination(currDotX: number, currDotY: number) {
+function animateMapElementElimination(currDotX: number, currDotY: number) {
   const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
   const top: number = this.cellSize + this.cellSize * (currDotY + 1);
   const left: number = this.cellSize + this.cellSize * (currDotX + 1);
   const dotX: number = left + this.cellSize / 2;
   const dotY: number = top + this.cellSize / 2;
   let frame: number;
-  let alpha = 1;
+  let alpha = 0;
 
   const animate = () => {
-    if (alpha <= 0) {
+    if (alpha >= 1) {
+      ctx.clearRect(left, top, this.cellSize, this.cellSize);
+
       return cancelAnimationFrame(frame);
     }
 
-    alpha -= RING_FADE_OUT_ANIMATION_SPEED;
+    alpha += FADE_OUT_ANIMATION_SPEED;
 
     ctx.globalAlpha = alpha;
-
-    ctx.clearRect(left, top, this.cellSize, this.cellSize);
 
     drawCircle(
       ctx,
       dotX,
       dotY,
       this.cellSize / 5,
-      MAP_ELEMENT_COLORS.ring.background,
-      2,
-      MAP_ELEMENT_COLORS.ring.border,
+      MAP_ELEMENT_COLORS.board.background,
     );
 
     frame = requestAnimationFrame(animate);
@@ -291,5 +290,5 @@ export {
   animateAvatarWand,
   animateEnemyWand,
   animateDoors,
-  animateRingElimination,
+  animateMapElementElimination,
 };

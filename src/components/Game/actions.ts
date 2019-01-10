@@ -6,7 +6,7 @@ import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
 import { lineSegmentsIntersect, pointOnLineSegment } from './utils';
-import { animateDoors, animateRingElimination } from './animations';
+import { animateDoors, animateMapElementElimination } from './animations';
 
 import { IBonus, IDoorCoords, IEnemy, ILineSegment, IWand } from '../../types/global';
 
@@ -142,18 +142,27 @@ function checkEnemyWand(enemyId: number) {
         MapDefinitions.DotRedBlue,
         MapDefinitions.DotBlueYellow,
         MapDefinitions.DotRedBlueYellow,
+        MapDefinitions.RingBlue,
+        MapDefinitions.RingBlueYellow,
+        MapDefinitions.RingRedBlueYellow,
       ],
       red: [
         MapDefinitions.DotRed,
         MapDefinitions.DotRedBlue,
         MapDefinitions.DotRedYellow,
         MapDefinitions.DotRedBlueYellow,
+        MapDefinitions.RingRedBlue,
+        MapDefinitions.RingRedYellow,
+        MapDefinitions.RingRedBlueYellow,
       ],
       yellow: [
         MapDefinitions.DotYellow,
         MapDefinitions.DotRedYellow,
         MapDefinitions.DotBlueYellow,
         MapDefinitions.DotRedBlueYellow,
+        MapDefinitions.RingRedYellow,
+        MapDefinitions.RingBlueYellow,
+        MapDefinitions.RingRedBlueYellow,
       ],
     };
 
@@ -419,10 +428,21 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
  * @param currDotY
  */
 function checkRingLeaving(currDotX: number, currDotY: number) {
-  if (this.level.map[currDotY + 1][currDotX + 1] === MapDefinitions.RingRegular) {
+  const ringsMap: number[] = [
+    MapDefinitions.RingRegular,
+    MapDefinitions.RingRed,
+    MapDefinitions.RingBlue,
+    MapDefinitions.RingYellow,
+    MapDefinitions.RingRedBlue,
+    MapDefinitions.RingRedYellow,
+    MapDefinitions.RingBlueYellow,
+    MapDefinitions.RingRedBlueYellow,
+  ];
+
+  if (ringsMap.indexOf(this.level.map[currDotY + 1][currDotX + 1]) > - 1) {
     this.level.map[currDotY + 1][currDotX + 1] = 0;
 
-    animateRingElimination.call(this, currDotX, currDotY);
+    animateMapElementElimination.call(this, currDotX, currDotY);
   }
 }
 
