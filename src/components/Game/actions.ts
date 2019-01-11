@@ -21,20 +21,7 @@ function checkAvatarWand() {
   const { flip, bounce, swing } = this.keyDown;
 
   if (checkAvatarWandIntersections.call(this)) {
-    this.lives -= 1;
-    this.isGameStopped = true;
-
-    if (this.lives > 0) {
-      this.destroy();
-
-      APP.pageInstance = new Game(this.level.id, this.lives, this.score, this.difficulty.id, this.levelExtra);
-    } else {
-      renderPanelCounters.call(this);
-
-      new GameOver(this);
-    }
-
-    return;
+    return checkOnLevelFail.call(this);
   }
 
   if (flip || bounce || swing) {
@@ -555,4 +542,27 @@ function checkRingLeaving(currDotX: number, currDotY: number) {
   }
 }
 
-export { checkAvatarWand, checkEnemyWand };
+/**
+ * Function checks whether it is possible to continue the game when the user fails the level;
+ * if no lives left -- the game stops, if there is at least one life left -- the level restarts
+ */
+function checkOnLevelFail() {
+  this.lives -= 1;
+  this.isGameStopped = true;
+
+  if (this.lives > 0) {
+    this.destroy();
+
+    APP.pageInstance = new Game(this.level.id, this.lives, this.score, this.difficulty.id, this.levelExtra);
+  } else {
+    renderPanelCounters.call(this);
+
+    new GameOver(this);
+  }
+}
+
+export {
+  checkAvatarWand,
+  checkEnemyWand,
+  checkOnLevelFail,
+};

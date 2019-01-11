@@ -11,6 +11,7 @@ export interface ILevelExtra {
 
 export interface IBoardPanel {
   level: HTMLElement;
+  time: HTMLElement;
   lives: HTMLElement;
   score: HTMLElement;
 }
@@ -37,6 +38,7 @@ export interface ILevel {
   goal: number[];
   wand: IWand;
   enemies?: (IWand & IEnemy)[];
+  time: number;
 }
 
 export interface IBonus {

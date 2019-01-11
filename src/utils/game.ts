@@ -37,4 +37,16 @@ function validateLevel(): boolean {
   return true;
 }
 
-export { validateLevel };
+/**
+ * Function formats a count of seconds to the `mm:ss` type string
+ *
+ * @param time
+ */
+function secondsToString(time: number): string {
+  const min: number = Math.floor(time / 60);
+  const sec: number = Math.floor(time - min * 60);
+
+  return `${(min < 10 ? `0${min}` : min)}:${(sec < 10 ? `0${sec}` : sec)}`;
+}
+
+export { validateLevel, secondsToString };

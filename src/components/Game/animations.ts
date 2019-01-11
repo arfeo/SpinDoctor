@@ -8,12 +8,13 @@ import {
 
 import { renderDoor } from './render';
 import { drawCircle, drawLineToAngle, drawStar } from '../../utils/drawing';
-import { checkAvatarWand, checkEnemyWand } from './actions';
+import { checkAvatarWand, checkEnemyWand, checkOnLevelFail } from './actions';
+import { secondsToString } from '../../utils/game';
 
 import { IDoor, IEnemy, IEnemyWandsCoords, IWand } from '../../types/game';
 
 /**
- * Function animates the goal (rotating star-like object beneath a regular dot)
+ * Function animates the goal (rotating star-like object beneath a dot)
  */
 function animateGoal() {
   const goalPosX: number = this.cellSize + this.cellSize * (this.goalPosition[1] + 1);
@@ -405,6 +406,35 @@ function animateMapElementElimination(currDotX: number, currDotY: number) {
   frame = requestAnimationFrame(animate);
 }
 
+/**
+ * Function animates the game time ticker in the game panel
+ */
+function animateTimeTicker() {
+  let start: number = performance.now();
+
+  const animate = (time: number) => {
+    if (this.isGameStopped) {
+      return this.animateTimeTicker = requestAnimationFrame(animate);
+    }
+
+    if (time - start > 1000) {
+      this.timeAvailable -= 1;
+
+      this.boardPanel.time.innerText = secondsToString(this.timeAvailable);
+
+      if (this.timeAvailable === 0) {
+        return checkOnLevelFail.call(this);
+      }
+
+      start = time;
+    }
+
+    this.animateTimeTicker = requestAnimationFrame(animate);
+  };
+
+  this.animateTimeTicker = requestAnimationFrame(animate);
+}
+
 export {
   animateGoal,
   animateAvatarWand,
@@ -412,4 +442,5 @@ export {
   animateDoors,
   animateSpikes,
   animateMapElementElimination,
+  animateTimeTicker,
 };

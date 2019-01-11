@@ -90,6 +90,7 @@ export const LEVELS: ILevel[] = [
       direction: 1,
       angle: 270,
     },
+    time: 60,
   },
   {
     id: 2,
@@ -159,6 +160,7 @@ export const LEVELS: ILevel[] = [
         angle: 270,
       },
     ],
+    time: 60,
   },
   {
     id: 3,
@@ -200,6 +202,7 @@ export const LEVELS: ILevel[] = [
       direction: 1,
       angle: 270,
     },
+    time: 90,
   },
   {
     id: 4,
@@ -262,6 +265,7 @@ export const LEVELS: ILevel[] = [
       direction: 1,
       angle: 270,
     },
+    time: 60,
   },
   {
     id: 5,
@@ -331,6 +335,7 @@ export const LEVELS: ILevel[] = [
         move: 'flip',
       },
     ],
+    time: 60,
   },
   {
     id: 6,
@@ -381,5 +386,6 @@ export const LEVELS: ILevel[] = [
         angle: 270,
       },
     ],
+    time: 60,
   },
 ];

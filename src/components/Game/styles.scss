@@ -18,15 +18,24 @@
     .-level {
       display: flex;
       align-items: center;
-      width: 50%;
+      width: 35%;
 
       .-id {
         margin-right: calc(#{$mainMargin / 2});
       }
     }
 
-    .-lives {
+    .-time {
       width: 25%;
+
+      &:before {
+        content: 'Time:';
+        margin-right: calc(#{$mainMargin / 2});
+      }
+    }
+
+    .-lives {
+      width: 15%;
 
       &:before {
         content: 'Lives:';

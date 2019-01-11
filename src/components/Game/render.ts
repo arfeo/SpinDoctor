@@ -24,6 +24,8 @@ import {
   animateSpikes,
 } from './animations';
 
+import { secondsToString } from '../../utils/game';
+
 import { IBonus, IDoor, IDoorCoords, IEnemy, IWand } from '../../types/game';
 
 /**
@@ -42,6 +44,7 @@ function renderGameWindow() {
   pauseLabel.className = '-pause';
   pauseLabel.innerText = 'Paused';
   this.boardPanel.level.className = '-level';
+  this.boardPanel.time.className = '-time';
   this.boardPanel.lives.className = '-lives';
   this.boardPanel.score.className = '-score';
   this.staticCanvas.className = '-static-canvas';
@@ -69,6 +72,11 @@ function renderGameWindow() {
   this.appRoot.appendChild(gameWindow);
   gameWindow.appendChild(boardPanel);
   boardPanel.appendChild(this.boardPanel.level);
+
+  if (this.difficulty.id !== 1) {
+    boardPanel.appendChild(this.boardPanel.time);
+  }
+
   boardPanel.appendChild(this.boardPanel.lives);
   boardPanel.appendChild(this.boardPanel.score);
   gameWindow.appendChild(boardGrid);
@@ -1218,6 +1226,11 @@ function renderPanelCounters() {
     <div class="-id">${this.level.id}:</div>
     <div class="-title">${this.level.title}</div>
   `);
+
+  if (this.difficulty.id !== 1) {
+    this.boardPanel.time.innerText = secondsToString(this.timeAvailable);
+  }
+
   this.boardPanel.lives.innerText = this.lives;
   this.boardPanel.score.innerText = this.score;
 }

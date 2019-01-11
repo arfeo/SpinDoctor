@@ -1,6 +1,8 @@
 import { APP } from '../../constants/global';
 import { FunctionalKeys } from '../../constants/game';
 
+import { animateTimeTicker } from './animations';
+
 /**
  * Function creates all game's event listeners
  */
@@ -90,6 +92,12 @@ function setActiveKey(type?: string) {
 
   if (type) {
     this.keyDown[type] = true;
+
+    if (type !== 'pause' && !this.isTimeTickerOn && this.difficulty.id !== 1) {
+      this.isTimeTickerOn = true;
+
+      animateTimeTicker.call(this);
+    }
   }
 }
 

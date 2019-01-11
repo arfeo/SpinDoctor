@@ -35,6 +35,7 @@ class Game {
   lives: number;
   score: number;
   difficulty: IDifficulty;
+  timeAvailable: number;
   levelExtra: ILevelExtra;
   cellSize: number;
   boardPanel: IBoardPanel;
@@ -45,6 +46,7 @@ class Game {
   switchersCanvas: HTMLCanvasElement;
   obstaclesCanvas: HTMLCanvasElement;
   keyDown: IKeysDown;
+  isTimeTickerOn: boolean;
   isGameStopped: boolean;
   isLevelCompleted: boolean;
   isSwitcherActive: boolean;
@@ -52,6 +54,7 @@ class Game {
   animateGoal: number;
   animateAvatarWand: number;
   animateEnemyWand: number[];
+  animateTimeTicker: number;
   avatarWandCoords: number[][];
   enemyWandsCoords: IEnemyWandsCoords[];
   wallsCoords: number[][];
@@ -67,6 +70,7 @@ class Game {
     this.lives = lives;
     this.score = score;
     this.difficulty = JSON.parse(JSON.stringify(DIFFICULTIES.filter((item: IDifficulty) => item.id === difficulty)[0]));
+    this.timeAvailable = this.level.time;
     this.levelExtra = JSON.parse(JSON.stringify(levelExtra));
 
     if (this.levelExtra.station.length) {
@@ -77,6 +81,7 @@ class Game {
 
     this.boardPanel = {
       level: document.createElement('div'),
+      time: document.createElement('div'),
       lives: document.createElement('div'),
       score: document.createElement('div'),
     };
@@ -88,6 +93,7 @@ class Game {
     this.switchersCanvas = document.createElement('canvas');
     this.obstaclesCanvas = document.createElement('canvas');
 
+    this.isTimeTickerOn = false;
     this.isGameStopped = false;
     this.isLevelCompleted = false;
     this.isSwitcherActive = false;
@@ -132,6 +138,7 @@ class Game {
 
     cancelAnimationFrame(this.animateAvatarWand);
     cancelAnimationFrame(this.animateGoal);
+    cancelAnimationFrame(this.animateTimeTicker);
 
     for (const frame of this.animateEnemyWand) {
       cancelAnimationFrame(frame);
