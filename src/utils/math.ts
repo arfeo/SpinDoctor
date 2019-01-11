@@ -23,7 +23,7 @@ function lineSegmentsIntersect(segment1: ILineSegment, segment2: ILineSegment): 
 }
 
 /**
- * Function checks if a point belongs on a line segment
+ * Function checks if a point belongs to a line segment
  *
  * @param segment
  * @param point
@@ -44,7 +44,7 @@ function pointOnLineSegment(segment: ILineSegment, point: IPoint, tolerance: num
 
 /**
  * Function checks if a line segment intersects with a rectangle by checking intersection
- * with each of its sides
+ * with each of its sides; returns true if at least one intersection registered
  *
  * @param segment
  * @param rectCoords
