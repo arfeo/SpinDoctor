@@ -53,7 +53,7 @@ class Game {
   animateAvatarWand: number;
   animateEnemyWand: number[];
   avatarWandCoords: number[][];
-  enemyWandsCoords: IEnemyWandsCoords;
+  enemyWandsCoords: IEnemyWandsCoords[];
   wallsCoords: number[][];
   doorsCoords: IDoorCoords[];
   switchersCoords: ISwitcherCoords[];
@@ -97,7 +97,7 @@ class Game {
     this.animateEnemyWand = [];
 
     this.avatarWandCoords = [];
-    this.enemyWandsCoords = {};
+    this.enemyWandsCoords = [];
     this.wallsCoords = [];
     this.doorsCoords = [];
     this.switchersCoords = [];

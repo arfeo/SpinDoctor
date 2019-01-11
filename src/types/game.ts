@@ -24,7 +24,8 @@ export interface IKeysDown {
 }
 
 export interface IEnemyWandsCoords {
-  [key: number]: number[][];
+  id: number;
+  coords: number[][];
 }
 
 export interface ILevel {

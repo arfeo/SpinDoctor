@@ -10,7 +10,7 @@ import { renderDoor } from './render';
 import { drawCircle, drawLineToAngle, drawStar } from '../../utils/drawing';
 import { checkAvatarWand, checkEnemyWand } from './actions';
 
-import { IDoor, IEnemy, IWand } from '../../types/game';
+import { IDoor, IEnemy, IEnemyWandsCoords, IWand } from '../../types/game';
 
 /**
  * Function animates the goal (rotating star-like object beneath a regular dot)
@@ -134,13 +134,12 @@ function animateAvatarWand() {
  * @param enemyId
  */
 function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
-  const enemy = this.level.enemies.filter((item: IWand & IEnemy) => item.id === enemyId)[0];
-
   const animate = () => {
     if (this.isGameStopped) {
       return this.animateEnemyWand[enemyId] = requestAnimationFrame(animate);
     }
 
+    const enemy: IWand & IEnemy = this.level.enemies.filter((item: IWand & IEnemy) => item.id === enemyId)[0];
     const { position, direction, angle } = enemy;
     const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
     const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
@@ -152,15 +151,22 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
       this.cellSize * 4,
     );
 
-    this.enemyWandsCoords[enemy.id] = drawLineToAngle(
-      ctx,
-      x,
-      y,
-      this.cellSize * 2 - this.cellSize / 5,
-      angle,
-      WAND_COLORS[enemy.type],
-      WAND_WIDTH,
-    );
+    this.enemyWandsCoords = this.enemyWandsCoords.filter((item: IEnemyWandsCoords) => {
+      return item.id !== enemyId;
+    });
+
+    this.enemyWandsCoords.push({
+      id: enemy.id,
+      coords: drawLineToAngle(
+        ctx,
+        x,
+        y,
+        this.cellSize * 2 - this.cellSize / 5,
+        angle,
+        WAND_COLORS[enemy.type],
+        WAND_WIDTH,
+      ),
+    });
 
     enemy.angle += direction * this.difficulty.correction / this.enemiesSpeedCorrection;
 
@@ -169,6 +175,11 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
     } else if (enemy.angle >= 360) {
       enemy.angle -= 360;
     }
+
+    this.level.enemies = [
+      ...this.level.enemies.filter((item: IWand & IEnemy) => item.id !== enemyId),
+      enemy,
+    ];
 
     checkEnemyWand.call(this, enemyId);
 

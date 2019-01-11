@@ -9,7 +9,7 @@ import { renderPanelCounters } from './render';
 import { lineSegmentIntersectsWithRect, lineSegmentsIntersect, pointOnLineSegment } from '../../utils/math';
 import { animateDoors, animateMapElementElimination } from './animations';
 
-import { IBonus, IDoorCoords, IEnemy, IWand } from '../../types/game';
+import { IBonus, IDoorCoords, IEnemy, IEnemyWandsCoords, IWand } from '../../types/game';
 import { ILineSegment } from '../../types/utils';
 
 /**
@@ -20,7 +20,7 @@ import { ILineSegment } from '../../types/utils';
 function checkAvatarWand() {
   const { flip, bounce, swing } = this.keyDown;
 
-  if (checkIntersections.call(this)) {
+  if (checkAvatarWandIntersections.call(this)) {
     this.lives -= 1;
     this.isGameStopped = true;
 
@@ -130,7 +130,9 @@ function checkAvatarWand() {
  * @param enemyId
  */
 function checkEnemyWand(enemyId: number) {
-  const enemy = this.level.enemies.filter((item: IWand & IEnemy) => item.id === enemyId)[0];
+  const enemy: IWand & IEnemy = this.level.enemies.filter((item: IWand & IEnemy) => item.id === enemyId)[0];
+
+  checkEnemyWandIntersections.call(this, enemyId);
 
   if (enemy.move) {
     const { map } = this.level;
@@ -256,7 +258,7 @@ function checkEnemyWand(enemyId: number) {
  * and false if the avatar wand intersects with a non-lethal object (e.g. wall or door),
  * functional object (e.g., switcher) or does not intersect with anything at all
  */
-function checkIntersections(): boolean {
+function checkAvatarWandIntersections(): boolean {
   if (this.avatarWandCoords) {
     const avatarWandSegment: ILineSegment = {
       start: {
@@ -271,16 +273,16 @@ function checkIntersections(): boolean {
 
     // Enemy wands
     if (this.level.enemies && this.enemyWandsCoords) {
-      for (const wand in this.enemyWandsCoords) {
-        if (this.enemyWandsCoords[wand] !== undefined) {
+      for (const wand of this.enemyWandsCoords) {
+        if (wand !== undefined) {
           const enemyWandSegment: ILineSegment = {
             start: {
-              x: this.enemyWandsCoords[wand][0][0],
-              y: this.enemyWandsCoords[wand][0][1],
+              x: wand.coords[0][0],
+              y: wand.coords[0][1],
             },
             end: {
-              x: this.enemyWandsCoords[wand][1][0],
-              y: this.enemyWandsCoords[wand][1][1],
+              x: wand.coords[1][0],
+              y: wand.coords[1][1],
             },
           };
 
@@ -395,6 +397,79 @@ function checkIntersections(): boolean {
   }
 
   return false;
+}
+
+/**
+ * Function checks if an enemy wand has intersections with some objects on the game board
+ * to take the necessary action
+ *
+ * @param enemyId
+ */
+function checkEnemyWandIntersections(enemyId: number) {
+  const enemy: IWand & IEnemy = this.level.enemies.filter((item: IWand & IEnemy) => item.id === enemyId)[0];
+  const enemyCoords: IEnemyWandsCoords[] = this.enemyWandsCoords.filter((item: IEnemyWandsCoords) => {
+    return item.id === enemyId;
+  });
+
+  const enemyWandSegment: ILineSegment = {
+    start: {
+      x: enemyCoords[0].coords[0][0],
+      y: enemyCoords[0].coords[0][1],
+    },
+    end: {
+      x: enemyCoords[0].coords[1][0],
+      y: enemyCoords[0].coords[1][1],
+    },
+  };
+
+  // Walls: enemy wands bounce off walls as well as the avatar wand does
+  if (this.wallsCoords) {
+    for (let i = 0; i < this.wallsCoords.length; i += 1) {
+      const wall: number[][] = this.wallsCoords[i];
+
+      const isIntersectingWall: boolean = lineSegmentsIntersect(
+        enemyWandSegment,
+        {
+          start: {
+            x: wall[0][0],
+            y: wall[0][1],
+          },
+          end: {
+            x: wall[1][0],
+            y: wall[1][1],
+          },
+        },
+      );
+
+      if (isIntersectingWall) {
+        enemy.direction *= -1;
+        enemy.angle += enemy.direction * WAND_REBOUND * this.difficulty.correction / this.enemiesSpeedCorrection;
+
+        this.level.enemies = [
+          ...this.level.enemies.filter((item: IWand & IEnemy) => item.id !== enemyId),
+          enemy,
+        ];
+      }
+    }
+  }
+
+  // Door switchers: an enemy wand can activate only switchers of the same type this wand is (red, blue or yellow)
+  for (let i = 0; i < this.switchersCoords.length; i += 1) {
+    const isSwitcherOnEnemyWand: boolean = pointOnLineSegment(
+      enemyWandSegment,
+      {
+        x: this.switchersCoords[i].coords[0],
+        y: this.switchersCoords[i].coords[1],
+      },
+      5,
+    );
+
+    if (isSwitcherOnEnemyWand && !this.isSwitcherActive && enemy.type === this.switchersCoords[i].type) {
+      this.isSwitcherActive = true;
+
+      animateDoors.call(this, this.switchersCoords[i].type);
+    }
+  }
 }
 
 /**
