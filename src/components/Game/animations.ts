@@ -313,162 +313,34 @@ function animateSpikes() {
       switch (num) {
         case 0: {
           redrawSpikeDot();
-          drawLineToAngle(
-            obstaclesCtx,
-            x1,
-            y1,
-            this.cellSize / 15,
-            225,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x2,
-            y2,
-            this.cellSize / 30,
-            45,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x2,
-            y1,
-            this.cellSize / 40,
-            315,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x1,
-            y2,
-            this.cellSize / 40,
-            135,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 15, 225, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 30, 45, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, MAP_ELEMENT_COLORS.spike.point, 1);
           break;
         }
         case step: {
           redrawSpikeDot();
-          drawLineToAngle(
-            obstaclesCtx,
-            x1,
-            y1,
-            this.cellSize / 30,
-            225,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x2,
-            y2,
-            this.cellSize / 15,
-            45,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x2,
-            y1,
-            this.cellSize / 40,
-            315,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x1,
-            y2,
-            this.cellSize / 40,
-            135,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 30, 225, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 15, 45, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, MAP_ELEMENT_COLORS.spike.point, 1);
           break;
         }
         case step * 2: {
           redrawSpikeDot();
-          drawLineToAngle(
-            obstaclesCtx,
-            x1,
-            y1,
-            this.cellSize / 40,
-            225,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x2,
-            y2,
-            this.cellSize / 40,
-            45,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x2,
-            y1,
-            this.cellSize / 15,
-            315,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x1,
-            y2,
-            this.cellSize / 30,
-            135,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 15, 315, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 30, 135, MAP_ELEMENT_COLORS.spike.point, 1);
           break;
         }
         case step * 3: {
           redrawSpikeDot();
-          drawLineToAngle(
-            obstaclesCtx,
-            x1,
-            y1,
-            this.cellSize / 40,
-            225,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x2,
-            y2,
-            this.cellSize / 40,
-            45,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x2,
-            y1,
-            this.cellSize / 30,
-            315,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
-          drawLineToAngle(
-            obstaclesCtx,
-            x1,
-            y2,
-            this.cellSize / 15,
-            135,
-            MAP_ELEMENT_COLORS.spike.point,
-            1,
-          );
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 30, 315, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 15, 135, MAP_ELEMENT_COLORS.spike.point, 1);
           break;
         }
         default: break;
