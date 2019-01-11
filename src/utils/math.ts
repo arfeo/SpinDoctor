@@ -44,7 +44,7 @@ function pointOnLineSegment(segment: ILineSegment, point: IPoint, tolerance: num
 
 /**
  * Function checks if a line segment intersects with a rectangle by checking intersection
- *  with each of its sides
+ * with each of its sides
  *
  * @param segment
  * @param rectCoords

@@ -318,8 +318,8 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              0,
-              Math.PI * 2 / 3,
+              Math.PI * 0.5 - Math.PI * 2 / 3,
+              Math.PI * 0.5,
               MAP_ELEMENT_COLORS.dotRegular.background,
             );
             drawArc(
@@ -327,8 +327,8 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              Math.PI * 2 / 3,
-              Math.PI * 4 / 3,
+              Math.PI * 0.5,
+              Math.PI * 0.5 + Math.PI * 2 / 3,
               MAP_ELEMENT_COLORS.dotRegular.background,
             );
             drawArc(
@@ -336,8 +336,8 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              Math.PI * 4 / 3,
-              0,
+              Math.PI * 0.5 + Math.PI * 2 / 3,
+              Math.PI * 0.5 + Math.PI * 4 / 3,
               MAP_ELEMENT_COLORS.dotRegular.background,
             );
             drawCircle(
