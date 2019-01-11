@@ -32,6 +32,7 @@ import { IBonus, IDoor, IDoorCoords, IEnemy, IWand } from '../../types/game';
  * Function creates game window element, game panel and all needed canvases
  */
 function renderGameWindow() {
+  const appRoot: HTMLElement = document.getElementById('root');
   const gameWindow: HTMLElement = document.createElement('div');
   const boardPanel: HTMLElement = document.createElement('div');
   const boardGrid: HTMLElement = document.createElement('div');
@@ -67,9 +68,9 @@ function renderGameWindow() {
   this.obstaclesCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.obstaclesCanvas.height = this.cellSize * (GridDimensions.Height + 2);
 
-  this.appRoot.innerHTML = '';
+  appRoot.innerHTML = '';
 
-  this.appRoot.appendChild(gameWindow);
+  appRoot.appendChild(gameWindow);
   gameWindow.appendChild(boardPanel);
   boardPanel.appendChild(this.boardPanel.level);
 

@@ -30,7 +30,6 @@ import {
 } from '../../types/game';
 
 class Game {
-  appRoot: HTMLElement;
   level: ILevel;
   lives: number;
   score: number;
@@ -48,7 +47,6 @@ class Game {
   keyDown: IKeysDown;
   isTimeTickerOn: boolean;
   isGameStopped: boolean;
-  isLevelCompleted: boolean;
   isSwitcherActive: boolean;
   goalPosition: number[];
   animateGoal: number;
@@ -64,8 +62,6 @@ class Game {
   enemiesSpeedCorrection: number;
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1, levelExtra: ILevelExtra = { bonus: [], station: [] }) {
-    this.appRoot = document.getElementById('root');
-
     this.level = JSON.parse(JSON.stringify(LEVELS.filter((item: ILevel) => item.id === level)[0]));
     this.lives = lives;
     this.score = score;
@@ -95,7 +91,6 @@ class Game {
 
     this.isTimeTickerOn = false;
     this.isGameStopped = false;
-    this.isLevelCompleted = false;
     this.isSwitcherActive = false;
 
     this.goalPosition = this.level.goal;
