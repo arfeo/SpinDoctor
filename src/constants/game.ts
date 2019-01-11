@@ -82,6 +82,7 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
   spike: {
     background: 'rgb(134, 14, 14)',
     innerCircle: 'rgb(254, 52, 52)',
+    point: 'rgb(253, 197, 197)',
   },
 };
 

@@ -21,6 +21,7 @@ import {
   animateAvatarWand,
   animateEnemyWand,
   animateGoal,
+  animateSpikes,
 } from './animations';
 
 import { IBonus, IDoor, IDoorCoords, IEnemy, IWand } from '../../types/game';
@@ -929,8 +930,6 @@ function renderLevelMap() {
               dotY - 1,
               this.cellSize / 15,
               MAP_ELEMENT_COLORS.bonus.innerCircle,
-              2,
-              null,
             );
 
             this.spikesCoords.push([
@@ -955,8 +954,6 @@ function renderLevelMap() {
               dotY + this.cellSize / 1.5 - 1,
               this.cellSize / 15,
               MAP_ELEMENT_COLORS.bonus.innerCircle,
-              2,
-              null,
             );
 
             this.spikesCoords.push([
@@ -981,8 +978,6 @@ function renderLevelMap() {
               dotY - 1,
               this.cellSize / 15,
               MAP_ELEMENT_COLORS.bonus.innerCircle,
-              2,
-              null,
             );
 
             this.spikesCoords.push([
@@ -1007,8 +1002,6 @@ function renderLevelMap() {
               dotY - this.cellSize / 1.5 - 1,
               this.cellSize / 15,
               MAP_ELEMENT_COLORS.bonus.innerCircle,
-              2,
-              null,
             );
 
             this.spikesCoords.push([
@@ -1033,6 +1026,10 @@ function renderLevelMap() {
 
   if (doors) {
     renderDoors.call(this);
+  }
+
+  if (this.spikesCoords.length) {
+    animateSpikes.call(this);
   }
 }
 

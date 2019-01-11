@@ -204,6 +204,10 @@ function animateDoors(type: string) {
         let doorWidth = 0;
 
         animate = () => {
+          if (this.isGameStopped) {
+            return frame = requestAnimationFrame(animate);
+          }
+
           doorWidth += DOORS_ANIMATION_SPEED;
 
           if (doorWidth >= this.cellSize * 2 - this.cellSize / 2 - 2) {
@@ -230,6 +234,10 @@ function animateDoors(type: string) {
         let doorWidth = this.cellSize * 2 - this.cellSize / 2 - 2;
 
         animate = () => {
+          if (this.isGameStopped) {
+            return frame = requestAnimationFrame(animate);
+          }
+
           doorWidth -= DOORS_ANIMATION_SPEED;
 
           if (doorWidth <= 0) {
@@ -258,6 +266,228 @@ function animateDoors(type: string) {
 }
 
 /**
+ * ...
+ */
+function animateSpikes() {
+  const obstaclesCtx: CanvasRenderingContext2D = this.obstaclesCanvas.getContext('2d');
+
+  this.spikesCoords.map((spike: number[]) => {
+    const x1: number = spike[0];
+    const y1: number = spike[1];
+    const x2: number = spike[2];
+    const y2: number = spike[3];
+    const step = 40;
+    let num = 0;
+
+    const redrawSpikeDot = () => {
+      obstaclesCtx.clearRect(
+        x1 - this.cellSize / 5,
+        y1 - this.cellSize / 5,
+        x2 + this.cellSize / 5,
+        y2 + this.cellSize / 5,
+      );
+
+      drawCircle(
+        obstaclesCtx,
+        x1 + (x2 - x1) / 2,
+        y1 + (y2 - y1) / 2,
+        this.cellSize / 10,
+        MAP_ELEMENT_COLORS.spike.background,
+      );
+      drawCircle(
+        obstaclesCtx,
+        x1 + (x2 - x1) / 2 - 1,
+        y1 + (y2 - y1) / 2 - 1,
+        this.cellSize / 15,
+        MAP_ELEMENT_COLORS.bonus.innerCircle,
+        2,
+        null,
+      );
+    };
+
+    const animate = () => {
+      if (this.isGameStopped) {
+        return requestAnimationFrame(animate);
+      }
+
+      switch (num) {
+        case 0: {
+          redrawSpikeDot();
+          drawLineToAngle(
+            obstaclesCtx,
+            x1,
+            y1,
+            this.cellSize / 15,
+            225,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x2,
+            y2,
+            this.cellSize / 30,
+            45,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x2,
+            y1,
+            this.cellSize / 40,
+            315,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x1,
+            y2,
+            this.cellSize / 40,
+            135,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          break;
+        }
+        case step: {
+          redrawSpikeDot();
+          drawLineToAngle(
+            obstaclesCtx,
+            x1,
+            y1,
+            this.cellSize / 30,
+            225,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x2,
+            y2,
+            this.cellSize / 15,
+            45,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x2,
+            y1,
+            this.cellSize / 40,
+            315,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x1,
+            y2,
+            this.cellSize / 40,
+            135,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          break;
+        }
+        case step * 2: {
+          redrawSpikeDot();
+          drawLineToAngle(
+            obstaclesCtx,
+            x1,
+            y1,
+            this.cellSize / 40,
+            225,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x2,
+            y2,
+            this.cellSize / 40,
+            45,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x2,
+            y1,
+            this.cellSize / 15,
+            315,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x1,
+            y2,
+            this.cellSize / 30,
+            135,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          break;
+        }
+        case step * 3: {
+          redrawSpikeDot();
+          drawLineToAngle(
+            obstaclesCtx,
+            x1,
+            y1,
+            this.cellSize / 40,
+            225,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x2,
+            y2,
+            this.cellSize / 40,
+            45,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x2,
+            y1,
+            this.cellSize / 30,
+            315,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          drawLineToAngle(
+            obstaclesCtx,
+            x1,
+            y2,
+            this.cellSize / 15,
+            135,
+            MAP_ELEMENT_COLORS.spike.point,
+            1,
+          );
+          break;
+        }
+        default: break;
+      }
+
+      num += 1;
+
+      if (num === step * 4) {
+        num = 0;
+      }
+
+      requestAnimationFrame(animate);
+    };
+
+    requestAnimationFrame(animate);
+  });
+}
+
+/**
  * Function eliminates a map element from the game board with fade out effect
  *
  * @param currDotX
@@ -273,6 +503,10 @@ function animateMapElementElimination(currDotX: number, currDotY: number) {
   let alpha = 0;
 
   const animate = () => {
+    if (this.isGameStopped) {
+      return frame = requestAnimationFrame(animate);
+    }
+
     if (alpha >= 1) {
       ctx.clearRect(left, top, this.cellSize, this.cellSize);
 
@@ -302,5 +536,6 @@ export {
   animateAvatarWand,
   animateEnemyWand,
   animateDoors,
+  animateSpikes,
   animateMapElementElimination,
 };
