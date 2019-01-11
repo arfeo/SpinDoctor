@@ -351,6 +351,36 @@ function renderLevelMap() {
             );
             break;
           }
+          case MapDefinitions.WayStation: {
+            drawCircle(
+              staticCtx,
+              dotX,
+              dotY,
+              this.cellSize / 5,
+              MAP_ELEMENT_COLORS.dotRegular.background,
+              2,
+              MAP_ELEMENT_COLORS.dotRegular.border,
+            );
+            drawLineToAngle(
+              staticCtx,
+              dotX - this.cellSize / 5,
+              dotY,
+              this.cellSize * 2 / 5,
+              0,
+              MAP_ELEMENT_COLORS.dotRegular.border,
+              2,
+            );
+            drawLineToAngle(
+              staticCtx,
+              dotX,
+              dotY - this.cellSize / 5,
+              this.cellSize * 2 / 5,
+              90,
+              MAP_ELEMENT_COLORS.dotRegular.border,
+              2,
+            );
+            break;
+          }
           // ----------------------------------------------------------------
           //                            RINGS
           // ----------------------------------------------------------------
@@ -1036,8 +1066,8 @@ function renderBonus() {
     );
   });
 
-  if (this.disabledElements.bonus) {
-    this.disabledElements.bonus.map((bonusId: number) => {
+  if (this.levelExtra.bonus) {
+    this.levelExtra.bonus.map((bonusId: number) => {
       this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonusId);
     });
   }

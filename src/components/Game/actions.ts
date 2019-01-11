@@ -26,7 +26,8 @@ function checkAvatarWand() {
 
     if (this.lives > 0) {
       this.destroy();
-      APP.pageInstance = new Game(this.level.id, this.lives, this.score, this.difficulty.id, this.disabledElements);
+
+      APP.pageInstance = new Game(this.level.id, this.lives, this.score, this.difficulty.id, this.levelExtra);
     } else {
       renderPanelCounters.call(this);
 
@@ -404,9 +405,20 @@ function checkIntersections(): boolean {
  * @param dotY
  */
 function checkNextDot(dotType: number, dotX: number, dotY: number) {
-  // Avatar wand grabs slowdown -- all enemy wands move twice slower
-  if (dotType === 17) {
-    this.enemiesSpeedCorrection = 2;
+  switch (dotType) {
+    // Avatar wand grabs slowdown: all enemy wands move twice slower
+    case 17: {
+      this.enemiesSpeedCorrection = 2;
+      break;
+    }
+    // Avatar wand grabs the way station dot:
+    // now if the player looses and has to start the same level over again
+    // the avatar wand will be placed at the way station dot coords
+    case 18: {
+      this.levelExtra.station = [dotY - 1, dotX - 1];
+      break;
+    }
+    default: break;
   }
 
   // Avatar wand grabs bonus
@@ -415,7 +427,7 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
   });
 
   if (bonus.length) {
-    this.disabledElements.bonus.push(bonus[0].id);
+    this.levelExtra.bonus.push(bonus[0].id);
     this.score += bonus[0].size;
     this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonus[0].id);
 
@@ -428,7 +440,7 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
     this.isLevelCompleted = true;
 
     if (LEVELS[this.level.id] === undefined) {
-      alert('Game over!');
+      new GameOver(this);
     } else {
       this.destroy();
 

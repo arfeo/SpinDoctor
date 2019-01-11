@@ -4,8 +4,9 @@ export interface IDifficulty {
   correction: number;
 }
 
-export interface IDisabled {
+export interface ILevelExtra {
   bonus: number[];
+  station: number[];
 }
 
 export interface IBoardPanel {

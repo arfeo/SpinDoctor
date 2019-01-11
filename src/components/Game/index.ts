@@ -21,7 +21,7 @@ import { setCellSize, validateLevel } from '../../utils/game';
 import {
   IBoardPanel,
   IDifficulty,
-  IDisabled,
+  ILevelExtra,
   IDoorCoords,
   IEnemyWandsCoords,
   IKeysDown,
@@ -35,7 +35,7 @@ class Game {
   lives: number;
   score: number;
   difficulty: IDifficulty;
-  disabledElements: IDisabled;
+  levelExtra: ILevelExtra;
   cellSize: number;
   boardPanel: IBoardPanel;
   staticCanvas: HTMLCanvasElement;
@@ -60,14 +60,18 @@ class Game {
   spikesCoords: number[][];
   enemiesSpeedCorrection: number;
 
-  constructor(level = 1, lives = 4, score = 0, difficulty = 1, disabledElements: IDisabled = { bonus: [] }) {
+  constructor(level = 1, lives = 4, score = 0, difficulty = 1, levelExtra: ILevelExtra = { bonus: [], station: [] }) {
     this.appRoot = document.getElementById('root');
 
     this.level = JSON.parse(JSON.stringify(LEVELS.filter((item: ILevel) => item.id === level)[0]));
     this.lives = lives;
     this.score = score;
     this.difficulty = JSON.parse(JSON.stringify(DIFFICULTIES.filter((item: IDifficulty) => item.id === difficulty)[0]));
-    this.disabledElements = JSON.parse(JSON.stringify(disabledElements));
+    this.levelExtra = JSON.parse(JSON.stringify(levelExtra));
+
+    if (this.levelExtra.station.length) {
+      this.level.wand.position = JSON.parse(JSON.stringify(this.levelExtra.station));
+    }
 
     this.cellSize = setCellSize();
 
