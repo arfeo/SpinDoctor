@@ -364,6 +364,10 @@ function checkAvatarWandIntersections(): boolean {
         );
 
         if (isIntersectingLeftDoor || isIntersectingRightDoor) {
+          if (this.isSwitcherActive) {
+            return true;
+          }
+
           this.level.wand.direction *= -1;
           this.level.wand.angle += this.level.wand.direction * WAND_REBOUND * this.difficulty.correction;
         }

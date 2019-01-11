@@ -209,6 +209,8 @@ function animateDoors(type: string) {
           if (doorWidth >= this.cellSize * 2 - this.cellSize / 2 - 2) {
             cancelAnimationFrame(frame);
 
+            this.isSwitcherActive = false;
+
             return this.level.doors = [
               ...this.level.doors.filter((item: IDoor) => item.id !== door.id),
               {
@@ -233,6 +235,8 @@ function animateDoors(type: string) {
           if (doorWidth <= 0) {
             cancelAnimationFrame(frame);
 
+            this.isSwitcherActive = false;
+
             return this.level.doors = [
               ...this.level.doors.filter((item: IDoor) => item.id !== door.id),
               {
@@ -251,8 +255,6 @@ function animateDoors(type: string) {
       }
     }
   });
-
-  this.isSwitcherActive = false;
 }
 
 /**
