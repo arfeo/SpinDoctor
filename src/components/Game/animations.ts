@@ -168,7 +168,9 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
       ),
     });
 
-    enemy.angle += direction * this.difficulty.correction / this.enemiesSpeedCorrection;
+    const speedCorrection = this.difficulty.correction / (enemy.speed || 1) / this.enemiesSpeedCorrection;
+
+    enemy.angle += direction * speedCorrection;
 
     if (enemy.angle < 0) {
       enemy.angle += 360;

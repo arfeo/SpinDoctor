@@ -446,8 +446,10 @@ function checkEnemyWandIntersections(enemyId: number) {
       );
 
       if (isIntersectingWall) {
+        const speedCorrection = this.difficulty.correction / (enemy.speed || 1) / this.enemiesSpeedCorrection;
+
         enemy.direction *= -1;
-        enemy.angle += enemy.direction * WAND_REBOUND * this.difficulty.correction / this.enemiesSpeedCorrection;
+        enemy.angle += enemy.direction * WAND_REBOUND * speedCorrection;
 
         this.level.enemies = [
           ...this.level.enemies.filter((item: IWand & IEnemy) => item.id !== enemyId),

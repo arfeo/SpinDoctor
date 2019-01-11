@@ -55,6 +55,7 @@ export interface IEnemy {
   id: number;
   type: string;
   move?: 'flip' | 'bounce' | 'swing';
+  speed?: number;
 }
 
 export interface IDoor {
