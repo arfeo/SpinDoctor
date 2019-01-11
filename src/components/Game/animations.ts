@@ -266,7 +266,7 @@ function animateDoors(type: string) {
 }
 
 /**
- * ...
+ * Function animates all spikes on the game board in batch
  */
 function animateSpikes() {
   const obstaclesCtx: CanvasRenderingContext2D = this.obstaclesCanvas.getContext('2d');
