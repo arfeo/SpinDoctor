@@ -426,7 +426,7 @@ function checkEnemyWandIntersections(enemyId: number) {
     },
   };
 
-  // Walls: enemy wands bounce off walls as well as the avatar wand does
+  // Walls
   if (this.wallsCoords) {
     for (let i = 0; i < this.wallsCoords.length; i += 1) {
       const wall: number[][] = this.wallsCoords[i];
@@ -457,7 +457,7 @@ function checkEnemyWandIntersections(enemyId: number) {
     }
   }
 
-  // Door switchers: an enemy wand can activate only switchers of the same type this wand is (red, blue or yellow)
+  // Door switchers
   for (let i = 0; i < this.switchersCoords.length; i += 1) {
     const isSwitcherOnEnemyWand: boolean = pointOnLineSegment(
       enemyWandSegment,
@@ -468,7 +468,7 @@ function checkEnemyWandIntersections(enemyId: number) {
       5,
     );
 
-    if (isSwitcherOnEnemyWand && !this.isSwitcherActive && enemy.type === this.switchersCoords[i].type) {
+    if (isSwitcherOnEnemyWand && !this.isSwitcherActive) {
       this.isSwitcherActive = true;
 
       animateDoors.call(this, this.switchersCoords[i].type);
