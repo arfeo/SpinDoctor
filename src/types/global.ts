@@ -7,4 +7,5 @@ export interface IGlobals {
     onKeyDown: EventListener;
     onKeyUp: EventListener;
   };
+  storagePrefix: string;
 }
