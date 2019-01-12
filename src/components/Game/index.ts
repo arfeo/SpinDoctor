@@ -13,7 +13,6 @@ import {
   setUpEventHandlers,
   keyDownHandler,
   keyUpHandler,
-  setActiveKey,
 } from './events';
 
 import { setCellSize, validateLevel } from '../../utils/game';
@@ -110,8 +109,6 @@ class Game {
       onKeyDown: keyDownHandler.bind(this),
       onKeyUp: keyUpHandler.bind(this),
     };
-
-    setActiveKey.call(this);
 
     this.render();
   }
