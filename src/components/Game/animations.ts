@@ -363,6 +363,51 @@ function animateSpikes() {
 }
 
 /**
+ * Function animates the avatar wand death: it slowly fades out, leaving the game board
+ */
+function animateAvatarWandDeath(): Promise<void> {
+  return new Promise((resolve) => {
+    const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
+    let alpha = 1;
+
+    const animate = () => {
+      if (alpha < 0) {
+        return resolve();
+      }
+
+      const { position, angle } = this.level.wand;
+      const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
+      const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
+
+      ctx.clearRect(
+        x - this.cellSize * 2,
+        y - this.cellSize * 2,
+        this.cellSize * 4,
+        this.cellSize * 4,
+      );
+
+      ctx.globalAlpha = alpha;
+
+      this.avatarWandCoords = drawLineToAngle(
+        ctx,
+        x,
+        y,
+        this.cellSize * 2 - this.cellSize / 5 - 1,
+        angle,
+        WAND_COLORS.avatar,
+        WAND_WIDTH,
+      );
+
+      alpha -= FADE_OUT_ANIMATION_SPEED / 4;
+
+      this.animateAvatarWand = requestAnimationFrame(animate);
+    };
+
+    this.animateAvatarWand = requestAnimationFrame(animate);
+  });
+}
+
+/**
  * Function eliminates a map element from the game board with fade out effect
  *
  * @param currDotX
@@ -441,6 +486,7 @@ export {
   animateEnemyWand,
   animateDoors,
   animateSpikes,
+  animateAvatarWandDeath,
   animateMapElementElimination,
   animateTimeTicker,
 };

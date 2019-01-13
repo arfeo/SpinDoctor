@@ -7,7 +7,7 @@ import { LEVELS } from '../../constants/levels';
 
 import { renderPanelCounters } from './render';
 import { lineSegmentIntersectsWithRect, lineSegmentsIntersect, pointOnLineSegment } from '../../utils/math';
-import { animateDoors, animateMapElementElimination } from './animations';
+import { animateDoors, animateAvatarWandDeath, animateMapElementElimination } from './animations';
 
 import { IBonus, IDoorCoords, IEnemy, IEnemyWandsCoords, IWand } from '../../types/game';
 import { ILineSegment } from '../../types/utils';
@@ -549,15 +549,17 @@ function checkOnLevelFail() {
   this.lives -= 1;
   this.isGameStopped = true;
 
-  if (this.lives > 0) {
-    this.destroy();
+  animateAvatarWandDeath.call(this).then(() => {
+    if (this.lives > 0) {
+      this.destroy();
 
-    APP.pageInstance = new Game(this.level.id, this.lives, this.score, this.difficulty.id, this.levelExtra);
-  } else {
-    renderPanelCounters.call(this);
+      APP.pageInstance = new Game(this.level.id, this.lives, this.score, this.difficulty.id, this.levelExtra);
+    } else {
+      renderPanelCounters.call(this);
 
-    new GameOver(this);
-  }
+      new GameOver(this);
+    }
+  });
 }
 
 export {
