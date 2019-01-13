@@ -24,7 +24,7 @@ import {
   animateSpikes,
 } from './animations';
 
-import { secondsToString } from '../../utils/game';
+import { secondsToString } from './utils';
 
 import { IBonus, IDoor, IDoorCoords, IEnemy, IWand } from '../../types/game';
 

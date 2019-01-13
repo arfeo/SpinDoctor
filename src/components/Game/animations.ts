@@ -9,7 +9,7 @@ import {
 import { renderDoor } from './render';
 import { drawCircle, drawLineToAngle, drawStar } from '../../utils/drawing';
 import { checkAvatarWand, checkEnemyWand, checkOnLevelFail } from './actions';
-import { secondsToString } from '../../utils/game';
+import { secondsToString } from './utils';
 
 import { IDoor, IEnemy, IEnemyWandsCoords, IWand } from '../../types/game';
 
@@ -363,7 +363,7 @@ function animateSpikes() {
 }
 
 /**
- * Function animates the avatar wand death: it slowly fades out, leaving the game board
+ * Function animates the avatar wand's death: it slowly fades out, leaving the game board
  */
 function animateAvatarWandDeath(): Promise<void> {
   return new Promise((resolve) => {

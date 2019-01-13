@@ -12,7 +12,10 @@ import {
   setUpEventHandlers,
 } from './events';
 
-import { setCellSize, validateLevel } from '../../utils/game';
+import {
+  setCellSize,
+  validateLevel,
+} from './utils';
 
 import {
   IBoardPanel,
