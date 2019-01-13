@@ -67,7 +67,7 @@ function renderMenuWindow() {
   });
 
   playButton.addEventListener('click', () => {
-    APP.pageInstance = new Game(4, 4, 0, this.difficulty);
+    APP.pageInstance = new Game(1, 4, 0, this.difficulty);
   })
 }
 
