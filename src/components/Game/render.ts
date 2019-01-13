@@ -32,9 +32,8 @@ import { IBonus, IDoor, IDoorCoords, IEnemy, IWand } from '../../types/game';
  * Function creates game window element, game panel and all needed canvases
  */
 function renderGameWindow() {
-  const canvasWidth = this.cellSize * (GridDimensions.Width + 2);
-  const canvasHeight = this.cellSize * (GridDimensions.Height + 2);
-
+  const canvasWidth: number = this.cellSize * (GridDimensions.Width + 2);
+  const canvasHeight: number = this.cellSize * (GridDimensions.Height + 2);
   const appRoot: HTMLElement = document.getElementById('root');
   const gameWindow: HTMLElement = document.createElement('div');
   const boardPanel: HTMLElement = document.createElement('div');
@@ -134,9 +133,8 @@ function renderGameWindow() {
       const enemyCanvas: HTMLCanvasElement = document.createElement('canvas');
 
       enemyCanvas.className = '-enemy-canvas';
-
-      enemyCanvas.width = this.cellSize * (GridDimensions.Width + 2);
-      enemyCanvas.height = this.cellSize * (GridDimensions.Height + 2);
+      enemyCanvas.width = canvasWidth;
+      enemyCanvas.height = canvasHeight;
 
       boardGrid.appendChild(enemyCanvas);
 
