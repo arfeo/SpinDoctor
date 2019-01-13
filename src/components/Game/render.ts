@@ -32,6 +32,9 @@ import { IBonus, IDoor, IDoorCoords, IEnemy, IWand } from '../../types/game';
  * Function creates game window element, game panel and all needed canvases
  */
 function renderGameWindow() {
+  const canvasWidth = this.cellSize * (GridDimensions.Width + 2);
+  const canvasHeight = this.cellSize * (GridDimensions.Height + 2);
+
   const appRoot: HTMLElement = document.getElementById('root');
   const gameWindow: HTMLElement = document.createElement('div');
   const boardPanel: HTMLElement = document.createElement('div');
@@ -53,6 +56,7 @@ function renderGameWindow() {
   this.doorsCanvas = document.createElement('canvas');
   this.switchersCanvas = document.createElement('canvas');
   this.obstaclesCanvas = document.createElement('canvas');
+  this.labelsCanvas = document.createElement('canvas');
 
   gameWindow.className = 'gameWindow';
   boardPanel.className = 'boardPanel';
@@ -72,19 +76,22 @@ function renderGameWindow() {
   this.doorsCanvas.className = '-doors-canvas';
   this.switchersCanvas.className = '-switchers-canvas';
   this.obstaclesCanvas.className = '-obstacles-canvas';
+  this.labelsCanvas.className = '-labels-canvas';
 
-  this.staticCanvas.width = this.cellSize * (GridDimensions.Width + 2);
-  this.staticCanvas.height = this.cellSize * (GridDimensions.Height + 2);
-  this.goalCanvas.width = this.cellSize * (GridDimensions.Width + 2);
-  this.goalCanvas.height = this.cellSize * (GridDimensions.Height + 2);
-  this.wandCanvas.width = this.cellSize * (GridDimensions.Width + 2);
-  this.wandCanvas.height = this.cellSize * (GridDimensions.Height + 2);
-  this.doorsCanvas.width = this.cellSize * (GridDimensions.Width + 2);
-  this.doorsCanvas.height = this.cellSize * (GridDimensions.Height + 2);
-  this.switchersCanvas.width = this.cellSize * (GridDimensions.Width + 2);
-  this.switchersCanvas.height = this.cellSize * (GridDimensions.Height + 2);
-  this.obstaclesCanvas.width = this.cellSize * (GridDimensions.Width + 2);
-  this.obstaclesCanvas.height = this.cellSize * (GridDimensions.Height + 2);
+  this.staticCanvas.width = canvasWidth;
+  this.staticCanvas.height = canvasHeight;
+  this.goalCanvas.width = canvasWidth;
+  this.goalCanvas.height = canvasHeight;
+  this.wandCanvas.width = canvasWidth;
+  this.wandCanvas.height = canvasHeight;
+  this.doorsCanvas.width = canvasWidth;
+  this.doorsCanvas.height = canvasHeight;
+  this.switchersCanvas.width = canvasWidth;
+  this.switchersCanvas.height = canvasHeight;
+  this.obstaclesCanvas.width = canvasWidth;
+  this.obstaclesCanvas.height = canvasHeight;
+  this.labelsCanvas.width = canvasWidth;
+  this.labelsCanvas.height = canvasHeight;
 
   this.boardPanelElements.menuButton.innerText = '◀︎';
   this.boardPanelElements.menuButton.title = 'Go to menu';
@@ -110,6 +117,7 @@ function renderGameWindow() {
   boardGrid.appendChild(this.goalCanvas);
   boardGrid.appendChild(this.wandCanvas);
   boardGrid.appendChild(this.obstaclesCanvas);
+  boardGrid.appendChild(this.labelsCanvas);
 
   if (this.level.doors) {
     boardGrid.appendChild(this.doorsCanvas);

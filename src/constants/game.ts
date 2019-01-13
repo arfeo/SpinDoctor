@@ -61,6 +61,9 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
     innerCircle: 'rgb(254, 52, 52)',
     point: 'rgb(253, 197, 197)',
   },
+  label: {
+    background: 'rgb(255, 255, 255)',
+  },
 };
 
 export const WAND_COLORS: IWandColors = {
@@ -89,6 +92,8 @@ export const WAND_REBOUND = 3;
 export const DOORS_ANIMATION_SPEED = 1.5;
 
 export const FADE_OUT_ANIMATION_SPEED = 0.1;
+
+export const BONUS_SIZE_LABEL_FONT = '2vmin Helvetica, Arial';
 
 export enum FunctionalKeys {
   Reverse = ' ',

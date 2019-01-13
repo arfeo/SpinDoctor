@@ -79,16 +79,20 @@
     border-left: 1px solid $borderDark;
     background-color: $boardGridBackground;
 
-    .-static-canvas {
+    .-labels-canvas {
       z-index: 100;
     }
 
-    .-doors-canvas {
+    .-static-canvas {
       z-index: 99;
     }
 
-    .-goal-canvas {
+    .-doors-canvas {
       z-index: 98;
+    }
+
+    .-goal-canvas {
+      z-index: 97;
     }
 
     .-wand-canvas,
@@ -107,7 +111,8 @@
     .-enemy-canvas,
     .-doors-canvas,
     .-switchers-canvas,
-    .-obstacles-canvas {
+    .-obstacles-canvas,
+    .-labels-canvas {
       position: absolute;
       top: 0;
       left: 0;

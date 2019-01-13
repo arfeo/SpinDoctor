@@ -5,9 +5,20 @@ import { APP } from '../../constants/global';
 import { MapDefinitions, WAND_REBOUND } from '../../constants/game';
 import { LEVELS } from '../../constants/levels';
 
+import {
+  animateDoors,
+  animateAvatarWandDeath,
+  animateMapElementElimination,
+  animateBonusSize,
+} from './animations';
+
+import {
+  lineSegmentIntersectsWithRect,
+  lineSegmentsIntersect,
+  pointOnLineSegment,
+} from '../../utils/math';
+
 import { renderPanelCounters } from './render';
-import { lineSegmentIntersectsWithRect, lineSegmentsIntersect, pointOnLineSegment } from '../../utils/math';
-import { animateDoors, animateAvatarWandDeath, animateMapElementElimination } from './animations';
 
 import { IBonus, IDoorCoords, IEnemy, IEnemyWandsCoords, IWand } from '../../types/game';
 import { ILineSegment } from '../../types/utils';
@@ -498,6 +509,8 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
     this.levelExtra.bonus.push(bonus[0].id);
     this.score += bonus[0].size;
     this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonus[0].id);
+
+    animateBonusSize.call(this, bonus[0]);
 
     renderPanelCounters.call(this);
   }

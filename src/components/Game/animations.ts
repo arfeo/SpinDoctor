@@ -4,6 +4,7 @@ import {
   WAND_WIDTH,
   DOORS_ANIMATION_SPEED,
   FADE_OUT_ANIMATION_SPEED,
+  BONUS_SIZE_LABEL_FONT,
 } from '../../constants/game';
 
 import { renderDoor } from './render';
@@ -11,7 +12,7 @@ import { drawCircle, drawLineToAngle, drawStar } from '../../utils/drawing';
 import { checkAvatarWand, checkEnemyWand, checkOnLevelFail } from './actions';
 import { secondsToString } from './utils';
 
-import { IDoor, IEnemy, IEnemyWandsCoords, IWand } from '../../types/game';
+import { IBonus, IDoor, IEnemy, IEnemyWandsCoords, IWand } from '../../types/game';
 
 /**
  * Function animates the goal (rotating star-like object beneath a dot)
@@ -480,6 +481,59 @@ function animateTimeTicker() {
   this.animateTimeTicker = requestAnimationFrame(animate);
 }
 
+/**
+ * Function animates bonus size label, fading in and out whilst floating slightly above the bonus dot
+ *
+ * @param bonus
+ */
+function animateBonusSize(bonus: IBonus) {
+  const ctx: CanvasRenderingContext2D = this.labelsCanvas.getContext('2d');
+  const x: number = this.cellSize + this.cellSize * (bonus.position[1] + 1) + this.cellSize / 2;
+  const y: number = this.cellSize + this.cellSize * (bonus.position[0] + 1);
+  let frame: number;
+  let alpha = 0;
+  let pulse = 1;
+  let xCorrection = -25;
+
+  ctx.font = BONUS_SIZE_LABEL_FONT;
+  ctx.fillStyle = MAP_ELEMENT_COLORS.label.background;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  const animate = () => {
+    if (this.isGameStopped) {
+      return frame = requestAnimationFrame(animate);
+    }
+
+    if (alpha >= 1) {
+      pulse = -1;
+    }
+
+    ctx.clearRect(
+      x - this.cellSize + xCorrection,
+      y - this.cellSize,
+      this.cellSize * 2,
+      this.cellSize * 2,
+    );
+
+    if (alpha < 0) {
+      return cancelAnimationFrame(frame);
+    }
+
+    alpha += pulse * FADE_OUT_ANIMATION_SPEED / 5;
+
+    ctx.globalAlpha = alpha;
+
+    ctx.fillText(bonus.size.toString(), x + xCorrection, y);
+
+    xCorrection += 0.5;
+
+    frame = requestAnimationFrame(animate);
+  };
+
+  frame = requestAnimationFrame(animate);
+}
+
 export {
   animateGoal,
   animateAvatarWand,
@@ -489,4 +543,5 @@ export {
   animateAvatarWandDeath,
   animateMapElementElimination,
   animateTimeTicker,
+  animateBonusSize,
 };
