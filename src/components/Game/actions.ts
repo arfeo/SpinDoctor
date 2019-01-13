@@ -2,7 +2,7 @@ import { Game } from './index';
 import { GameOver } from '../GameOver';
 
 import { APP } from '../../constants/global';
-import { MapDefinitions, WAND_REBOUND } from '../../constants/game';
+import { GridDimensions, MapDefinitions, WAND_REBOUND } from '../../constants/game';
 import { LEVELS } from '../../constants/levels';
 
 import {
@@ -20,7 +20,16 @@ import {
 
 import { renderPanelCounters } from './render';
 
-import { IBonus, IDoorCoords, IEnemy, IEnemyWandsCoords, IHourglassCoords, IWand } from '../../types/game';
+import {
+  IBonus,
+  IDoorCoords,
+  IEnemy,
+  IEnemyWandsCoords,
+  IHourglassCoords,
+  IHyperdot,
+  IWand,
+} from '../../types/game';
+
 import { ILineSegment } from '../../types/utils';
 
 /**
@@ -550,6 +559,26 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
       this.destroy();
 
       APP.pageInstance = new Game(this.level.id + 1, this.lives, this.score, this.difficulty.id);
+    }
+  }
+
+  // Avatar wand grabs hyperdot
+  const hyperdot: IHyperdot[] = this.level.hyperdots.filter((item: IHyperdot) => {
+    return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
+  });
+
+  if (hyperdot.length) {
+    const pairHyperdot: IHyperdot[] = this.level.hyperdots.filter((item: IHyperdot) => {
+      return item.type === hyperdot[0].type && item.id !== hyperdot[0].id;
+    });
+
+    if (pairHyperdot.length) {
+      const canvasWidth: number = this.cellSize * (GridDimensions.Width + 2);
+      const canvasHeight: number = this.cellSize * (GridDimensions.Height + 2);
+
+      this.wandCanvas.getContext('2d').clearRect(0, 0, canvasWidth, canvasHeight);
+
+      this.level.wand.position = [...pairHyperdot[0].position];
     }
   }
 }
