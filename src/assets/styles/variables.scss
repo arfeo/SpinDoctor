@@ -7,11 +7,16 @@ $smallPadding: 0.5vmin;
 $mediumPadding: 1vmin;
 $borderLight: #B19EBD;
 $borderDark: #322D34;
-$pauseLabelBack: #3A2C30;
-$pauseLabelBorder: #ADADAD;
 
 /**
- *  Game board
+ *  Menu
+ */
+$menuWindowWidth: 60vmin;
+$menuWindowBackground: #5D5260;
+$menuInputFontSize: 2vmin;
+
+/**
+ *  Game
  */
 $cellSize: 4vmin;
 $gameWindowBackground: #5D5260;
@@ -20,3 +25,5 @@ $boardPanelHeight: 4vmin;
 $boardPanelFontSize: 2vmin;
 $boardGridPadding: $cellSize;
 $boardGridBackground: #4A4A4A;
+$pauseLabelBack: #3A2C30;
+$pauseLabelBorder: #ADADAD;

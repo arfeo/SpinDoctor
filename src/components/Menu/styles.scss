@@ -1,0 +1,56 @@
+@import '../../assets/styles/variables';
+
+.menuWindow {
+  padding: $mainPadding;
+  width: $menuWindowWidth;
+  background-color: $menuWindowBackground;
+  border-top: 2px solid $borderLight;
+  border-right: 2px solid $borderDark;
+  border-bottom: 2px solid $borderDark;
+  border-left: 2px solid $borderLight;
+
+  & > div:not(:last-child) {
+    margin-bottom: $mainMargin;
+  }
+
+  .-player {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    label {
+      width: 30%;
+    }
+
+    input {
+      flex-grow: 2;
+      font-size: $menuInputFontSize;
+    }
+  }
+
+  .-difficulty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    label {
+      width: 30%;
+    }
+
+    select {
+      flex-grow: 2;
+      font-size: $menuInputFontSize;
+    }
+  }
+
+  .-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: $mainMargin;
+    padding-left: 30%;
+
+    button {
+      font-size: $menuInputFontSize;
+    }
+  }
+}

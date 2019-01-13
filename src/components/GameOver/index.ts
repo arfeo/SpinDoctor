@@ -1,7 +1,10 @@
 import { Modal } from '../common/Modal';
+import { Menu } from '../Menu';
 import { Game } from '../Game';
 
-import { APP } from '../../constants/global';
+import { APP, DIFFICULTIES } from '../../constants/global';
+
+import { getStorageData } from '../../utils/storage';
 
 class GameOver extends Modal {
   constructor(game: Game) {
@@ -29,12 +32,16 @@ class GameOver extends Modal {
     gameOverSubmitRestart.addEventListener('click', () => {
       this.game.destroy();
 
-      APP.pageInstance = new Game();
+      APP.pageInstance = new Game(1, 4, 0, getStorageData('difficulty') || DIFFICULTIES[0].id);
 
       this.close();
     });
 
     gameOverSubmitStop.addEventListener('click', () => {
+      this.game.destroy();
+
+      APP.pageInstance = new Menu();
+
       this.close();
     });
   }

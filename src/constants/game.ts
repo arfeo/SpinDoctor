@@ -1,27 +1,4 @@
-import { IDifficulty, IMapElementColors, IWandColors } from '../types/game';
-
-export const DIFFICULTIES: IDifficulty[] = [
-  {
-    id: 1,
-    title: 'Pre-Med',
-    correction: 1,
-  },
-  {
-    id: 2,
-    title: 'Intern',
-    correction: 1.5,
-  },
-  {
-    id: 3,
-    title: 'Resident',
-    correction: 2,
-  },
-  {
-    id: 4,
-    title: 'Specialist',
-    correction: 3,
-  },
-];
+import { IMapElementColors, IWandColors } from '../types/game';
 
 export const MAP_ELEMENT_COLORS: IMapElementColors = {
   board: {

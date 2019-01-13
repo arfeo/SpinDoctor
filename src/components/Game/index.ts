@@ -1,5 +1,4 @@
-import { APP } from '../../constants/global';
-import { DIFFICULTIES } from '../../constants/game';
+import { APP, DIFFICULTIES } from '../../constants/global';
 import { LEVELS } from '../../constants/levels';
 
 import {
@@ -19,7 +18,6 @@ import { setCellSize, validateLevel } from '../../utils/game';
 
 import {
   IBoardPanel,
-  IDifficulty,
   ILevelExtra,
   IDoorCoords,
   IEnemyWandsCoords,
@@ -27,6 +25,8 @@ import {
   ILevel,
   ISwitcherCoords,
 } from '../../types/game';
+
+import { IDifficulty } from '../../types/global';
 
 class Game {
   level: ILevel;

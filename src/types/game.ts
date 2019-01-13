@@ -1,9 +1,3 @@
-export interface IDifficulty {
-  id: number;
-  title: string;
-  correction: number;
-}
-
 export interface ILevelExtra {
   bonus: number[];
   station: number[];
