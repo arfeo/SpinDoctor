@@ -22,6 +22,7 @@ import { ILevel } from '../types/game';
  *  16 - Ring (red + blue + yellow)
  *  17 - Slowdown
  *  18 - Way station
+ *  19 - Hourglass
  *  20 - Wall (full width horizontal)
  *  21 - Wall (full width vertical)
  *  22 - Wall (half width horizontal left)

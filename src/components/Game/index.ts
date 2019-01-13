@@ -25,6 +25,7 @@ import {
   IKeysDown,
   ILevel,
   ISwitcherCoords,
+  IHourglassCoords,
 } from '../../types/game';
 
 import { IDifficulty } from '../../types/global';
@@ -60,6 +61,7 @@ class Game {
   doorsCoords: IDoorCoords[];
   switchersCoords: ISwitcherCoords[];
   spikesCoords: number[][];
+  hourglassesCoords: IHourglassCoords[];
   enemiesSpeedCorrection: number;
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1, levelExtra: ILevelExtra = { bonus: [], station: [] }) {
@@ -90,6 +92,7 @@ class Game {
     this.doorsCoords = [];
     this.switchersCoords = [];
     this.spikesCoords = [];
+    this.hourglassesCoords = [];
 
     this.enemiesSpeedCorrection = 1;
 

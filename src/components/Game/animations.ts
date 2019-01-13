@@ -409,13 +409,13 @@ function animateAvatarWandDeath(): Promise<void> {
 }
 
 /**
- * Function eliminates a map element from the game board with fade out effect
+ * Function eliminates an element from the specified canvas context with fade out effect
  *
+ * @param ctx
  * @param currDotX
  * @param currDotY
  */
-function animateMapElementElimination(currDotX: number, currDotY: number) {
-  const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+function animateMapElementElimination(ctx: CanvasRenderingContext2D, currDotX: number, currDotY: number) {
   const top: number = this.cellSize + this.cellSize * (currDotY + 1);
   const left: number = this.cellSize + this.cellSize * (currDotX + 1);
   const dotX: number = left + this.cellSize / 2;

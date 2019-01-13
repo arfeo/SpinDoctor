@@ -4,6 +4,7 @@ import {
   WALL_WIDTH,
   DOOR_WIDTH,
   PILLAR_WIDTH,
+  BONUS_SIZE_LABEL_FONT,
   GridDimensions,
   MapDefinitions,
 } from '../../constants/game';
@@ -1050,6 +1051,29 @@ function renderLevelMap() {
               dotX - this.cellSize / 10 + this.cellSize / 5,
               dotY - this.cellSize / 1.5 - this.cellSize / 10 + this.cellSize / 5,
             ]);
+            break;
+          }
+          // ----------------------------------------------------------------
+          //                            OTHER
+          // ----------------------------------------------------------------
+          case MapDefinitions.Hourglass: {
+            obstaclesCtx.font = BONUS_SIZE_LABEL_FONT;
+            obstaclesCtx.fillStyle = MAP_ELEMENT_COLORS.label.background;
+            obstaclesCtx.textAlign = 'center';
+            obstaclesCtx.textBaseline = 'middle';
+
+            obstaclesCtx.fillText('⌛', dotX, dotY);
+
+            this.hourglassesCoords.push({
+              id: this.hourglassesCoords.length + 1,
+              coords: [y - 1, x - 1],
+              borders: [
+                dotX - this.cellSize / 4,
+                dotY - this.cellSize / 4,
+                dotX + this.cellSize / 4,
+                dotY + this.cellSize / 4,
+              ],
+            });
             break;
           }
           default: break;

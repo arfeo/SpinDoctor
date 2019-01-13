@@ -88,3 +88,9 @@ export interface ISwitcherCoords {
   type: 'blue' | 'red' | 'yellow';
   coords: number[];
 }
+
+export interface IHourglassCoords {
+  id: number;
+  coords: number[];
+  borders: number[];
+}
