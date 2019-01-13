@@ -11,14 +11,26 @@
   .boardPanel {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     height: $boardPanelHeight;
     font-size: $boardPanelFontSize;
+
+    .-menu-button,
+    .-pause-button {
+      width: $boardPanelButtonSize;
+      height: $boardPanelButtonSize;
+      margin-right: 2%;
+      background: none;
+      border: none;
+      color: $boardPanelFontColor;
+      cursor: pointer;
+      outline: none;
+    }
 
     .-level {
       display: flex;
       align-items: center;
-      width: 35%;
+      width: 30%;
+      margin-left: $mainMargin;
 
       .-id {
         margin-right: calc(#{$mainMargin / 2});
@@ -26,7 +38,8 @@
     }
 
     .-time {
-      width: 25%;
+      width: 20%;
+      visibility: hidden;
 
       &:before {
         content: 'Time:';

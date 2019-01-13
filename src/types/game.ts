@@ -4,6 +4,8 @@ export interface ILevelExtra {
 }
 
 export interface IBoardPanel {
+  menuButton: HTMLButtonElement;
+  pauseButton: HTMLButtonElement;
   level: HTMLElement;
   time: HTMLElement;
   lives: HTMLElement;

@@ -1,3 +1,5 @@
+import { Menu } from '../Menu';
+
 import { APP } from '../../constants/global';
 import { FunctionalKeys } from '../../constants/game';
 
@@ -16,6 +18,16 @@ function setUpEventHandlers() {
 
   document.body.addEventListener('keydown', APP.eventListeners.onKeyDown);
   document.body.addEventListener('keyup', APP.eventListeners.onKeyUp);
+
+  this.boardPanelElements.menuButton.addEventListener('click', () => {
+    this.destroy();
+
+    APP.pageInstance = new Menu();
+  });
+
+  this.boardPanelElements.pauseButton.addEventListener('click', () => {
+    onPauseGame.call(this);
+  });
 }
 
 /**
@@ -54,18 +66,7 @@ function keyDownHandler(event: KeyboardEvent) {
       break;
     }
     case FunctionalKeys.Pause: {
-      if (!this.keyDown.pause) {
-        const pauseLabel: HTMLElement = document.getElementById('pause');
-
-        this.isGameStopped = !this.isGameStopped;
-
-        if (this.isGameStopped) {
-          pauseLabel.classList.add('show');
-        } else {
-          pauseLabel.classList.remove('show');
-        }
-      }
-
+      onPauseGame.call(this);
       setActiveKey.call(this, 'pause');
       break;
     }
@@ -103,6 +104,26 @@ function setActiveKey(type?: string) {
 
       animateTimeTicker.call(this);
     }
+  }
+}
+
+/**
+ * Function stops all game animations, including time ticker animation, if the game is active,
+ * and resumes the game if it has been stopped earlier
+ */
+function onPauseGame() {
+  if (this.keyDown.pause) {
+    return;
+  }
+
+  const pauseLabel: HTMLElement = document.getElementById('pause');
+
+  this.isGameStopped = !this.isGameStopped;
+
+  if (this.isGameStopped) {
+    pauseLabel.classList.add('show');
+  } else {
+    pauseLabel.classList.remove('show');
   }
 }
 

@@ -39,6 +39,8 @@ function renderGameWindow() {
   const pauseLabel: HTMLElement = document.createElement('div');
 
   this.boardPanelElements = {
+    menuButton: document.createElement('button'),
+    pauseButton: document.createElement('button'),
     level: document.createElement('div'),
     time: document.createElement('div'),
     lives: document.createElement('div'),
@@ -58,6 +60,8 @@ function renderGameWindow() {
   pauseLabel.id = 'pause';
   pauseLabel.className = '-pause';
   pauseLabel.innerText = 'Paused';
+  this.boardPanelElements.menuButton.className = '-menu-button';
+  this.boardPanelElements.pauseButton.className = '-pause-button';
   this.boardPanelElements.level.className = '-level';
   this.boardPanelElements.time.className = '-time';
   this.boardPanelElements.lives.className = '-lives';
@@ -82,16 +86,23 @@ function renderGameWindow() {
   this.obstaclesCanvas.width = this.cellSize * (GridDimensions.Width + 2);
   this.obstaclesCanvas.height = this.cellSize * (GridDimensions.Height + 2);
 
+  this.boardPanelElements.menuButton.innerText = '◀︎';
+  this.boardPanelElements.menuButton.title = 'Go to menu';
+  this.boardPanelElements.pauseButton.innerText = '▌▌';
+  this.boardPanelElements.pauseButton.title = 'Pause';
+
+  if (this.difficulty.id !== 1) {
+    this.boardPanelElements.time.style.visibility = 'visible';
+  }
+
   appRoot.innerHTML = '';
 
   appRoot.appendChild(gameWindow);
   gameWindow.appendChild(boardPanel);
+  boardPanel.appendChild(this.boardPanelElements.menuButton);
+  boardPanel.appendChild(this.boardPanelElements.pauseButton);
   boardPanel.appendChild(this.boardPanelElements.level);
-
-  if (this.difficulty.id !== 1) {
-    boardPanel.appendChild(this.boardPanelElements.time);
-  }
-
+  boardPanel.appendChild(this.boardPanelElements.time);
   boardPanel.appendChild(this.boardPanelElements.lives);
   boardPanel.appendChild(this.boardPanelElements.score);
   gameWindow.appendChild(boardGrid);
