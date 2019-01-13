@@ -47,10 +47,12 @@ abstract class Modal {
     this.modalClose.addEventListener('click', this.close.bind(this));
   }
 
-  close() {
+  close(restoreHandlers = true) {
     this.modalContainer.remove();
 
-    setUpEventHandlers.call(this.game);
+    if (restoreHandlers) {
+      setUpEventHandlers.call(this.game);
+    }
   }
 }
 

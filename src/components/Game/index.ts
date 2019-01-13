@@ -1,4 +1,4 @@
-import { APP, DIFFICULTIES } from '../../constants/global';
+import { DIFFICULTIES } from '../../constants/global';
 import { LEVELS } from '../../constants/levels';
 
 import {
@@ -10,8 +10,6 @@ import {
 import {
   removeEventHandlers,
   setUpEventHandlers,
-  keyDownHandler,
-  keyUpHandler,
 } from './events';
 
 import { setCellSize, validateLevel } from '../../utils/game';
@@ -104,11 +102,6 @@ class Game {
     this.spikesCoords = [];
 
     this.enemiesSpeedCorrection = 1;
-
-    APP.eventListeners = {
-      onKeyDown: keyDownHandler.bind(this),
-      onKeyUp: keyUpHandler.bind(this),
-    };
 
     this.render();
   }

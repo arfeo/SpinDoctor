@@ -7,6 +7,11 @@ import { animateTimeTicker } from './animations';
  * Function creates all game's event listeners
  */
 function setUpEventHandlers() {
+  APP.eventListeners = {
+    onKeyDown: keyDownHandler.bind(this),
+    onKeyUp: keyUpHandler.bind(this),
+  };
+
   setActiveKey.call(this);
 
   document.body.addEventListener('keydown', APP.eventListeners.onKeyDown);

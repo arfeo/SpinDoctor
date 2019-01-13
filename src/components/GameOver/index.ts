@@ -34,7 +34,7 @@ class GameOver extends Modal {
 
       APP.pageInstance = new Game(1, 4, 0, getStorageData('difficulty') || DIFFICULTIES[0].id);
 
-      this.close();
+      this.close(false);
     });
 
     gameOverSubmitStop.addEventListener('click', () => {
@@ -42,7 +42,7 @@ class GameOver extends Modal {
 
       APP.pageInstance = new Menu();
 
-      this.close();
+      this.close(false);
     });
   }
 }
