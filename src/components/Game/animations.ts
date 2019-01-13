@@ -420,7 +420,7 @@ function animateTimeTicker() {
     if (time - start > 1000) {
       this.timeAvailable -= 1;
 
-      this.boardPanel.time.innerText = secondsToString(this.timeAvailable);
+      this.boardPanelElements.time.innerText = secondsToString(this.timeAvailable);
 
       if (this.timeAvailable === 0) {
         return checkOnLevelFail.call(this);

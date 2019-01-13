@@ -34,7 +34,7 @@ class Game {
   timeAvailable: number;
   levelExtra: ILevelExtra;
   cellSize: number;
-  boardPanel: IBoardPanel;
+  boardPanelElements: IBoardPanel;
   staticCanvas: HTMLCanvasElement;
   goalCanvas: HTMLCanvasElement;
   wandCanvas: HTMLCanvasElement;
@@ -71,20 +71,6 @@ class Game {
     }
 
     this.cellSize = setCellSize();
-
-    this.boardPanel = {
-      level: document.createElement('div'),
-      time: document.createElement('div'),
-      lives: document.createElement('div'),
-      score: document.createElement('div'),
-    };
-
-    this.staticCanvas = document.createElement('canvas');
-    this.goalCanvas = document.createElement('canvas');
-    this.wandCanvas = document.createElement('canvas');
-    this.doorsCanvas = document.createElement('canvas');
-    this.switchersCanvas = document.createElement('canvas');
-    this.obstaclesCanvas = document.createElement('canvas');
 
     this.isTimeTickerOn = false;
     this.isGameStopped = false;

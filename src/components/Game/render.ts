@@ -38,16 +38,30 @@ function renderGameWindow() {
   const boardGrid: HTMLElement = document.createElement('div');
   const pauseLabel: HTMLElement = document.createElement('div');
 
+  this.boardPanelElements = {
+    level: document.createElement('div'),
+    time: document.createElement('div'),
+    lives: document.createElement('div'),
+    score: document.createElement('div'),
+  };
+
+  this.staticCanvas = document.createElement('canvas');
+  this.goalCanvas = document.createElement('canvas');
+  this.wandCanvas = document.createElement('canvas');
+  this.doorsCanvas = document.createElement('canvas');
+  this.switchersCanvas = document.createElement('canvas');
+  this.obstaclesCanvas = document.createElement('canvas');
+
   gameWindow.className = 'gameWindow';
   boardPanel.className = 'boardPanel';
   boardGrid.className = 'boardGrid';
   pauseLabel.id = 'pause';
   pauseLabel.className = '-pause';
   pauseLabel.innerText = 'Paused';
-  this.boardPanel.level.className = '-level';
-  this.boardPanel.time.className = '-time';
-  this.boardPanel.lives.className = '-lives';
-  this.boardPanel.score.className = '-score';
+  this.boardPanelElements.level.className = '-level';
+  this.boardPanelElements.time.className = '-time';
+  this.boardPanelElements.lives.className = '-lives';
+  this.boardPanelElements.score.className = '-score';
   this.staticCanvas.className = '-static-canvas';
   this.goalCanvas.className = '-goal-canvas';
   this.wandCanvas.className = '-wand-canvas';
@@ -72,14 +86,14 @@ function renderGameWindow() {
 
   appRoot.appendChild(gameWindow);
   gameWindow.appendChild(boardPanel);
-  boardPanel.appendChild(this.boardPanel.level);
+  boardPanel.appendChild(this.boardPanelElements.level);
 
   if (this.difficulty.id !== 1) {
-    boardPanel.appendChild(this.boardPanel.time);
+    boardPanel.appendChild(this.boardPanelElements.time);
   }
 
-  boardPanel.appendChild(this.boardPanel.lives);
-  boardPanel.appendChild(this.boardPanel.score);
+  boardPanel.appendChild(this.boardPanelElements.lives);
+  boardPanel.appendChild(this.boardPanelElements.score);
   gameWindow.appendChild(boardGrid);
   boardGrid.appendChild(this.staticCanvas);
   boardGrid.appendChild(this.goalCanvas);
@@ -1223,17 +1237,17 @@ function renderDoor(door: IDoor, doorWidth?: number) {
  * in the game panel
  */
 function renderPanelCounters() {
-  this.boardPanel.level.innerHTML = (`
+  this.boardPanelElements.level.innerHTML = (`
     <div class="-id">${this.level.id}:</div>
     <div class="-title">${this.level.title}</div>
   `);
 
   if (this.difficulty.id !== 1) {
-    this.boardPanel.time.innerText = secondsToString(this.timeAvailable);
+    this.boardPanelElements.time.innerText = secondsToString(this.timeAvailable);
   }
 
-  this.boardPanel.lives.innerText = this.lives;
-  this.boardPanel.score.innerText = this.score;
+  this.boardPanelElements.lives.innerText = this.lives;
+  this.boardPanelElements.score.innerText = this.score;
 }
 
 export {
