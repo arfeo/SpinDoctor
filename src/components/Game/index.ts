@@ -67,7 +67,7 @@ class Game {
     this.levelExtra = JSON.parse(JSON.stringify(levelExtra));
 
     if (this.levelExtra.station.length) {
-      this.level.wand.position = JSON.parse(JSON.stringify(this.levelExtra.station));
+      this.level.wand.position = [...this.levelExtra.station];
     }
 
     this.cellSize = setCellSize();
@@ -76,7 +76,7 @@ class Game {
     this.isGameStopped = false;
     this.isSwitcherActive = false;
 
-    this.goalPosition = this.level.goal;
+    this.goalPosition = [...this.level.goal];
 
     this.animateEnemyWand = [];
 
