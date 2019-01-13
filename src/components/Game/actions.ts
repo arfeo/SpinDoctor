@@ -535,18 +535,42 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
   }
 
   // Avatar wand grabs bonus
-  const bonus: IBonus[] = this.level.bonus.filter((item: IBonus) => {
-    return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
-  });
+  if (this.level.bonus) {
+    const bonus: IBonus[] = this.level.bonus.filter((item: IBonus) => {
+      return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
+    });
 
-  if (bonus.length) {
-    this.levelExtra.bonus.push(bonus[0].id);
-    this.score += bonus[0].size;
-    this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonus[0].id);
+    if (bonus.length) {
+      this.levelExtra.bonus.push(bonus[0].id);
+      this.score += bonus[0].size;
+      this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonus[0].id);
 
-    animateBonusSize.call(this, bonus[0]);
+      animateBonusSize.call(this, bonus[0]);
 
-    renderPanelCounters.call(this);
+      renderPanelCounters.call(this);
+    }
+  }
+
+  // Avatar wand grabs hyperdot
+  if (this.level.hyperdots) {
+    const hyperdot: IHyperdot[] = this.level.hyperdots.filter((item: IHyperdot) => {
+      return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
+    });
+
+    if (hyperdot.length) {
+      const pairHyperdot: IHyperdot[] = this.level.hyperdots.filter((item: IHyperdot) => {
+        return item.type === hyperdot[0].type && item.id !== hyperdot[0].id;
+      });
+
+      if (pairHyperdot.length) {
+        const canvasWidth: number = this.cellSize * (GridDimensions.Width + 2);
+        const canvasHeight: number = this.cellSize * (GridDimensions.Height + 2);
+
+        this.wandCanvas.getContext('2d').clearRect(0, 0, canvasWidth, canvasHeight);
+
+        this.level.wand.position = [...pairHyperdot[0].position];
+      }
+    }
   }
 
   // Avatar wand grabs the goal dot
@@ -559,26 +583,6 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
       this.destroy();
 
       APP.pageInstance = new Game(this.level.id + 1, this.lives, this.score, this.difficulty.id);
-    }
-  }
-
-  // Avatar wand grabs hyperdot
-  const hyperdot: IHyperdot[] = this.level.hyperdots.filter((item: IHyperdot) => {
-    return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
-  });
-
-  if (hyperdot.length) {
-    const pairHyperdot: IHyperdot[] = this.level.hyperdots.filter((item: IHyperdot) => {
-      return item.type === hyperdot[0].type && item.id !== hyperdot[0].id;
-    });
-
-    if (pairHyperdot.length) {
-      const canvasWidth: number = this.cellSize * (GridDimensions.Width + 2);
-      const canvasHeight: number = this.cellSize * (GridDimensions.Height + 2);
-
-      this.wandCanvas.getContext('2d').clearRect(0, 0, canvasWidth, canvasHeight);
-
-      this.level.wand.position = [...pairHyperdot[0].position];
     }
   }
 }
