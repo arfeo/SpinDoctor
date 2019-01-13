@@ -29,11 +29,12 @@ export interface ILevel {
   id: number;
   title: string;
   map: number[][];
-  bonus?: IBonus[];
-  doors?: IDoor[];
   goal: number[];
   wand: IWand;
+  bonus?: IBonus[];
+  doors?: IDoor[];
   enemies?: (IWand & IEnemy)[];
+  hyperdots?: IHyperdot[];
   time: number;
 }
 
@@ -62,6 +63,12 @@ export interface IDoor {
   type: 'blue' | 'red' | 'yellow';
   orientation: 'vertical' | 'horizontal';
   opened: boolean;
+}
+
+export interface IHyperdot {
+  id: number;
+  type: number;
+  position: number[];
 }
 
 export interface IMapElementColors {

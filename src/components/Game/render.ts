@@ -27,7 +27,14 @@ import {
 
 import { secondsToString } from './utils';
 
-import { IBonus, IDoor, IDoorCoords, IEnemy, IWand } from '../../types/game';
+import {
+  IBonus,
+  IDoor,
+  IDoorCoords,
+  IEnemy,
+  IHyperdot,
+  IWand,
+} from '../../types/game';
 
 /**
  * Function creates game window element, game panel and all needed canvases
@@ -152,7 +159,7 @@ function renderGameWindow() {
  * and the goal
  */
 function renderLevelMap() {
-  const { map, bonus, doors } = this.level;
+  const { map, bonus, doors, hyperdots } = this.level;
 
   for (let y = 0; y < map.length; y += 1) {
     for (let x = 0; x < map[y].length; x += 1) {
@@ -1092,6 +1099,10 @@ function renderLevelMap() {
     renderDoors.call(this);
   }
 
+  if (hyperdots) {
+    renderHyperdots.call(this);
+  }
+
   if (this.spikesCoords.length) {
     animateSpikes.call(this);
   }
@@ -1271,6 +1282,127 @@ function renderDoor(door: IDoor, doorWidth?: number) {
     }
     default: break;
   }
+}
+
+/**
+ * Function renders all hyperdots on the game board (if applicable);
+ * each of five hyperdots' types has its own distinguishing symbol
+ */
+function renderHyperdots() {
+  const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+
+  this.level.hyperdots.map((hyperdot: IHyperdot) => {
+    const top: number = this.cellSize + this.cellSize * (hyperdot.position[0] + 1);
+    const left: number = this.cellSize + this.cellSize * (hyperdot.position[1] + 1);
+    const dotX: number = left + this.cellSize / 2;
+    const dotY: number = top + this.cellSize / 2;
+
+    drawCircle(
+      staticCtx,
+      dotX,
+      dotY,
+      this.cellSize / 5,
+      MAP_ELEMENT_COLORS.hyperdot.background,
+      2,
+      MAP_ELEMENT_COLORS.hyperdot.border,
+    );
+
+    switch (hyperdot.type) {
+      case 1: {
+        drawCircle(
+          staticCtx,
+          dotX - this.cellSize / 20,
+          dotY + this.cellSize / 20,
+          1,
+          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+        );
+        drawCircle(
+          staticCtx,
+          dotX + this.cellSize / 20,
+          dotY - this.cellSize / 20,
+          1,
+          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+        );
+        break;
+      }
+      case 2: {
+        drawCircle(
+          staticCtx,
+          dotX - this.cellSize / 20 - 1,
+          dotY,
+          1,
+          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+        );
+        drawCircle(
+          staticCtx,
+          dotX + this.cellSize / 20 + 1,
+          dotY,
+          1,
+          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+        );
+        break;
+      }
+      case 3: {
+        drawCircle(
+          staticCtx,
+          dotX - this.cellSize / 20,
+          dotY - this.cellSize / 20,
+          1,
+          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+        );
+        drawCircle(
+          staticCtx,
+          dotX + this.cellSize / 20,
+          dotY + this.cellSize / 20,
+          1,
+          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+        );
+        break;
+      }
+      case 4: {
+        drawCircle(
+          staticCtx,
+          dotX,
+          dotY - this.cellSize / 20 - 1,
+          1,
+          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+        );
+        drawCircle(
+          staticCtx,
+          dotX,
+          dotY + this.cellSize / 20 + 1,
+          1,
+          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+        );
+        break;
+      }
+      case 5: {
+        drawCircle(
+          staticCtx,
+          dotX - this.cellSize / 20 - 2,
+          dotY,
+          1,
+          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+        );
+        drawCircle(
+          staticCtx,
+          dotX,
+          dotY,
+          1,
+          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+        );
+        drawCircle(
+          staticCtx,
+          dotX + this.cellSize / 20 + 2,
+          dotY,
+          1,
+          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+        );
+        break;
+      }
+      default: break;
+    }
+  });
 }
 
 /**

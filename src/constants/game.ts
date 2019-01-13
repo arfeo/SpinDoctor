@@ -64,6 +64,12 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
   label: {
     background: 'rgb(255, 255, 255)',
   },
+  hyperdot: {
+    background: 'rgb(170, 170, 170)',
+    border: 'rgb(97, 97, 97)',
+    dotsInactive: 'rgb(69, 69, 69)',
+    dotsActive: 'rgb(234, 1, 1)',
+  }
 };
 
 export const WAND_COLORS: IWandColors = {
