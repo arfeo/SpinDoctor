@@ -15,7 +15,7 @@ The original game was created by Callisto Corporation in 1993.
 1. `Alt` - bounce
 1. `Space` - reverse
 
-### Scheduled features
+## Scheduled features
 
 * Bombs
 * Acid droplets
