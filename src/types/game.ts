@@ -1,8 +1,3 @@
-export interface ILevelExtra {
-  bonus: number[];
-  station: number[];
-}
-
 export interface IBoardPanel {
   menuButton: HTMLButtonElement;
   pauseButton: HTMLButtonElement;
@@ -20,11 +15,6 @@ export interface IKeysDown {
   pause: boolean;
 }
 
-export interface IEnemyWandsCoords {
-  id: number;
-  coords: number[][];
-}
-
 export interface ILevel {
   id: number;
   title: string;
@@ -36,6 +26,11 @@ export interface ILevel {
   enemies?: (IWand & IEnemy)[];
   hyperdots?: IHyperdot[];
   time: number;
+}
+
+export interface ILevelExtra {
+  bonus: number[];
+  station: number[];
 }
 
 export interface IBonus {
@@ -71,16 +66,9 @@ export interface IHyperdot {
   position: number[];
 }
 
-export interface IMapElementColors {
-  [key: string]: {
-    background: string;
-    border?: string;
-    [key: string]: string;
-  };
-}
-
-export interface IWandColors {
-  [key: string]: string;
+export interface IEnemyWandsCoords {
+  id: number;
+  coords: number[][];
 }
 
 export interface IDoorCoords {

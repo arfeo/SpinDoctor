@@ -1,6 +1,5 @@
 import {
-  MAP_ELEMENT_COLORS,
-  PILLAR_COLORS,
+  ELEMENTS_COLORS,
   WALL_WIDTH,
   DOOR_WIDTH,
   PILLAR_WIDTH,
@@ -183,9 +182,9 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.dotRegular.background,
+              ELEMENTS_COLORS.dotRegular.background,
               2,
-              MAP_ELEMENT_COLORS.dotRegular.border,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
@@ -195,9 +194,9 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.dotRed.background,
+              ELEMENTS_COLORS.dotRed.background,
               2,
-              MAP_ELEMENT_COLORS.dotRed.border,
+              ELEMENTS_COLORS.dotRed.border,
             );
             break;
           }
@@ -207,9 +206,9 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.dotBlue.background,
+              ELEMENTS_COLORS.dotBlue.background,
               2,
-              MAP_ELEMENT_COLORS.dotBlue.border,
+              ELEMENTS_COLORS.dotBlue.border,
             );
             break;
           }
@@ -219,9 +218,9 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.dotYellow.background,
+              ELEMENTS_COLORS.dotYellow.background,
               2,
-              MAP_ELEMENT_COLORS.dotYellow.border,
+              ELEMENTS_COLORS.dotYellow.border,
             );
             break;
           }
@@ -233,7 +232,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               Math.PI,
               0,
-              MAP_ELEMENT_COLORS.dotRed.background,
+              ELEMENTS_COLORS.dotRed.background,
             );
             drawArc(
               staticCtx,
@@ -242,7 +241,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               0,
               Math.PI,
-              MAP_ELEMENT_COLORS.dotBlue.background,
+              ELEMENTS_COLORS.dotBlue.background,
             );
             drawCircle(
               staticCtx,
@@ -251,7 +250,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotRegular.border,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
@@ -263,7 +262,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               Math.PI,
               0,
-              MAP_ELEMENT_COLORS.dotRed.background,
+              ELEMENTS_COLORS.dotRed.background,
             );
             drawArc(
               staticCtx,
@@ -272,7 +271,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               0,
               Math.PI,
-              MAP_ELEMENT_COLORS.dotYellow.background,
+              ELEMENTS_COLORS.dotYellow.background,
             );
             drawCircle(
               staticCtx,
@@ -281,7 +280,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotRegular.border,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
@@ -293,7 +292,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               Math.PI,
               0,
-              MAP_ELEMENT_COLORS.dotBlue.background,
+              ELEMENTS_COLORS.dotBlue.background,
             );
             drawArc(
               staticCtx,
@@ -302,7 +301,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               0,
               Math.PI,
-              MAP_ELEMENT_COLORS.dotYellow.background,
+              ELEMENTS_COLORS.dotYellow.background,
             );
             drawCircle(
               staticCtx,
@@ -311,7 +310,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotRegular.border,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
@@ -323,7 +322,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               0,
               Math.PI * 2 / 3,
-              MAP_ELEMENT_COLORS.dotRed.background,
+              ELEMENTS_COLORS.dotRed.background,
             );
             drawSector(
               staticCtx,
@@ -332,7 +331,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               Math.PI * 2 / 3,
               Math.PI * 4 / 3,
-              MAP_ELEMENT_COLORS.dotBlue.background,
+              ELEMENTS_COLORS.dotBlue.background,
             );
             drawSector(
               staticCtx,
@@ -341,7 +340,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               Math.PI * 4 / 3,
               0,
-              MAP_ELEMENT_COLORS.dotYellow.background,
+              ELEMENTS_COLORS.dotYellow.background,
             );
             drawCircle(
               staticCtx,
@@ -350,7 +349,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotRegular.border,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
@@ -360,7 +359,7 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.board.background,
+              ELEMENTS_COLORS.board.background,
             );
             drawArc(
               staticCtx,
@@ -369,7 +368,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               Math.PI * 0.5 - Math.PI * 2 / 3,
               Math.PI * 0.5,
-              MAP_ELEMENT_COLORS.dotRegular.background,
+              ELEMENTS_COLORS.dotRegular.background,
             );
             drawArc(
               staticCtx,
@@ -378,7 +377,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               Math.PI * 0.5,
               Math.PI * 0.5 + Math.PI * 2 / 3,
-              MAP_ELEMENT_COLORS.dotRegular.background,
+              ELEMENTS_COLORS.dotRegular.background,
             );
             drawArc(
               staticCtx,
@@ -387,7 +386,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               Math.PI * 0.5 + Math.PI * 2 / 3,
               Math.PI * 0.5 + Math.PI * 4 / 3,
-              MAP_ELEMENT_COLORS.dotRegular.background,
+              ELEMENTS_COLORS.dotRegular.background,
             );
             drawCircle(
               staticCtx,
@@ -396,7 +395,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotRegular.border,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
@@ -406,9 +405,9 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.dotRegular.background,
+              ELEMENTS_COLORS.dotRegular.background,
               2,
-              MAP_ELEMENT_COLORS.dotRegular.border,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             drawLineToAngle(
               staticCtx,
@@ -416,7 +415,7 @@ function renderLevelMap() {
               dotY,
               this.cellSize * 2 / 5,
               0,
-              MAP_ELEMENT_COLORS.dotRegular.border,
+              ELEMENTS_COLORS.dotRegular.border,
               2,
             );
             drawLineToAngle(
@@ -425,7 +424,7 @@ function renderLevelMap() {
               dotY - this.cellSize / 5,
               this.cellSize * 2 / 5,
               90,
-              MAP_ELEMENT_COLORS.dotRegular.border,
+              ELEMENTS_COLORS.dotRegular.border,
               2,
             );
             break;
@@ -439,9 +438,9 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.ringRegular.background,
+              ELEMENTS_COLORS.ringRegular.background,
               2,
-              MAP_ELEMENT_COLORS.ringRegular.border,
+              ELEMENTS_COLORS.ringRegular.border,
             );
             break;
           }
@@ -451,9 +450,9 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.ringRed.background,
+              ELEMENTS_COLORS.ringRed.background,
               2,
-              MAP_ELEMENT_COLORS.ringRed.border,
+              ELEMENTS_COLORS.ringRed.border,
             );
             break;
           }
@@ -463,9 +462,9 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.ringBlue.background,
+              ELEMENTS_COLORS.ringBlue.background,
               2,
-              MAP_ELEMENT_COLORS.ringBlue.border,
+              ELEMENTS_COLORS.ringBlue.border,
             );
             break;
           }
@@ -475,9 +474,9 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 5,
-              MAP_ELEMENT_COLORS.ringYellow.background,
+              ELEMENTS_COLORS.ringYellow.background,
               2,
-              MAP_ELEMENT_COLORS.ringYellow.border,
+              ELEMENTS_COLORS.ringYellow.border,
             );
             break;
           }
@@ -491,7 +490,7 @@ function renderLevelMap() {
               0,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotRed.background,
+              ELEMENTS_COLORS.dotRed.background,
             );
             drawArc(
               staticCtx,
@@ -502,14 +501,14 @@ function renderLevelMap() {
               Math.PI,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotBlue.background,
+              ELEMENTS_COLORS.dotBlue.background,
             );
             drawCircle(
               staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
-              MAP_ELEMENT_COLORS.ringRegular.background,
+              ELEMENTS_COLORS.ringRegular.background,
             );
             break;
           }
@@ -523,7 +522,7 @@ function renderLevelMap() {
               0,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotRed.background,
+              ELEMENTS_COLORS.dotRed.background,
             );
             drawArc(
               staticCtx,
@@ -534,14 +533,14 @@ function renderLevelMap() {
               Math.PI,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotYellow.background,
+              ELEMENTS_COLORS.dotYellow.background,
             );
             drawCircle(
               staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
-              MAP_ELEMENT_COLORS.ringRegular.background,
+              ELEMENTS_COLORS.ringRegular.background,
             );
             break;
           }
@@ -555,7 +554,7 @@ function renderLevelMap() {
               0,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotBlue.background,
+              ELEMENTS_COLORS.dotBlue.background,
             );
             drawArc(
               staticCtx,
@@ -566,14 +565,14 @@ function renderLevelMap() {
               Math.PI,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotYellow.background,
+              ELEMENTS_COLORS.dotYellow.background,
             );
             drawCircle(
               staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
-              MAP_ELEMENT_COLORS.ringRegular.background,
+              ELEMENTS_COLORS.ringRegular.background,
             );
             break;
           }
@@ -587,7 +586,7 @@ function renderLevelMap() {
               Math.PI * 2 / 3,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotRed.background,
+              ELEMENTS_COLORS.dotRed.background,
             );
             drawArc(
               staticCtx,
@@ -598,7 +597,7 @@ function renderLevelMap() {
               Math.PI * 4 / 3,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotBlue.background,
+              ELEMENTS_COLORS.dotBlue.background,
             );
             drawArc(
               staticCtx,
@@ -609,14 +608,14 @@ function renderLevelMap() {
               0,
               null,
               2,
-              MAP_ELEMENT_COLORS.dotYellow.background,
+              ELEMENTS_COLORS.dotYellow.background,
             );
             drawCircle(
               staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
-              MAP_ELEMENT_COLORS.ringRegular.background,
+              ELEMENTS_COLORS.ringRegular.background,
             );
             break;
           }
@@ -630,7 +629,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -642,7 +641,7 @@ function renderLevelMap() {
               top,
               this.cellSize,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -654,7 +653,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize / 2 + this.cellSize / 4,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -666,7 +665,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize / 2 + this.cellSize / 4,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -678,7 +677,7 @@ function renderLevelMap() {
               top + this.cellSize / 2 - this.cellSize / 4,
               this.cellSize / 2 + this.cellSize / 4,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -690,7 +689,7 @@ function renderLevelMap() {
               top,
               this.cellSize / 2 + this.cellSize / 4,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -702,7 +701,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
@@ -711,7 +710,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize / 2,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -723,7 +722,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
@@ -732,7 +731,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize / 2,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -744,7 +743,7 @@ function renderLevelMap() {
               top,
               this.cellSize / 2,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
@@ -753,7 +752,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -765,7 +764,7 @@ function renderLevelMap() {
               top,
               this.cellSize / 2,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
@@ -774,7 +773,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -786,7 +785,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
@@ -795,7 +794,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize / 2,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -807,7 +806,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
@@ -816,7 +815,7 @@ function renderLevelMap() {
               top,
               this.cellSize / 2,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -828,7 +827,7 @@ function renderLevelMap() {
               top,
               this.cellSize,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
@@ -837,7 +836,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize / 2,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -849,7 +848,7 @@ function renderLevelMap() {
               top,
               this.cellSize,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
@@ -858,7 +857,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize / 2,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -870,7 +869,7 @@ function renderLevelMap() {
               top + this.cellSize / 2,
               this.cellSize,
               0,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             this.wallsCoords.push(drawLineToAngle(
@@ -879,7 +878,7 @@ function renderLevelMap() {
               top,
               this.cellSize,
               90,
-              MAP_ELEMENT_COLORS.wall.background,
+              ELEMENTS_COLORS.wall.background,
               WALL_WIDTH,
             ));
             break;
@@ -892,9 +891,9 @@ function renderLevelMap() {
           case MapDefinitions.DoorSwitcherYellow: {
             const switchersCtx: CanvasRenderingContext2D = this.switchersCanvas.getContext('2d');
             const colorMap: {[key: number]: string} = {
-              [MapDefinitions.DoorSwitcherBlue]: PILLAR_COLORS.blue,
-              [MapDefinitions.DoorSwitcherRed]: PILLAR_COLORS.red,
-              [MapDefinitions.DoorSwitcherYellow]: PILLAR_COLORS.yellow,
+              [MapDefinitions.DoorSwitcherBlue]: ELEMENTS_COLORS.pillars.blue,
+              [MapDefinitions.DoorSwitcherRed]: ELEMENTS_COLORS.pillars.red,
+              [MapDefinitions.DoorSwitcherYellow]: ELEMENTS_COLORS.pillars.yellow,
             };
             const typesMap: {[key: number]: string} = {
               [MapDefinitions.DoorSwitcherBlue]: 'blue',
@@ -907,9 +906,9 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 3,
-              MAP_ELEMENT_COLORS.switcher.background,
+              ELEMENTS_COLORS.switcher.background,
               2,
-              MAP_ELEMENT_COLORS.switcher.border,
+              ELEMENTS_COLORS.switcher.border,
             );
             drawStrokeRectangle(
               switchersCtx,
@@ -918,7 +917,7 @@ function renderLevelMap() {
               this.cellSize / 5,
               this.cellSize / 5,
               2,
-              MAP_ELEMENT_COLORS.switcher.innerBorder,
+              ELEMENTS_COLORS.switcher.innerBorder,
             );
             drawFilledRectangle(
               switchersCtx,
@@ -944,14 +943,14 @@ function renderLevelMap() {
               dotX,
               dotY,
               this.cellSize / 10,
-              MAP_ELEMENT_COLORS.spike.background,
+              ELEMENTS_COLORS.spike.background,
             );
             drawCircle(
               obstaclesCtx,
               dotX - 1,
               dotY - 1,
               this.cellSize / 15,
-              MAP_ELEMENT_COLORS.bonus.innerCircle,
+              ELEMENTS_COLORS.bonus.innerCircle,
               2,
               null,
             );
@@ -970,14 +969,14 @@ function renderLevelMap() {
               dotX + this.cellSize / 1.5,
               dotY,
               this.cellSize / 10,
-              MAP_ELEMENT_COLORS.spike.background,
+              ELEMENTS_COLORS.spike.background,
             );
             drawCircle(
               obstaclesCtx,
               dotX + this.cellSize / 1.5 - 1,
               dotY - 1,
               this.cellSize / 15,
-              MAP_ELEMENT_COLORS.bonus.innerCircle,
+              ELEMENTS_COLORS.bonus.innerCircle,
             );
 
             this.spikesCoords.push([
@@ -994,14 +993,14 @@ function renderLevelMap() {
               dotX,
               dotY + this.cellSize / 1.5,
               this.cellSize / 10,
-              MAP_ELEMENT_COLORS.spike.background,
+              ELEMENTS_COLORS.spike.background,
             );
             drawCircle(
               obstaclesCtx,
               dotX - 1,
               dotY + this.cellSize / 1.5 - 1,
               this.cellSize / 15,
-              MAP_ELEMENT_COLORS.bonus.innerCircle,
+              ELEMENTS_COLORS.bonus.innerCircle,
             );
 
             this.spikesCoords.push([
@@ -1018,14 +1017,14 @@ function renderLevelMap() {
               dotX - this.cellSize / 1.5,
               dotY,
               this.cellSize / 10,
-              MAP_ELEMENT_COLORS.spike.background,
+              ELEMENTS_COLORS.spike.background,
             );
             drawCircle(
               obstaclesCtx,
               dotX - this.cellSize / 1.5 - 1,
               dotY - 1,
               this.cellSize / 15,
-              MAP_ELEMENT_COLORS.bonus.innerCircle,
+              ELEMENTS_COLORS.bonus.innerCircle,
             );
 
             this.spikesCoords.push([
@@ -1042,14 +1041,14 @@ function renderLevelMap() {
               dotX,
               dotY - this.cellSize / 1.5,
               this.cellSize / 10,
-              MAP_ELEMENT_COLORS.spike.background,
+              ELEMENTS_COLORS.spike.background,
             );
             drawCircle(
               obstaclesCtx,
               dotX - 1,
               dotY - this.cellSize / 1.5 - 1,
               this.cellSize / 15,
-              MAP_ELEMENT_COLORS.bonus.innerCircle,
+              ELEMENTS_COLORS.bonus.innerCircle,
             );
 
             this.spikesCoords.push([
@@ -1065,7 +1064,7 @@ function renderLevelMap() {
           // ----------------------------------------------------------------
           case MapDefinitions.Hourglass: {
             obstaclesCtx.font = BONUS_SIZE_LABEL_FONT;
-            obstaclesCtx.fillStyle = MAP_ELEMENT_COLORS.label.background;
+            obstaclesCtx.fillStyle = ELEMENTS_COLORS.label.background;
             obstaclesCtx.textAlign = 'center';
             obstaclesCtx.textBaseline = 'middle';
 
@@ -1123,16 +1122,16 @@ function renderBonus() {
       bonusX,
       bonusY,
       this.cellSize / 5,
-      MAP_ELEMENT_COLORS.bonus.background,
+      ELEMENTS_COLORS.bonus.background,
       2,
-      MAP_ELEMENT_COLORS.bonus.border,
+      ELEMENTS_COLORS.bonus.border,
     );
     drawCircle(
       ctx,
       bonusX - 1,
       bonusY - 1,
       this.cellSize / 12,
-      MAP_ELEMENT_COLORS.bonus.innerCircle,
+      ELEMENTS_COLORS.bonus.innerCircle,
       2,
       null,
     );
@@ -1163,7 +1162,7 @@ function renderDoors() {
           top + this.cellSize / 2,
           this.cellSize / 2,
           0,
-          PILLAR_COLORS[door.type],
+          ELEMENTS_COLORS.pillars[door.type],
           PILLAR_WIDTH,
         );
         drawLineToAngle(
@@ -1172,7 +1171,7 @@ function renderDoors() {
           top + this.cellSize / 2,
           this.cellSize / 2,
           0,
-          PILLAR_COLORS[door.type],
+          ELEMENTS_COLORS.pillars[door.type],
           PILLAR_WIDTH,
         );
         break;
@@ -1184,7 +1183,7 @@ function renderDoors() {
           top - this.cellSize - this.cellSize / 2 - 2,
           this.cellSize / 2,
           90,
-          PILLAR_COLORS[door.type],
+          ELEMENTS_COLORS.pillars[door.type],
           PILLAR_WIDTH,
         );
         drawLineToAngle(
@@ -1193,7 +1192,7 @@ function renderDoors() {
           top + this.cellSize * 2 + 2,
           this.cellSize / 2,
           90,
-          PILLAR_COLORS[door.type],
+          ELEMENTS_COLORS.pillars[door.type],
           PILLAR_WIDTH,
         );
         break;
@@ -1238,7 +1237,7 @@ function renderDoor(door: IDoor, doorWidth?: number) {
             top + this.cellSize / 2,
             doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
             0,
-            MAP_ELEMENT_COLORS.door.background,
+            ELEMENTS_COLORS.door.background,
             DOOR_WIDTH,
           ),
           right: drawLineToAngle(
@@ -1247,7 +1246,7 @@ function renderDoor(door: IDoor, doorWidth?: number) {
             top + this.cellSize / 2,
             doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
             180,
-            MAP_ELEMENT_COLORS.door.background,
+            ELEMENTS_COLORS.door.background,
             DOOR_WIDTH,
           ),
         },
@@ -1264,7 +1263,7 @@ function renderDoor(door: IDoor, doorWidth?: number) {
             top - this.cellSize - 2,
             doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
             90,
-            MAP_ELEMENT_COLORS.door.background,
+            ELEMENTS_COLORS.door.background,
             DOOR_WIDTH,
           ),
           right: drawLineToAngle(
@@ -1273,7 +1272,7 @@ function renderDoor(door: IDoor, doorWidth?: number) {
             top + this.cellSize * 2 + 2,
             doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
             270,
-            MAP_ELEMENT_COLORS.door.background,
+            ELEMENTS_COLORS.door.background,
             DOOR_WIDTH,
           ),
         },
@@ -1302,9 +1301,9 @@ function renderHyperdots() {
       dotX,
       dotY,
       this.cellSize / 5,
-      MAP_ELEMENT_COLORS.hyperdot.background,
+      ELEMENTS_COLORS.hyperdot.background,
       2,
-      MAP_ELEMENT_COLORS.hyperdot.border,
+      ELEMENTS_COLORS.hyperdot.border,
     );
 
     switch (hyperdot.type) {
@@ -1314,14 +1313,14 @@ function renderHyperdots() {
           dotX - this.cellSize / 20,
           dotY + this.cellSize / 20,
           1,
-          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         drawCircle(
           staticCtx,
           dotX + this.cellSize / 20,
           dotY - this.cellSize / 20,
           1,
-          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         break;
       }
@@ -1331,14 +1330,14 @@ function renderHyperdots() {
           dotX - this.cellSize / 20 - 1,
           dotY,
           1,
-          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         drawCircle(
           staticCtx,
           dotX + this.cellSize / 20 + 1,
           dotY,
           1,
-          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         break;
       }
@@ -1348,14 +1347,14 @@ function renderHyperdots() {
           dotX - this.cellSize / 20,
           dotY - this.cellSize / 20,
           1,
-          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         drawCircle(
           staticCtx,
           dotX + this.cellSize / 20,
           dotY + this.cellSize / 20,
           1,
-          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         break;
       }
@@ -1365,14 +1364,14 @@ function renderHyperdots() {
           dotX,
           dotY - this.cellSize / 20 - 1,
           1,
-          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         drawCircle(
           staticCtx,
           dotX,
           dotY + this.cellSize / 20 + 1,
           1,
-          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         break;
       }
@@ -1382,21 +1381,21 @@ function renderHyperdots() {
           dotX - this.cellSize / 20 - 2,
           dotY,
           1,
-          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         drawCircle(
           staticCtx,
           dotX,
           dotY,
           1,
-          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         drawCircle(
           staticCtx,
           dotX + this.cellSize / 20 + 2,
           dotY,
           1,
-          MAP_ELEMENT_COLORS.hyperdot.dotsActive
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         break;
       }

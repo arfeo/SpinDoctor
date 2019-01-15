@@ -1,6 +1,5 @@
 import {
-  MAP_ELEMENT_COLORS,
-  WAND_COLORS,
+  ELEMENTS_COLORS,
   WAND_WIDTH,
   DOORS_ANIMATION_SPEED,
   FADE_OUT_ANIMATION_SPEED,
@@ -66,9 +65,9 @@ function animateGoal() {
         4,
         this.cellSize / goalOuterSize(),
         this.cellSize / (goalOuterSize() * 2),
-        MAP_ELEMENT_COLORS.goal.background,
+        ELEMENTS_COLORS.goal.background,
         4,
-        MAP_ELEMENT_COLORS.goal.border,
+        ELEMENTS_COLORS.goal.border,
       );
 
       goalAnimationStep += 1;
@@ -109,7 +108,7 @@ function animateAvatarWand() {
       y,
       this.cellSize * 2 - this.cellSize / 5 - 1,
       angle,
-      WAND_COLORS.avatar,
+      ELEMENTS_COLORS.wands.avatar,
       WAND_WIDTH,
     );
 
@@ -165,7 +164,7 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
         y,
         this.cellSize * 2 - this.cellSize / 5,
         angle,
-        WAND_COLORS[enemy.type],
+        ELEMENTS_COLORS.wands[enemy.type],
         WAND_WIDTH,
       ),
     });
@@ -296,14 +295,14 @@ function animateSpikes() {
         x1 + (x2 - x1) / 2,
         y1 + (y2 - y1) / 2,
         this.cellSize / 10,
-        MAP_ELEMENT_COLORS.spike.background,
+        ELEMENTS_COLORS.spike.background,
       );
       drawCircle(
         obstaclesCtx,
         x1 + (x2 - x1) / 2 - 1,
         y1 + (y2 - y1) / 2 - 1,
         this.cellSize / 15,
-        MAP_ELEMENT_COLORS.bonus.innerCircle,
+        ELEMENTS_COLORS.bonus.innerCircle,
         2,
         null,
       );
@@ -317,34 +316,34 @@ function animateSpikes() {
       switch (num) {
         case 0: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 15, 225, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 30, 45, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 15, 225, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 30, 45, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         case step: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 30, 225, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 15, 45, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 30, 225, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 15, 45, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         case step * 2: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 15, 315, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 30, 135, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 15, 315, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 30, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         case step * 3: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 30, 315, MAP_ELEMENT_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 15, 135, MAP_ELEMENT_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 30, 315, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 15, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         default: break;
@@ -395,7 +394,7 @@ function animateAvatarWandDeath(): Promise<void> {
         y,
         this.cellSize * 2 - this.cellSize / 5 - 1,
         angle,
-        WAND_COLORS.avatar,
+        ELEMENTS_COLORS.wands.avatar,
         WAND_WIDTH,
       );
 
@@ -443,7 +442,7 @@ function animateMapElementElimination(ctx: CanvasRenderingContext2D, currDotX: n
       dotX,
       dotY,
       this.cellSize / 5,
-      MAP_ELEMENT_COLORS.board.background,
+      ELEMENTS_COLORS.board.background,
     );
 
     frame = requestAnimationFrame(animate);
@@ -496,7 +495,7 @@ function animateBonusSize(bonus: IBonus) {
   let xCorrection = -25;
 
   ctx.font = BONUS_SIZE_LABEL_FONT;
-  ctx.fillStyle = MAP_ELEMENT_COLORS.label.background;
+  ctx.fillStyle = ELEMENTS_COLORS.label.background;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 

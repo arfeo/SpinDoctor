@@ -1,6 +1,4 @@
-import { IMapElementColors, IWandColors } from '../types/game';
-
-export const MAP_ELEMENT_COLORS: IMapElementColors = {
+export const ELEMENTS_COLORS: { [key: string]: { [key: string]: string } } = {
   board: {
     background: 'rgb(74, 74, 74)',
   },
@@ -69,20 +67,18 @@ export const MAP_ELEMENT_COLORS: IMapElementColors = {
     border: 'rgb(97, 97, 97)',
     dotsInactive: 'rgb(69, 69, 69)',
     dotsActive: 'rgb(234, 1, 1)',
-  }
-};
-
-export const WAND_COLORS: IWandColors = {
-  avatar: 'rgb(200, 200, 200)',
-  red: 'rgb(227, 100, 100)',
-  blue: 'rgb(48, 118, 171)',
-  yellow: 'rgb(247, 244, 59)',
-};
-
-export const PILLAR_COLORS: IWandColors = {
-  red: 'rgb(227, 100, 100)',
-  blue: 'rgb(48, 118, 171)',
-  yellow: 'rgb(247, 244, 59)',
+  },
+  wands: {
+    avatar: 'rgb(200, 200, 200)',
+    red: 'rgb(227, 100, 100)',
+    blue: 'rgb(48, 118, 171)',
+    yellow: 'rgb(247, 244, 59)',
+  },
+  pillars: {
+    red: 'rgb(227, 100, 100)',
+    blue: 'rgb(48, 118, 171)',
+    yellow: 'rgb(247, 244, 59)',
+  },
 };
 
 export const WAND_WIDTH = 4;
