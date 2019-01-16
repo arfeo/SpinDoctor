@@ -31,6 +31,8 @@ function drawCircle(
  * @param startAngle
  * @param endAngle
  * @param fillStyle
+ * @param edgingWidth
+ * @param edgingColor
  */
 function drawSector(
   ctx: CanvasRenderingContext2D,
@@ -40,8 +42,12 @@ function drawSector(
   startAngle: number,
   endAngle: number,
   fillStyle: string,
+  edgingWidth?: number,
+  edgingColor?: string,
 ) {
   ctx.fillStyle = fillStyle;
+  ctx.lineWidth = edgingWidth || 0;
+  ctx.strokeStyle = edgingColor || 'transparent';
 
   ctx.beginPath();
   ctx.moveTo(dotX, dotY);
@@ -187,44 +193,30 @@ function drawStar(
  * @param width
  * @param height
  * @param fillStyle
+ * @param edgingWidth
+ * @param edgingColor
  */
-function drawFilledRectangle(
+function drawRectangle(
   ctx: CanvasRenderingContext2D,
   left: number,
   top: number,
   width: number,
   height: number,
   fillStyle?: string,
-) {
-  ctx.fillStyle = fillStyle || 'transparent';
-
-  ctx.fillRect(left, top, width, height);
-}
-
-/**
- * Function draws a stroke rectangle of the given size and style at the given coordinates
- *
- * @param ctx
- * @param left
- * @param top
- * @param width
- * @param height
- * @param edgingWidth
- * @param edgingColor
- */
-function drawStrokeRectangle(
-  ctx: CanvasRenderingContext2D,
-  left: number,
-  top: number,
-  width: number,
-  height: number,
   edgingWidth?: number,
   edgingColor?: string,
 ) {
+  ctx.fillStyle = fillStyle || 'transparent';
   ctx.lineWidth = edgingWidth || 0;
   ctx.strokeStyle = edgingColor || 'transparent';
 
-  ctx.strokeRect(left, top, width, height);
+  if (fillStyle) {
+    ctx.fillRect(left, top, width, height);
+  }
+
+  if (edgingWidth) {
+    ctx.strokeRect(left, top, width, height);
+  }
 }
 
 export {
@@ -233,6 +225,5 @@ export {
   drawArc,
   drawLineToAngle,
   drawStar,
-  drawFilledRectangle,
-  drawStrokeRectangle,
+  drawRectangle,
 };

@@ -13,8 +13,7 @@ import {
   drawSector,
   drawArc,
   drawLineToAngle,
-  drawFilledRectangle,
-  drawStrokeRectangle,
+  drawRectangle,
 } from '../../utils/drawing';
 
 import {
@@ -910,16 +909,17 @@ function renderLevelMap() {
               2,
               ELEMENTS_COLORS.switcher.border,
             );
-            drawStrokeRectangle(
+            drawRectangle(
               switchersCtx,
               dotX - this.cellSize / 10,
               dotY - this.cellSize / 10,
               this.cellSize / 5,
               this.cellSize / 5,
+              null,
               2,
               ELEMENTS_COLORS.switcher.innerBorder,
             );
-            drawFilledRectangle(
+            drawRectangle(
               switchersCtx,
               dotX - this.cellSize / 10,
               dotY - this.cellSize / 10,
