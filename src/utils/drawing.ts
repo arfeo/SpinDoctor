@@ -41,7 +41,7 @@ function drawSector(
   radius: number,
   startAngle: number,
   endAngle: number,
-  fillStyle: string,
+  fillStyle?: string,
   edgingWidth?: number,
   edgingColor?: string,
 ) {
@@ -88,7 +88,6 @@ function drawArc(
 
   ctx.beginPath();
   ctx.arc(cx, cy, radius, startAngle, endAngle);
-  ctx.closePath();
   ctx.fill();
   ctx.stroke();
 }
@@ -124,7 +123,6 @@ function drawLineToAngle(
   ctx.beginPath();
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
-  ctx.closePath();
   ctx.stroke();
 
   return [
@@ -209,15 +207,16 @@ function drawRectangle(
   edgingWidth?: number,
   edgingColor?: string,
 ) {
-  ctx.fillStyle = fillStyle || 'transparent';
-  ctx.lineWidth = edgingWidth || 0;
-  ctx.strokeStyle = edgingColor || 'transparent';
-
   if (fillStyle) {
+    ctx.fillStyle = fillStyle || 'transparent';
+
     ctx.fillRect(left, top, width, height);
   }
 
   if (edgingWidth) {
+    ctx.lineWidth = edgingWidth || 0;
+    ctx.strokeStyle = edgingColor || 'transparent';
+
     ctx.strokeRect(left, top, width, height);
   }
 }
