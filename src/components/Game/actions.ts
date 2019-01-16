@@ -38,7 +38,7 @@ import { ILineSegment } from '../../types/utils';
  * (e.g., walls, switchers, spikes, etc.)
  */
 function checkAvatarWand() {
-  const { flip, bounce, swing } = this.keyDown;
+  const { flip, bounce, swing } = this.keysDown;
 
   if (checkAvatarWandIntersections.call(this)) {
     return checkOnLevelFail.call(this);

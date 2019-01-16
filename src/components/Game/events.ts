@@ -46,7 +46,7 @@ function removeEventHandlers() {
 function keyDownHandler(event: KeyboardEvent) {
   switch (event.key) {
     case FunctionalKeys.Reverse: {
-      if (!this.keyDown.reverse && !this.isGameStopped) {
+      if (!this.keysDown.reverse && !this.isGameStopped) {
         this.level.wand.direction *= -1;
       }
 
@@ -88,7 +88,7 @@ function keyUpHandler() {
  * @param type
  */
 function setActiveKey(type?: string) {
-  this.keyDown = {
+  this.keysDown = {
     reverse: false,
     flip: false,
     bounce: false,
@@ -97,7 +97,7 @@ function setActiveKey(type?: string) {
   };
 
   if (type) {
-    this.keyDown[type] = true;
+    this.keysDown[type] = true;
 
     if (type !== 'pause' && !this.isTimeTickerOn && this.difficulty.id !== 1) {
       this.isTimeTickerOn = true;
@@ -112,7 +112,7 @@ function setActiveKey(type?: string) {
  * and resumes the game if it has been stopped earlier
  */
 function onPauseGame() {
-  if (this.keyDown.pause) {
+  if (this.keysDown.pause) {
     return;
   }
 
@@ -130,7 +130,4 @@ function onPauseGame() {
 export {
   setUpEventHandlers,
   removeEventHandlers,
-  keyDownHandler,
-  keyUpHandler,
-  setActiveKey,
 };

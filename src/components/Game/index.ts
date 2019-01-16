@@ -46,7 +46,7 @@ class Game {
   switchersCanvas: HTMLCanvasElement;
   obstaclesCanvas: HTMLCanvasElement;
   labelsCanvas: HTMLCanvasElement;
-  keyDown: IKeysDown;
+  keysDown: IKeysDown;
   isTimeTickerOn: boolean;
   isGameStopped: boolean;
   isSwitcherActive: boolean;
