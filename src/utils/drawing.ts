@@ -53,8 +53,9 @@ function drawSector(
   ctx.moveTo(dotX, dotY);
   ctx.arc(dotX, dotY, radius, startAngle, endAngle);
   ctx.lineTo(dotX, dotY);
-  ctx.fill();
   ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
 }
 
 /**
@@ -87,6 +88,7 @@ function drawArc(
 
   ctx.beginPath();
   ctx.arc(cx, cy, radius, startAngle, endAngle);
+  ctx.closePath();
   ctx.fill();
   ctx.stroke();
 }
@@ -122,6 +124,7 @@ function drawLineToAngle(
   ctx.beginPath();
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
+  ctx.closePath();
   ctx.stroke();
 
   return [
@@ -180,8 +183,8 @@ function drawStar(
 
   ctx.lineTo(cx, cy - outerRadius);
   ctx.closePath();
-  ctx.stroke();
   ctx.fill();
+  ctx.stroke();
 }
 
 /**
