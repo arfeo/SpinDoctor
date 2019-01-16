@@ -183,8 +183,8 @@ function drawStar(
 
   ctx.lineTo(cx, cy - outerRadius);
   ctx.closePath();
-  ctx.fill();
   ctx.stroke();
+  ctx.fill();
 }
 
 /**

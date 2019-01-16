@@ -915,17 +915,9 @@ function renderLevelMap() {
               dotY - this.cellSize / 10,
               this.cellSize / 5,
               this.cellSize / 5,
-              null,
-              2,
-              ELEMENTS_COLORS.switcher.innerBorder,
-            );
-            drawRectangle(
-              switchersCtx,
-              dotX - this.cellSize / 10,
-              dotY - this.cellSize / 10,
-              this.cellSize / 5,
-              this.cellSize / 5,
               colorMap[objectType],
+              1,
+              ELEMENTS_COLORS.switcher.innerBorder,
             );
 
             this.switchersCoords.push({
