@@ -51,14 +51,14 @@ function drawSector(
   ctx.lineTo(dotX, dotY);
   ctx.closePath();
 
-  if (fillStyle !== undefined) {
-    ctx.fillStyle = fillStyle || 'rgba(0, 0, 0, 0)';
+  if (fillStyle) {
+    ctx.fillStyle = fillStyle;
 
     ctx.fill();
   }
 
-  if (edgingWidth !== undefined) {
-    ctx.lineWidth = edgingWidth || 1;
+  if (edgingWidth) {
+    ctx.lineWidth = edgingWidth;
     ctx.strokeStyle = edgingColor || 'rgba(0, 0, 0, 0)';
 
     ctx.stroke();
@@ -92,14 +92,14 @@ function drawArc(
   ctx.beginPath();
   ctx.arc(cx, cy, radius, startAngle, endAngle);
 
-  if (fillStyle !== undefined) {
-    ctx.fillStyle = fillStyle || 'rgba(0, 0, 0, 0)';
+  if (fillStyle) {
+    ctx.fillStyle = fillStyle;
 
     ctx.fill();
   }
 
-  if (edgingWidth !== undefined) {
-    ctx.lineWidth = edgingWidth || 1;
+  if (edgingWidth) {
+    ctx.lineWidth = edgingWidth;
     ctx.strokeStyle = edgingColor || 'rgba(0, 0, 0, 0)';
 
     ctx.stroke();
@@ -124,15 +124,15 @@ function drawLineToAngle(
   y1: number,
   length: number,
   angle: number,
-  strokeStyle?: string,
-  lineWidth?: number,
+  strokeStyle: string,
+  lineWidth: number,
 ): number[][] {
   const a = angle * Math.PI / 180;
   const x2 = x1 + length * Math.cos(a);
   const y2 = y1 + length * Math.sin(a);
 
-  ctx.strokeStyle = strokeStyle || 'transparent';
-  ctx.lineWidth = lineWidth || 0;
+  ctx.strokeStyle = strokeStyle;
+  ctx.lineWidth = lineWidth;
 
   ctx.beginPath();
   ctx.moveTo(x1, y1);
@@ -192,15 +192,15 @@ function drawStar(
   ctx.lineTo(cx, cy - outerRadius);
   ctx.closePath();
 
-  if (edgingWidth !== undefined) {
-    ctx.lineWidth = edgingWidth || 1;
+  if (edgingWidth) {
+    ctx.lineWidth = edgingWidth;
     ctx.strokeStyle = edgingColor || 'rgba(0, 0, 0, 0)';
 
     ctx.stroke();
   }
 
-  if (fillStyle !== undefined) {
-    ctx.fillStyle = fillStyle || 'rgba(0, 0, 0, 0)';
+  if (fillStyle) {
+    ctx.fillStyle = fillStyle;
 
     ctx.fill();
   }
@@ -229,14 +229,14 @@ function drawRectangle(
   edgingColor?: string,
 ) {
   if (fillStyle) {
-    ctx.fillStyle = fillStyle || 'transparent';
+    ctx.fillStyle = fillStyle;
 
     ctx.fillRect(left, top, width, height);
   }
 
   if (edgingWidth) {
-    ctx.lineWidth = edgingWidth || 0;
-    ctx.strokeStyle = edgingColor || 'transparent';
+    ctx.lineWidth = edgingWidth;
+    ctx.strokeStyle = edgingColor || 'rgba(0, 0, 0, 0)';
 
     ctx.strokeRect(left, top, width, height);
   }
