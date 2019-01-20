@@ -65,10 +65,10 @@ class Game {
   enemiesSpeedCorrection: number;
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1, levelExtra: ILevelExtra = { bonus: [], station: [] }) {
-    this.level = JSON.parse(JSON.stringify(LEVELS.filter((item: ILevel) => item.id === level)[0]));
+    this.level = JSON.parse(JSON.stringify(LEVELS.find((item: ILevel) => item.id === level)));
     this.lives = lives;
     this.score = score;
-    this.difficulty = JSON.parse(JSON.stringify(DIFFICULTIES.filter((item: IDifficulty) => item.id === difficulty)[0]));
+    this.difficulty = JSON.parse(JSON.stringify(DIFFICULTIES.find((item: IDifficulty) => item.id === difficulty)));
     this.timeAvailable = this.level.time;
     this.levelExtra = JSON.parse(JSON.stringify(levelExtra));
 

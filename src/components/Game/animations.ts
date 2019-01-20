@@ -140,7 +140,7 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
       return this.animateEnemyWand[enemyId] = requestAnimationFrame(animate);
     }
 
-    const enemy: IWand & IEnemy = this.level.enemies.filter((item: IWand & IEnemy) => item.id === enemyId)[0];
+    const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
     const { position, direction, angle } = enemy;
     const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
     const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;

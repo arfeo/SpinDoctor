@@ -137,7 +137,7 @@ function checkAvatarWand() {
  * @param enemyId
  */
 function checkEnemyWand(enemyId: number) {
-  const enemy: IWand & IEnemy = this.level.enemies.filter((item: IWand & IEnemy) => item.id === enemyId)[0];
+  const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
 
   checkEnemyWandIntersections.call(this, enemyId);
 
@@ -440,7 +440,7 @@ function checkAvatarWandIntersections(): boolean {
  * @param enemyId
  */
 function checkEnemyWandIntersections(enemyId: number) {
-  const enemy: IWand & IEnemy = this.level.enemies.filter((item: IWand & IEnemy) => item.id === enemyId)[0];
+  const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
   const enemyCoords: IEnemyWandsCoords[] = this.enemyWandsCoords.filter((item: IEnemyWandsCoords) => {
     return item.id === enemyId;
   });
@@ -536,16 +536,16 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
 
   // Avatar wand grabs bonus
   if (this.level.bonus) {
-    const bonus: IBonus[] = this.level.bonus.filter((item: IBonus) => {
+    const bonus: IBonus = this.level.bonus.find((item: IBonus) => {
       return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
     });
 
-    if (bonus.length) {
-      this.levelExtra.bonus.push(bonus[0].id);
-      this.score += bonus[0].size;
-      this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonus[0].id);
+    if (bonus) {
+      this.levelExtra.bonus.push(bonus.id);
+      this.score += bonus.size;
+      this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonus.id);
 
-      animateBonusSize.call(this, bonus[0]);
+      animateBonusSize.call(this, bonus);
 
       renderPanelCounters.call(this);
     }
@@ -553,22 +553,22 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
 
   // Avatar wand grabs hyperdot
   if (this.level.hyperdots) {
-    const hyperdot: IHyperdot[] = this.level.hyperdots.filter((item: IHyperdot) => {
+    const hyperdot: IHyperdot = this.level.hyperdots.find((item: IHyperdot) => {
       return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
     });
 
-    if (hyperdot.length) {
-      const pairHyperdot: IHyperdot[] = this.level.hyperdots.filter((item: IHyperdot) => {
-        return item.type === hyperdot[0].type && item.id !== hyperdot[0].id;
+    if (hyperdot) {
+      const pairHyperdot: IHyperdot = this.level.hyperdots.find((item: IHyperdot) => {
+        return item.type === hyperdot.type && item.id !== hyperdot.id;
       });
 
-      if (pairHyperdot.length) {
+      if (pairHyperdot) {
         const canvasWidth: number = this.cellSize * (GridDimensions.Width + 2);
         const canvasHeight: number = this.cellSize * (GridDimensions.Height + 2);
 
         this.wandCanvas.getContext('2d').clearRect(0, 0, canvasWidth, canvasHeight);
 
-        this.level.wand.position = [...pairHyperdot[0].position];
+        this.level.wand.position = [...pairHyperdot.position];
       }
     }
   }
