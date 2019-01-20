@@ -45,17 +45,24 @@ function drawSector(
   edgingWidth?: number,
   edgingColor?: string,
 ) {
-  ctx.fillStyle = fillStyle;
-  ctx.lineWidth = edgingWidth || 0;
-  ctx.strokeStyle = edgingColor || 'transparent';
-
   ctx.beginPath();
   ctx.moveTo(dotX, dotY);
   ctx.arc(dotX, dotY, radius, startAngle, endAngle);
   ctx.lineTo(dotX, dotY);
   ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
+
+  if (fillStyle !== undefined) {
+    ctx.fillStyle = fillStyle || 'rgba(0, 0, 0, 0)';
+
+    ctx.fill();
+  }
+
+  if (edgingWidth !== undefined) {
+    ctx.lineWidth = edgingWidth || 1;
+    ctx.strokeStyle = edgingColor || 'rgba(0, 0, 0, 0)';
+
+    ctx.stroke();
+  }
 }
 
 /**
@@ -82,14 +89,21 @@ function drawArc(
   edgingWidth?: number,
   edgingColor?: string,
 ) {
-  ctx.fillStyle = fillStyle || 'transparent';
-  ctx.lineWidth = edgingWidth || 0;
-  ctx.strokeStyle = edgingColor || 'transparent';
-
   ctx.beginPath();
   ctx.arc(cx, cy, radius, startAngle, endAngle);
-  ctx.fill();
-  ctx.stroke();
+
+  if (fillStyle !== undefined) {
+    ctx.fillStyle = fillStyle || 'rgba(0, 0, 0, 0)';
+
+    ctx.fill();
+  }
+
+  if (edgingWidth !== undefined) {
+    ctx.lineWidth = edgingWidth || 1;
+    ctx.strokeStyle = edgingColor || 'rgba(0, 0, 0, 0)';
+
+    ctx.stroke();
+  }
 }
 
 /**
@@ -155,14 +169,10 @@ function drawStar(
   edgingWidth?: number,
   edgingColor?: string,
 ) {
+  const step = Math.PI / spikes;
   let rotation: number = Math.PI / 2 * 3;
   let x: number = cx;
   let y: number = cy;
-  const step = Math.PI / spikes;
-
-  ctx.fillStyle = fillStyle || 'transparent';
-  ctx.lineWidth = edgingWidth || 0;
-  ctx.strokeStyle = edgingColor || 'transparent';
 
   ctx.beginPath();
   ctx.moveTo(cx, cy - outerRadius);
@@ -181,8 +191,19 @@ function drawStar(
 
   ctx.lineTo(cx, cy - outerRadius);
   ctx.closePath();
-  ctx.stroke();
-  ctx.fill();
+
+  if (edgingWidth !== undefined) {
+    ctx.lineWidth = edgingWidth || 1;
+    ctx.strokeStyle = edgingColor || 'rgba(0, 0, 0, 0)';
+
+    ctx.stroke();
+  }
+
+  if (fillStyle !== undefined) {
+    ctx.fillStyle = fillStyle || 'rgba(0, 0, 0, 0)';
+
+    ctx.fill();
+  }
 }
 
 /**
