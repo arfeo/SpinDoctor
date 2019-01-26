@@ -2,7 +2,7 @@
 
 WOW! Free of charge early access!
 
-Live demo: http://arfeo.net/tests/spindoctor/
+Live demo: http://tests.arfeo.net/spindoctor/
 
 ## About
 
