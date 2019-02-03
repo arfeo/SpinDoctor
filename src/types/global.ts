@@ -1,13 +1,7 @@
-import { Game } from '../components/Game';
-import { Menu } from '../components/Menu';
-
 export interface IGlobals {
-  pageInstance: Game | Menu;
+  pageInstance: any;
   cellSize: number | null;
-  eventListeners: {
-    onKeyDown: EventListener;
-    onKeyUp: EventListener;
-  };
+  eventListeners: { [key: string]: EventListener };
   storagePrefix: string;
 }
 
