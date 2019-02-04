@@ -1,6 +1,5 @@
 export interface IGlobals {
   pageInstance: any;
-  cellSize: number | null;
   eventListeners: { [key: string]: EventListener };
   storagePrefix: string;
 }

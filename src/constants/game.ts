@@ -81,6 +81,8 @@ export const ELEMENTS_COLORS: { [key: string]: { [key: string]: string } } = {
   },
 };
 
+export const CELL_SIZE_VMIN = 4;
+
 export const WAND_WIDTH = 4;
 
 export const WALL_WIDTH = 5;

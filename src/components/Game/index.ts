@@ -1,5 +1,6 @@
 import { DIFFICULTIES } from '../../constants/global';
 import { LEVELS } from '../../constants/levels';
+import { CELL_SIZE_VMIN } from '../../constants/game';
 
 import {
   renderGameWindow,
@@ -76,7 +77,7 @@ class Game {
       this.level.wand.position = [...this.levelExtra.station];
     }
 
-    this.cellSize = setCellSize();
+    this.cellSize = setCellSize(CELL_SIZE_VMIN);
 
     this.isTimeTickerOn = false;
     this.isGameStopped = false;
