@@ -1,7 +1,8 @@
+import { Storage } from 'gpt-ts';
+
 import { DIFFICULTIES } from '../../constants/global';
 
 import { renderMenuWindow } from './render';
-import { getStorageData } from '../../utils/storage';
 
 class Menu {
   player: string;
@@ -10,8 +11,8 @@ class Menu {
   difficultySelect: HTMLSelectElement;
 
   constructor() {
-    this.player = getStorageData('player') || '';
-    this.difficulty = getStorageData('difficulty') || DIFFICULTIES[0].id;
+    this.player = Storage.getData('player') || '';
+    this.difficulty = Storage.getData('difficulty') || DIFFICULTIES[0].id;
 
     this.render();
   }

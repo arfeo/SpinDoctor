@@ -1,3 +1,5 @@
+import { Draw } from 'gpt-ts';
+
 import {
   ELEMENTS_COLORS,
   WAND_WIDTH,
@@ -7,7 +9,6 @@ import {
 } from '../../constants/game';
 
 import { renderDoor } from './render';
-import { drawCircle, drawLineToAngle, drawStar } from '../../utils/drawing';
 import { checkAvatarWand, checkEnemyWand, checkOnLevelFail } from './actions';
 import { secondsToString } from './utils';
 
@@ -58,7 +59,7 @@ function animateGoal() {
         goalCtx.translate(-goalX, -goalY);
       }
 
-      drawStar(
+      Draw.star(
         goalCtx,
         goalX,
         goalY,
@@ -102,7 +103,7 @@ function animateAvatarWand() {
       this.cellSize * 4,
     );
 
-    this.avatarWandCoords = drawLineToAngle(
+    this.avatarWandCoords = Draw.lineToAngle(
       ctx,
       x,
       y,
@@ -158,7 +159,7 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
 
     this.enemyWandsCoords.push({
       id: enemy.id,
-      coords: drawLineToAngle(
+      coords: Draw.lineToAngle(
         ctx,
         x,
         y,
@@ -290,14 +291,14 @@ function animateSpikes() {
         y2 + this.cellSize / 5,
       );
 
-      drawCircle(
+      Draw.circle(
         obstaclesCtx,
         x1 + (x2 - x1) / 2,
         y1 + (y2 - y1) / 2,
         this.cellSize / 10,
         ELEMENTS_COLORS.spike.background,
       );
-      drawCircle(
+      Draw.circle(
         obstaclesCtx,
         x1 + (x2 - x1) / 2 - 1,
         y1 + (y2 - y1) / 2 - 1,
@@ -316,34 +317,34 @@ function animateSpikes() {
       switch (num) {
         case 0: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 15, 225, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 30, 45, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x1, y1, this.cellSize / 15, 225, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x2, y2, this.cellSize / 30, 45, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         case step: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 30, 225, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 15, 45, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x1, y1, this.cellSize / 30, 225, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x2, y2, this.cellSize / 15, 45, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         case step * 2: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 15, 315, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 30, 135, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x2, y1, this.cellSize / 15, 315, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x1, y2, this.cellSize / 30, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         case step * 3: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 30, 315, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 15, 135, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x2, y1, this.cellSize / 30, 315, ELEMENTS_COLORS.spike.point, 1);
+          Draw.lineToAngle(obstaclesCtx, x1, y2, this.cellSize / 15, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         default: break;
@@ -388,7 +389,7 @@ function animateAvatarWandDeath(): Promise<void> {
 
       ctx.globalAlpha = alpha;
 
-      this.avatarWandCoords = drawLineToAngle(
+      this.avatarWandCoords = Draw.lineToAngle(
         ctx,
         x,
         y,
@@ -437,7 +438,7 @@ function animateMapElementElimination(ctx: CanvasRenderingContext2D, currDotX: n
 
     ctx.globalAlpha = alpha;
 
-    drawCircle(
+    Draw.circle(
       ctx,
       dotX,
       dotY,

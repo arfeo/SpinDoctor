@@ -1,8 +1,8 @@
+import { Storage } from 'gpt-ts';
+
 import { Game } from '../Game';
 
 import { APP, DIFFICULTIES } from '../../constants/global';
-
-import { saveStorageData } from '../../utils/storage';
 
 import { IDifficulty } from '../../types/global';
 
@@ -54,7 +54,7 @@ function renderMenuWindow() {
   ) => {
     this.player = element.target.value;
 
-    saveStorageData('player', this.player);
+    Storage.saveData('player', this.player);
   });
 
   this.difficultySelect.addEventListener('change', (
@@ -63,7 +63,7 @@ function renderMenuWindow() {
   ) => {
     this.difficulty = parseInt(element.target.value, 10);
 
-    saveStorageData('difficulty', this.difficulty);
+    Storage.saveData('difficulty', this.difficulty);
   });
 
   playButton.addEventListener('click', () => {

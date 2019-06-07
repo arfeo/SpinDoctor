@@ -1,10 +1,10 @@
+import { Storage } from 'gpt-ts';
+
 import { Modal } from '../common/Modal';
 import { Menu } from '../Menu';
 import { Game } from '../Game';
 
 import { APP, DIFFICULTIES } from '../../constants/global';
-
-import { getStorageData } from '../../utils/storage';
 
 class GameOver extends Modal {
   constructor(game: Game) {
@@ -32,7 +32,7 @@ class GameOver extends Modal {
     gameOverSubmitRestart.addEventListener('click', () => {
       this.game.destroy();
 
-      APP.pageInstance = new Game(1, 4, 0, getStorageData('difficulty') || DIFFICULTIES[0].id);
+      APP.pageInstance = new Game(1, 4, 0, Storage.getData('difficulty') || DIFFICULTIES[0].id);
 
       this.close(false);
     });
