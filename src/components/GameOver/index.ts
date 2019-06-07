@@ -32,7 +32,7 @@ class GameOver extends Modal {
     gameOverSubmitRestart.addEventListener('click', () => {
       this.game.destroy();
 
-      APP.pageInstance = new Game(1, 4, 0, Storage.getData('difficulty') || DIFFICULTIES[0].id);
+      APP.pageInstance = new Game(1, 4, 0, Storage.getData('spin-doctor-difficulty') || DIFFICULTIES[0].id);
 
       this.close(false);
     });

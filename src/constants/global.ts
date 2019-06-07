@@ -3,7 +3,6 @@ import { IGlobals, IDifficulty } from '../types/global';
 export const APP: IGlobals = {
   pageInstance: null,
   eventListeners: null,
-  storagePrefix: 'spin-doctor',
 };
 
 export const DIFFICULTIES: IDifficulty[] = [

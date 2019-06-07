@@ -54,7 +54,7 @@ function renderMenuWindow() {
   ) => {
     this.player = element.target.value;
 
-    Storage.saveData('player', this.player);
+    Storage.saveData('spin-doctor-player', this.player);
   });
 
   this.difficultySelect.addEventListener('change', (
@@ -63,7 +63,7 @@ function renderMenuWindow() {
   ) => {
     this.difficulty = parseInt(element.target.value, 10);
 
-    Storage.saveData('difficulty', this.difficulty);
+    Storage.saveData('spin-doctor-difficulty', this.difficulty);
   });
 
   playButton.addEventListener('click', () => {

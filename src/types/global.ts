@@ -1,7 +1,6 @@
 export interface IGlobals {
   pageInstance: any;
   eventListeners: { [key: string]: EventListener };
-  storagePrefix: string;
 }
 
 export interface IDifficulty {

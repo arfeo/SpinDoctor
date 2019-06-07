@@ -11,8 +11,8 @@ class Menu {
   difficultySelect: HTMLSelectElement;
 
   constructor() {
-    this.player = Storage.getData('player') || '';
-    this.difficulty = Storage.getData('difficulty') || DIFFICULTIES[0].id;
+    this.player = Storage.getData('spin-doctor-player') || '';
+    this.difficulty = Storage.getData('spin-doctor-difficulty') || DIFFICULTIES[0].id;
 
     this.render();
   }
