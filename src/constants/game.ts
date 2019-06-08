@@ -1,3 +1,32 @@
+import { IDifficulty } from '../types/game';
+
+export const DIFFICULTIES: IDifficulty[] = [
+  {
+    id: 1,
+    title: 'Pre-Med',
+    correction: 1,
+    icon: '○',
+  },
+  {
+    id: 2,
+    title: 'Intern',
+    correction: 1.5,
+    icon: '●',
+  },
+  {
+    id: 3,
+    title: 'Resident',
+    correction: 2,
+    icon: '■',
+  },
+  {
+    id: 4,
+    title: 'Specialist',
+    correction: 3,
+    icon: '◆',
+  },
+];
+
 export const ELEMENTS_COLORS: { [key: string]: { [key: string]: string } } = {
   board: {
     background: 'rgb(74, 74, 74)',

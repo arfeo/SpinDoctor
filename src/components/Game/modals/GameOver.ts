@@ -3,7 +3,8 @@ import { ModalComponent, Storage } from 'gpt-ts';
 import { Menu } from '../../Menu';
 import { Game } from '../';
 
-import { APP, DIFFICULTIES } from '../../../constants/global';
+import { APP } from '../../../constants/global';
+import { DIFFICULTIES } from '../../../constants/game';
 
 class GameOver extends ModalComponent {
   constructor(game: Game) {

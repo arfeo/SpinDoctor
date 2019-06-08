@@ -2,9 +2,10 @@ import { MenuComponent, Storage } from 'gpt-ts';
 
 import { Game } from '../Game';
 
-import { APP, DIFFICULTIES } from '../../constants/global';
+import { APP } from '../../constants/global';
+import { DIFFICULTIES } from '../../constants/game';
 
-import { IDifficulty } from '../../types/global';
+import { IDifficulty } from '../../types/game';
 
 class Menu extends MenuComponent {
   player: string;

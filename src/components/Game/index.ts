@@ -3,9 +3,9 @@ import { GameComponent, Utils } from 'gpt-ts';
 import { Menu } from '../Menu';
 import { Alert } from '../common/Alert';
 
-import { APP, DIFFICULTIES } from '../../constants/global';
+import { APP } from '../../constants/global';
 import { LEVELS } from '../../constants/levels';
-import { CELL_SIZE_VMIN } from '../../constants/game';
+import { DIFFICULTIES, CELL_SIZE_VMIN } from '../../constants/game';
 
 import {
   renderGameWindow,
@@ -22,6 +22,7 @@ import {
 import { validateLevel } from './utils';
 
 import {
+  IDifficulty,
   IBoardPanel,
   ILevelExtra,
   IDoorCoords,
@@ -31,8 +32,6 @@ import {
   ISwitcherCoords,
   IHourglassCoords,
 } from '../../types/game';
-
-import { IDifficulty } from '../../types/global';
 
 class Game extends GameComponent {
   level: ILevel;
