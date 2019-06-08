@@ -1,6 +1,11 @@
-import { DIFFICULTIES } from '../../constants/global';
+import { GameComponent, Utils } from 'gpt-ts';
+
+import { Menu } from '../Menu';
+import { Alert } from '../common/Alert';
+
+import { APP } from '../../constants/global';
 import { LEVELS } from '../../constants/levels';
-import { CELL_SIZE_VMIN } from '../../constants/game';
+import { DIFFICULTIES, CELL_SIZE_VMIN } from '../../constants/game';
 
 import {
   renderGameWindow,
@@ -9,16 +14,15 @@ import {
 } from './render';
 
 import {
-  removeEventHandlers,
-  setUpEventHandlers,
+  keyDownHandler,
+  keyUpHandler,
+  onPauseGame,
 } from './events';
 
-import {
-  setCellSize,
-  validateLevel,
-} from './utils';
+import { validateLevel } from './utils';
 
 import {
+  IDifficulty,
   IBoardPanel,
   ILevelExtra,
   IDoorCoords,
@@ -29,9 +33,7 @@ import {
   IHourglassCoords,
 } from '../../types/game';
 
-import { IDifficulty } from '../../types/global';
-
-class Game {
+class Game extends GameComponent {
   level: ILevel;
   lives: number;
   score: number;
@@ -66,6 +68,10 @@ class Game {
   enemiesSpeedCorrection: number;
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1, levelExtra: ILevelExtra = { bonus: [], station: [] }) {
+    super(level, lives, score, difficulty, levelExtra);
+  }
+
+  init(level: number, lives: number, score: number, difficulty: number, levelExtra: ILevelExtra) {
     this.level = JSON.parse(JSON.stringify(LEVELS.find((item: ILevel) => item.id === level)));
     this.lives = lives;
     this.score = score;
@@ -77,7 +83,7 @@ class Game {
       this.level.wand.position = [...this.levelExtra.station];
     }
 
-    this.cellSize = setCellSize(CELL_SIZE_VMIN);
+    this.cellSize = Utils.setCellSize(CELL_SIZE_VMIN);
 
     this.isTimeTickerOn = false;
     this.isGameStopped = false;
@@ -97,24 +103,62 @@ class Game {
 
     this.enemiesSpeedCorrection = 1;
 
-    this.render();
+    this.boardPanelElements = {
+      menuButton: document.createElement('button'),
+      pauseButton: document.createElement('button'),
+      level: document.createElement('div'),
+      time: document.createElement('div'),
+      lives: document.createElement('div'),
+      score: document.createElement('div'),
+    };
+
+    this.keysDown = {
+      reverse: false,
+      flip: false,
+      bounce: false,
+      swing: false,
+      pause: false,
+    };
+
+    this.eventHandlers = [
+      {
+        target: this.boardPanelElements.menuButton,
+        type: 'click',
+        listener: () => {
+          this.destroy();
+
+          APP.pageInstance = new Menu();
+        },
+      },
+      {
+        target: this.boardPanelElements.pauseButton,
+        type: 'click',
+        listener: onPauseGame.bind(this),
+      },
+      {
+        target: document.body,
+        type: 'keydown',
+        listener: keyDownHandler.bind(this),
+      },
+      {
+        target: document.body,
+        type: 'keyup',
+        listener: keyUpHandler.bind(this),
+      },
+    ];
   }
 
   render() {
     if (!validateLevel.call(this)) {
-      return;
+      return new Alert(this, 'The level description is invalid: there is no "map" and/or "goal" found.');
     }
 
     renderGameWindow.call(this);
     renderLevelMap.call(this);
     renderPanelCounters.call(this);
-
-    setUpEventHandlers.call(this);
   }
 
-  destroy() {
-    removeEventHandlers.call(this);
-
+  unmount() {
     cancelAnimationFrame(this.animateAvatarWand);
     cancelAnimationFrame(this.animateGoal);
     cancelAnimationFrame(this.animateTimeTicker);

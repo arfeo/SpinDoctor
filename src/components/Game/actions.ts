@@ -1,5 +1,7 @@
+import { Maths, ILineSegment } from 'gpt-ts';
+
 import { Game } from './index';
-import { GameOver } from '../GameOver';
+import { GameOver } from './modals/GameOver';
 
 import { APP } from '../../constants/global';
 import { GridDimensions, MapDefinitions, WAND_REBOUND } from '../../constants/game';
@@ -12,12 +14,6 @@ import {
   animateBonusSize,
 } from './animations';
 
-import {
-  lineSegmentIntersectsWithRect,
-  lineSegmentsIntersect,
-  pointOnLineSegment,
-} from '../../utils/math';
-
 import { renderPanelCounters } from './render';
 
 import {
@@ -29,8 +25,6 @@ import {
   IHyperdot,
   IWand,
 } from '../../types/game';
-
-import { ILineSegment } from '../../types/utils';
 
 /**
  * Function checks the ability of the avatar wand to move to the next dot,
@@ -293,9 +287,9 @@ function checkAvatarWandIntersections(): boolean {
             },
           };
 
-          const isIntersectingWand: boolean = lineSegmentsIntersect(avatarWandSegment, enemyWandSegment);
+          const isIntersectingWand: boolean = Maths.lineSegmentsIntersect(avatarWandSegment, enemyWandSegment);
 
-          const isAvatarWandEndOnEnemy: boolean = pointOnLineSegment(
+          const isAvatarWandEndOnEnemy: boolean = Maths.pointOnLineSegment(
             enemyWandSegment,
             {
               x: avatarWandSegment.end.x,
@@ -316,7 +310,7 @@ function checkAvatarWandIntersections(): boolean {
       for (let i = 0; i < this.wallsCoords.length; i += 1) {
         const wall: number[][] = this.wallsCoords[i];
 
-        const isIntersectingWall: boolean = lineSegmentsIntersect(
+        const isIntersectingWall: boolean = Maths.lineSegmentsIntersect(
           avatarWandSegment,
           {
             start: {
@@ -342,7 +336,7 @@ function checkAvatarWandIntersections(): boolean {
       for (let i = 0; i < this.doorsCoords.length; i += 1) {
         const door: IDoorCoords = this.doorsCoords[i];
 
-        const isIntersectingLeftDoor: boolean = lineSegmentsIntersect(
+        const isIntersectingLeftDoor: boolean = Maths.lineSegmentsIntersect(
           avatarWandSegment,
           {
             start: {
@@ -356,7 +350,7 @@ function checkAvatarWandIntersections(): boolean {
           },
         );
 
-        const isIntersectingRightDoor: boolean = lineSegmentsIntersect(
+        const isIntersectingRightDoor: boolean = Maths.lineSegmentsIntersect(
           avatarWandSegment,
           {
             start: {
@@ -383,7 +377,7 @@ function checkAvatarWandIntersections(): boolean {
 
     // Door switchers
     for (let i = 0; i < this.switchersCoords.length; i += 1) {
-      const isSwitcherOnAvatarWand: boolean = pointOnLineSegment(
+      const isSwitcherOnAvatarWand: boolean = Maths.pointOnLineSegment(
         avatarWandSegment,
         {
           x: this.switchersCoords[i].coords[0],
@@ -403,14 +397,14 @@ function checkAvatarWandIntersections(): boolean {
 
     // Spikes
     for (const spike of this.spikesCoords) {
-      if (lineSegmentIntersectsWithRect(avatarWandSegment, spike)) {
+      if (Maths.lineSegmentIntersectsWithRect(avatarWandSegment, spike)) {
         return true;
       }
     }
 
     // Hourglasses
     for (const hourglass of this.hourglassesCoords) {
-      if (lineSegmentIntersectsWithRect(avatarWandSegment, hourglass.borders)) {
+      if (Maths.lineSegmentIntersectsWithRect(avatarWandSegment, hourglass.borders)) {
         const obstaclesCtx: CanvasRenderingContext2D = this.obstaclesCanvas.getContext('2d');
 
         this.score += 1000;
@@ -461,7 +455,7 @@ function checkEnemyWandIntersections(enemyId: number) {
     for (let i = 0; i < this.wallsCoords.length; i += 1) {
       const wall: number[][] = this.wallsCoords[i];
 
-      const isIntersectingWall: boolean = lineSegmentsIntersect(
+      const isIntersectingWall: boolean = Maths.lineSegmentsIntersect(
         enemyWandSegment,
         {
           start: {
@@ -491,7 +485,7 @@ function checkEnemyWandIntersections(enemyId: number) {
 
   // Door switchers
   for (let i = 0; i < this.switchersCoords.length; i += 1) {
-    const isSwitcherOnEnemyWand: boolean = pointOnLineSegment(
+    const isSwitcherOnEnemyWand: boolean = Maths.pointOnLineSegment(
       enemyWandSegment,
       {
         x: this.switchersCoords[i].coords[0],
