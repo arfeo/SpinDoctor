@@ -1,6 +1,9 @@
 import { GameComponent, Utils } from 'gpt-ts';
 
-import { DIFFICULTIES } from '../../constants/global';
+import { Menu } from '../Menu';
+import { Alert } from '../common/Alert';
+
+import { APP, DIFFICULTIES } from '../../constants/global';
 import { LEVELS } from '../../constants/levels';
 import { CELL_SIZE_VMIN } from '../../constants/game';
 
@@ -10,11 +13,13 @@ import {
   renderPanelCounters,
 } from './render';
 
-import { setUpEventHandlers } from './events';
-
 import {
-  validateLevel,
-} from './utils';
+  keyDownHandler,
+  keyUpHandler,
+  onPauseGame,
+} from './events';
+
+import { validateLevel } from './utils';
 
 import {
   IBoardPanel,
@@ -98,18 +103,64 @@ class Game extends GameComponent {
     this.hourglassesCoords = [];
 
     this.enemiesSpeedCorrection = 1;
+
+    this.boardPanelElements = {
+      menuButton: document.createElement('button'),
+      pauseButton: document.createElement('button'),
+      level: document.createElement('div'),
+      time: document.createElement('div'),
+      lives: document.createElement('div'),
+      score: document.createElement('div'),
+    };
+
+    this.keysDown = {
+      reverse: false,
+      flip: false,
+      bounce: false,
+      swing: false,
+      pause: false,
+    };
+
+    this.eventHandlers = [
+      {
+        id: 1,
+        target: this.boardPanelElements.menuButton,
+        type: 'click',
+        listener: () => {
+          this.destroy();
+
+          APP.pageInstance = new Menu();
+        },
+      },
+      {
+        id: 2,
+        target: this.boardPanelElements.pauseButton,
+        type: 'click',
+        listener: onPauseGame.bind(this),
+      },
+      {
+        id: 3,
+        target: document.body,
+        type: 'keydown',
+        listener: keyDownHandler.bind(this),
+      },
+      {
+        id: 4,
+        target: document.body,
+        type: 'keyup',
+        listener: keyUpHandler.bind(this),
+      },
+    ];
   }
 
   render() {
     if (!validateLevel.call(this)) {
-      return;
+      return new Alert(this, 'The level description is invalid: there is no "map" and/or "goal" found.');
     }
 
     renderGameWindow.call(this);
     renderLevelMap.call(this);
     renderPanelCounters.call(this);
-
-    setUpEventHandlers.call(this);
   }
 
   unmount() {

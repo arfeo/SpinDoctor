@@ -1,19 +1,12 @@
-import { Alert } from '../common/Alert';
-
 /**
  * Function looks for all mandatory objects in level description object;
- * returns false if there's no one or more mandatory object
+ * returns false if there's no one or more mandatory object,
+ * otherwise returns true
  */
 function validateLevel(): boolean {
   const { map, goal } = this.level;
 
-  if (!map || !goal) {
-    new Alert(this, 'The level description is invalid: there is no "map" and/or "goal" found.');
-
-    return false;
-  }
-
-  return true;
+  return !(!map || !goal);
 }
 
 /**

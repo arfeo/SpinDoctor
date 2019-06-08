@@ -40,15 +40,6 @@ function renderGameWindow() {
   const boardGrid: HTMLElement = document.createElement('div');
   const pauseLabel: HTMLElement = document.createElement('div');
 
-  this.boardPanelElements = {
-    menuButton: document.createElement('button'),
-    pauseButton: document.createElement('button'),
-    level: document.createElement('div'),
-    time: document.createElement('div'),
-    lives: document.createElement('div'),
-    score: document.createElement('div'),
-  };
-
   this.staticCanvas = document.createElement('canvas');
   this.goalCanvas = document.createElement('canvas');
   this.wandCanvas = document.createElement('canvas');

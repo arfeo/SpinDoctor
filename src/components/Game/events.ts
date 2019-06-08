@@ -1,47 +1,6 @@
-import { Menu } from '../Menu';
-
-import { APP } from '../../constants/global';
 import { FunctionalKeys } from '../../constants/game';
 
 import { animateTimeTicker } from './animations';
-
-/**
- * Function creates all game's event listeners
- */
-function setUpEventHandlers() {
-  setActiveKey.call(this);
-
-  this.eventHandlers = [
-    {
-      id: 1,
-      target: this.boardPanelElements.menuButton,
-      type: 'click',
-      listener: () => {
-        this.destroy();
-
-        APP.pageInstance = new Menu();
-      },
-    },
-    {
-      id: 2,
-      target: this.boardPanelElements.pauseButton,
-      type: 'click',
-      listener: onPauseGame.bind(this),
-    },
-    {
-      id: 3,
-      target: document.body,
-      type: 'keydown',
-      listener: keyDownHandler.bind(this),
-    },
-    {
-      id: 4,
-      target: document.body,
-      type: 'keyup',
-      listener: keyUpHandler.bind(this),
-    },
-  ];
-}
 
 /**
  * Function fires at key down event
@@ -132,4 +91,8 @@ function onPauseGame() {
   }
 }
 
-export { setUpEventHandlers };
+export {
+  keyDownHandler,
+  keyUpHandler,
+  onPauseGame,
+};
