@@ -122,7 +122,6 @@ class Game extends GameComponent {
 
     this.eventHandlers = [
       {
-        id: 1,
         target: this.boardPanelElements.menuButton,
         type: 'click',
         listener: () => {
@@ -132,19 +131,16 @@ class Game extends GameComponent {
         },
       },
       {
-        id: 2,
         target: this.boardPanelElements.pauseButton,
         type: 'click',
         listener: onPauseGame.bind(this),
       },
       {
-        id: 3,
         target: document.body,
         type: 'keydown',
         listener: keyDownHandler.bind(this),
       },
       {
-        id: 4,
         target: document.body,
         type: 'keyup',
         listener: keyUpHandler.bind(this),
