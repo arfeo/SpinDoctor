@@ -81,8 +81,6 @@ class Menu extends MenuComponent {
         action: {
           type: 'click',
           handler: () => {
-            this.destroy();
-
             APP.pageInstance = new Game(1, 4, 0, this.difficulty);
           },
         },
