@@ -10,10 +10,7 @@ import {
   renderPanelCounters,
 } from './render';
 
-import {
-  removeEventHandlers,
-  setUpEventHandlers,
-} from './events';
+import { setUpEventHandlers } from './events';
 
 import {
   validateLevel,
@@ -116,8 +113,6 @@ class Game extends GameComponent {
   }
 
   unmount() {
-    removeEventHandlers.call(this);
-
     cancelAnimationFrame(this.animateAvatarWand);
     cancelAnimationFrame(this.animateGoal);
     cancelAnimationFrame(this.animateTimeTicker);

@@ -9,33 +9,38 @@ import { animateTimeTicker } from './animations';
  * Function creates all game's event listeners
  */
 function setUpEventHandlers() {
-  APP.eventListeners = {
-    onKeyDown: keyDownHandler.bind(this),
-    onKeyUp: keyUpHandler.bind(this),
-  };
-
   setActiveKey.call(this);
 
-  document.body.addEventListener('keydown', APP.eventListeners.onKeyDown);
-  document.body.addEventListener('keyup', APP.eventListeners.onKeyUp);
+  this.eventHandlers = [
+    {
+      id: 1,
+      target: this.boardPanelElements.menuButton,
+      type: 'click',
+      listener: () => {
+        this.destroy();
 
-  this.boardPanelElements.menuButton.addEventListener('click', () => {
-    this.destroy();
-
-    APP.pageInstance = new Menu();
-  });
-
-  this.boardPanelElements.pauseButton.addEventListener('click', () => {
-    onPauseGame.call(this);
-  });
-}
-
-/**
- * Function removes all game's event listeners
- */
-function removeEventHandlers() {
-  document.body.removeEventListener('keydown', APP.eventListeners.onKeyDown);
-  document.body.removeEventListener('keyup', APP.eventListeners.onKeyUp);
+        APP.pageInstance = new Menu();
+      },
+    },
+    {
+      id: 2,
+      target: this.boardPanelElements.pauseButton,
+      type: 'click',
+      listener: onPauseGame.bind(this),
+    },
+    {
+      id: 3,
+      target: document.body,
+      type: 'keydown',
+      listener: keyDownHandler.bind(this),
+    },
+    {
+      id: 4,
+      target: document.body,
+      type: 'keyup',
+      listener: keyUpHandler.bind(this),
+    },
+  ];
 }
 
 /**
@@ -127,7 +132,4 @@ function onPauseGame() {
   }
 }
 
-export {
-  setUpEventHandlers,
-  removeEventHandlers,
-};
+export { setUpEventHandlers };
