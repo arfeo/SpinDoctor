@@ -13,7 +13,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    z-index: 101;
+    z-index: 100001;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
 
@@ -22,7 +22,7 @@
       height: auto;
       padding: 2vmin;
       background-color: lightgrey;
-      z-index: 102;
+      z-index: 100002;
       font-size: 2vmin;
       color: black;
 

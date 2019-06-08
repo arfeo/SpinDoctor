@@ -1,7 +1,7 @@
 import { Maths, ILineSegment } from 'gpt-ts';
 
 import { Game } from './index';
-import { GameOver } from '../GameOver';
+import { GameOver } from './modals/GameOver';
 
 import { APP } from '../../constants/global';
 import { GridDimensions, MapDefinitions, WAND_REBOUND } from '../../constants/game';

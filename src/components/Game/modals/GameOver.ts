@@ -1,12 +1,11 @@
-import { Storage } from 'gpt-ts';
+import { ModalComponent, Storage } from 'gpt-ts';
 
-import { Modal } from '../common/Modal';
-import { Menu } from '../Menu';
-import { Game } from '../Game';
+import { Menu } from '../../Menu';
+import { Game } from '../';
 
-import { APP, DIFFICULTIES } from '../../constants/global';
+import { APP, DIFFICULTIES } from '../../../constants/global';
 
-class GameOver extends Modal {
+class GameOver extends ModalComponent {
   constructor(game: Game) {
     super(game);
   }
@@ -30,7 +29,7 @@ class GameOver extends Modal {
     gameOverSubmitContainer.appendChild(gameOverSubmitStop);
 
     gameOverSubmitRestart.addEventListener('click', () => {
-      this.game.destroy();
+      this.page.destroy();
 
       APP.pageInstance = new Game(1, 4, 0, Storage.getData('spin-doctor-difficulty') || DIFFICULTIES[0].id);
 
@@ -38,7 +37,7 @@ class GameOver extends Modal {
     });
 
     gameOverSubmitStop.addEventListener('click', () => {
-      this.game.destroy();
+      this.page.destroy();
 
       APP.pageInstance = new Menu();
 

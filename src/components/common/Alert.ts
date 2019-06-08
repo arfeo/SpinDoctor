@@ -1,9 +1,8 @@
-import { Modal } from '../common/Modal';
-import { Game } from '../Game';
+import { GameComponent, MenuComponent, ModalComponent } from 'gpt-ts';
 
-class Alert extends Modal {
-  constructor(game: Game, text: string, size?: 'large' | 'medium' | 'small') {
-    super(game, text, size);
+class Alert extends ModalComponent {
+  constructor(page: GameComponent | MenuComponent, text: string, size?: 'large' | 'medium' | 'small') {
+    super(page, text, size);
   }
 
   render() {

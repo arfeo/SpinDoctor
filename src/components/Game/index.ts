@@ -1,3 +1,5 @@
+import { GameComponent, Utils } from 'gpt-ts';
+
 import { DIFFICULTIES } from '../../constants/global';
 import { LEVELS } from '../../constants/levels';
 import { CELL_SIZE_VMIN } from '../../constants/game';
@@ -14,7 +16,6 @@ import {
 } from './events';
 
 import {
-  setCellSize,
   validateLevel,
 } from './utils';
 
@@ -31,7 +32,7 @@ import {
 
 import { IDifficulty } from '../../types/global';
 
-class Game {
+class Game extends GameComponent {
   level: ILevel;
   lives: number;
   score: number;
@@ -66,6 +67,10 @@ class Game {
   enemiesSpeedCorrection: number;
 
   constructor(level = 1, lives = 4, score = 0, difficulty = 1, levelExtra: ILevelExtra = { bonus: [], station: [] }) {
+    super(level, lives, score, difficulty, levelExtra);
+  }
+
+  init(level: number, lives: number, score: number, difficulty: number, levelExtra: ILevelExtra) {
     this.level = JSON.parse(JSON.stringify(LEVELS.find((item: ILevel) => item.id === level)));
     this.lives = lives;
     this.score = score;
@@ -77,7 +82,7 @@ class Game {
       this.level.wand.position = [...this.levelExtra.station];
     }
 
-    this.cellSize = setCellSize(CELL_SIZE_VMIN);
+    this.cellSize = Utils.setCellSize(CELL_SIZE_VMIN);
 
     this.isTimeTickerOn = false;
     this.isGameStopped = false;
@@ -96,8 +101,6 @@ class Game {
     this.hourglassesCoords = [];
 
     this.enemiesSpeedCorrection = 1;
-
-    this.render();
   }
 
   render() {
@@ -112,7 +115,7 @@ class Game {
     setUpEventHandlers.call(this);
   }
 
-  destroy() {
+  unmount() {
     removeEventHandlers.call(this);
 
     cancelAnimationFrame(this.animateAvatarWand);
