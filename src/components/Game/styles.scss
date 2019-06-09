@@ -13,18 +13,23 @@
     align-items: center;
     height: $boardPanelHeight;
     font-size: $boardPanelFontSize;
+    color: $boardPanelFontColor;
     user-select: none;
 
     .-menu-button,
     .-pause-button {
-      width: $boardPanelButtonSize;
-      height: $boardPanelButtonSize;
-      margin-right: 2%;
-      background: none;
+      margin-right: 1%;
+      background-color: $boardPanelButtonBackground;
       border: none;
-      color: $boardPanelFontColor;
+      font-size: $boardPanelButtonFontSize;
+      color: $boardPanelButtonFontColor;
       cursor: pointer;
       outline: none;
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1.0;
+      }
     }
 
     .-level {

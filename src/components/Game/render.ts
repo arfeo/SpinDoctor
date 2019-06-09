@@ -83,10 +83,8 @@ function renderGameWindow() {
   this.labelsCanvas.width = canvasWidth;
   this.labelsCanvas.height = canvasHeight;
 
-  this.boardPanelElements.menuButton.innerText = '◀︎';
-  this.boardPanelElements.menuButton.title = 'Go to menu';
-  this.boardPanelElements.pauseButton.innerText = '▌▌';
-  this.boardPanelElements.pauseButton.title = 'Pause';
+  this.boardPanelElements.menuButton.innerText = 'Menu';
+  this.boardPanelElements.pauseButton.innerText = 'Pause';
 
   if (this.difficulty.id !== 1) {
     this.boardPanelElements.time.style.visibility = 'visible';
