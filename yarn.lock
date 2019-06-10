@@ -2068,10 +2068,10 @@ glogg@^1.0.0:
   dependencies:
     sparkles "^1.0.0"
 
-gpt-ts@^0.6.13:
-  version "0.6.13"
-  resolved "https://registry.yarnpkg.com/gpt-ts/-/gpt-ts-0.6.13.tgz#a342cf3e40974b2ea16a5712e98ce541102a499a"
-  integrity sha512-eUF2mryssu63Ll6HgDEMrBmZMRoVFY+/8Kt8hMDEoTG3Y5G3/vLalkovj/PdOwgiw4e0BZUItZrIbwLMv4uyFA==
+gpt-ts@^0.6.14:
+  version "0.6.14"
+  resolved "https://registry.yarnpkg.com/gpt-ts/-/gpt-ts-0.6.14.tgz#d2a9411973f82c8068957c952ceaf43a7be22c2e"
+  integrity sha512-JoYAwg36f1Z4ISx/VVfsVDAOPhiibn3/revRykPRdxIb250snRLVWEfdzWTTCYfIoqP2hoSaq/SaqkIFz6frYQ==
 
 graceful-fs@^4.0.0, graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
   version "4.1.15"
