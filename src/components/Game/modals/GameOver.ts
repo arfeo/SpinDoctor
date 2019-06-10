@@ -7,43 +7,59 @@ import { APP } from '../../../constants/global';
 import { DIFFICULTIES } from '../../../constants/game';
 
 class GameOver extends ModalComponent {
+  gameOverLabel: HTMLElement;
+  gameOverSubmitContainer: HTMLElement;
+  gameOverSubmitRestart: HTMLButtonElement;
+  gameOverSubmitStop: HTMLButtonElement;
+
   constructor(game: Game) {
     super(game);
   }
 
+  init() {
+    this.gameOverLabel = document.createElement('div');
+    this.gameOverSubmitContainer = document.createElement('div');
+    this.gameOverSubmitRestart = document.createElement('button');
+    this.gameOverSubmitStop = document.createElement('button');
+
+    this.eventHandlers = [
+      {
+        target: this.gameOverSubmitRestart,
+        type: 'click',
+        listener: () => {
+          this.page.destroy();
+
+          APP.pageInstance = new Game(1, 4, 0, Storage.getData('spin-doctor-difficulty') || DIFFICULTIES[0].id);
+
+          this.close(false);
+        },
+      },
+      {
+        target: this.gameOverSubmitStop,
+        type: 'click',
+        listener: () => {
+          this.page.destroy();
+
+          APP.pageInstance = new Menu();
+
+          this.close(false);
+        },
+      },
+    ];
+  }
+
   render() {
-    const gameOverLabel: HTMLElement = document.createElement('div');
-    const gameOverSubmitContainer: HTMLElement = document.createElement('div');
-    const gameOverSubmitRestart: HTMLButtonElement = document.createElement('button');
-    const gameOverSubmitStop: HTMLButtonElement = document.createElement('button');
+    this.gameOverLabel.innerText = 'Game over. Would you like to start the game over again?';
+    this.gameOverSubmitContainer.className = 'modal-submit';
+    this.gameOverSubmitRestart.className = '-button';
+    this.gameOverSubmitRestart.innerText = 'Yes';
+    this.gameOverSubmitStop.className = '-button';
+    this.gameOverSubmitStop.innerText = 'No, thanks';
 
-    gameOverLabel.innerText = 'Game over. Would you like to start the game over again?';
-    gameOverSubmitContainer.className = 'modal-submit';
-    gameOverSubmitRestart.className = '-button';
-    gameOverSubmitRestart.innerText = 'Yes';
-    gameOverSubmitStop.className = '-button';
-    gameOverSubmitStop.innerText = 'No, thanks';
-
-    this.modal.appendChild(gameOverLabel);
-    this.modal.appendChild(gameOverSubmitContainer);
-    gameOverSubmitContainer.appendChild(gameOverSubmitRestart);
-    gameOverSubmitContainer.appendChild(gameOverSubmitStop);
-
-    gameOverSubmitRestart.addEventListener('click', () => {
-      this.page.destroy();
-
-      APP.pageInstance = new Game(1, 4, 0, Storage.getData('spin-doctor-difficulty') || DIFFICULTIES[0].id);
-
-      this.close(false);
-    });
-
-    gameOverSubmitStop.addEventListener('click', () => {
-      this.page.destroy();
-
-      APP.pageInstance = new Menu();
-
-      this.close(false);
-    });
+    this.modal.appendChild(this.gameOverLabel);
+    this.modal.appendChild(this.gameOverSubmitContainer);
+    this.gameOverSubmitContainer.appendChild(this.gameOverSubmitRestart);
+    this.gameOverSubmitContainer.appendChild(this.gameOverSubmitStop);
   }
 }
 

@@ -1,27 +1,37 @@
 import { GameComponent, MenuComponent, ModalComponent } from 'gpt-ts';
 
 class Alert extends ModalComponent {
+  alertLabel: HTMLElement;
+  alertSubmitContainer: HTMLElement;
+  alertSubmitClose: HTMLButtonElement;
+
   constructor(page: GameComponent | MenuComponent, text: string, size?: 'large' | 'medium' | 'small') {
     super(page, text, size);
   }
 
+  init() {
+    this.alertLabel = document.createElement('div');
+    this.alertSubmitContainer = document.createElement('div');
+    this.alertSubmitClose = document.createElement('button');
+
+    this.eventHandlers = [
+      {
+        target: this.alertSubmitClose,
+        type: 'click',
+        listener: () => this.close(),
+      },
+    ];
+  }
+
   render() {
-    const alertLabel: HTMLElement = document.createElement('div');
-    const alertSubmitContainer: HTMLElement = document.createElement('div');
-    const alertSubmitClose: HTMLButtonElement = document.createElement('button');
+    this.alertLabel.innerText = this.modalContent;
+    this.alertSubmitContainer.className = 'modal-submit';
+    this.alertSubmitClose.className = '-button';
+    this.alertSubmitClose.innerText = 'Close';
 
-    alertLabel.innerText = this.modalContent;
-    alertSubmitContainer.className = 'modal-submit';
-    alertSubmitClose.className = '-button';
-    alertSubmitClose.innerText = 'Close';
-
-    this.modal.appendChild(alertLabel);
-    this.modal.appendChild(alertSubmitContainer);
-    alertSubmitContainer.appendChild(alertSubmitClose);
-
-    alertSubmitClose.addEventListener('click', () => {
-      this.close();
-    });
+    this.modal.appendChild(this.alertLabel);
+    this.modal.appendChild(this.alertSubmitContainer);
+    this.alertSubmitContainer.appendChild(this.alertSubmitClose);
   }
 }
 
