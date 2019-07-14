@@ -33,7 +33,10 @@ function animateGoal() {
         goalAnimationStep = 0;
       }
 
-      const goalCtx: CanvasRenderingContext2D = this.goalCanvas.getContext('2d');
+      const ctx: CanvasRenderingContext2D = (
+        document.getElementById('goalCanvas') as HTMLCanvasElement
+      ).getContext('2d');
+
       const goalX: number = goalPosX + this.cellSize / 2;
       const goalY: number = goalPosY + this.cellSize / 2;
 
@@ -46,7 +49,7 @@ function animateGoal() {
         }
       };
 
-      goalCtx.clearRect(
+      ctx.clearRect(
         goalPosX,
         goalPosY,
         this.cellSize,
@@ -54,13 +57,13 @@ function animateGoal() {
       );
 
       if (goalAnimationStep !== 0) {
-        goalCtx.translate(goalX, goalY);
-        goalCtx.rotate(Math.PI / 360 * 30 * goalAnimationStep);
-        goalCtx.translate(-goalX, -goalY);
+        ctx.translate(goalX, goalY);
+        ctx.rotate(Math.PI / 360 * 30 * goalAnimationStep);
+        ctx.translate(-goalX, -goalY);
       }
 
       Draw.star(
-        goalCtx,
+        'goalCanvas',
         goalX,
         goalY,
         4,
@@ -87,7 +90,9 @@ function animateGoal() {
  * Function animates the avatar wand
  */
 function animateAvatarWand() {
-  const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
+  const ctx: CanvasRenderingContext2D = (
+    document.getElementById('wandCanvas') as HTMLCanvasElement
+  ).getContext('2d');
 
   const animate = () => {
     if (this.isGameStopped) {
@@ -106,7 +111,7 @@ function animateAvatarWand() {
     );
 
     this.avatarWandCoords = Draw.lineToAngle(
-      ctx,
+      'wandCanvas',
       x,
       y,
       this.cellSize * 2 - this.cellSize / 5 - 1,
@@ -136,10 +141,14 @@ function animateAvatarWand() {
 /**
  * Function animates enemy wands (red, blue and yellow)
  *
- * @param ctx
+ * @param canvasId
  * @param enemyId
  */
-function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
+function animateEnemyWand(canvasId: string, enemyId: number) {
+  const ctx: CanvasRenderingContext2D = (
+    document.getElementById(canvasId) as HTMLCanvasElement
+  ).getContext('2d');
+
   const animate = () => {
     if (this.isGameStopped) {
       return this.animateEnemyWand[enemyId] = requestAnimationFrame(animate);
@@ -164,7 +173,7 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
     this.enemyWandsCoords.push({
       id: enemy.id,
       coords: Draw.lineToAngle(
-        ctx,
+        canvasId,
         x,
         y,
         this.cellSize * 2 - this.cellSize / 5,
@@ -279,7 +288,9 @@ function animateDoors(type: string) {
  * Function animates all spikes on the game board in batch
  */
 function animateSpikes() {
-  const obstaclesCtx: CanvasRenderingContext2D = this.obstaclesCanvas.getContext('2d');
+  const ctx: CanvasRenderingContext2D = (
+    document.getElementById('obstaclesCanvas') as HTMLCanvasElement
+  ).getContext('2d');
 
   this.spikesCoords.map((spike: number[]) => {
     const x1: number = spike[0];
@@ -290,7 +301,7 @@ function animateSpikes() {
     let num = 0;
 
     const redrawSpikeDot = () => {
-      obstaclesCtx.clearRect(
+      ctx.clearRect(
         x1 - this.cellSize / 5,
         y1 - this.cellSize / 5,
         x2 + this.cellSize / 5,
@@ -298,7 +309,7 @@ function animateSpikes() {
       );
 
       Draw.circle(
-        obstaclesCtx,
+        'obstaclesCanvas',
         x1 + (x2 - x1) / 2,
         y1 + (y2 - y1) / 2,
         this.cellSize / 10,
@@ -307,7 +318,7 @@ function animateSpikes() {
         },
       );
       Draw.circle(
-        obstaclesCtx,
+        'obstaclesCanvas',
         x1 + (x2 - x1) / 2 - 1,
         y1 + (y2 - y1) / 2 - 1,
         this.cellSize / 15,
@@ -331,34 +342,34 @@ function animateSpikes() {
       switch (num) {
         case 0: {
           redrawSpikeDot();
-          Draw.lineToAngle(obstaclesCtx, x1, y1, this.cellSize / 15, 225, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x2, y2, this.cellSize / 30, 45, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x1, y1, this.cellSize / 15, 225, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x2, y2, this.cellSize / 30, 45, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x2, y1, this.cellSize / 40, 315, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x1, y2, this.cellSize / 40, 135, spikeOptions);
           break;
         }
         case step: {
           redrawSpikeDot();
-          Draw.lineToAngle(obstaclesCtx, x1, y1, this.cellSize / 30, 225, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x2, y2, this.cellSize / 15, 45, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x1, y1, this.cellSize / 30, 225, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x2, y2, this.cellSize / 15, 45, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x2, y1, this.cellSize / 40, 315, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x1, y2, this.cellSize / 40, 135, spikeOptions);
           break;
         }
         case step * 2: {
           redrawSpikeDot();
-          Draw.lineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x2, y1, this.cellSize / 15, 315, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x1, y2, this.cellSize / 30, 135, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x1, y1, this.cellSize / 40, 225, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x2, y2, this.cellSize / 40, 45, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x2, y1, this.cellSize / 15, 315, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x1, y2, this.cellSize / 30, 135, spikeOptions);
           break;
         }
         case step * 3: {
           redrawSpikeDot();
-          Draw.lineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x2, y1, this.cellSize / 30, 315, spikeOptions);
-          Draw.lineToAngle(obstaclesCtx, x1, y2, this.cellSize / 15, 135, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x1, y1, this.cellSize / 40, 225, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x2, y2, this.cellSize / 40, 45, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x2, y1, this.cellSize / 30, 315, spikeOptions);
+          Draw.lineToAngle('obstaclesCanvas', x1, y2, this.cellSize / 15, 135, spikeOptions);
           break;
         }
         default: break;
@@ -382,7 +393,10 @@ function animateSpikes() {
  */
 function animateAvatarWandDeath(): Promise<void> {
   return new Promise((resolve) => {
-    const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
+    const ctx: CanvasRenderingContext2D = (
+      document.getElementById('wandCanvas') as HTMLCanvasElement
+    ).getContext('2d');
+
     let alpha = 1;
 
     const animate = () => {
@@ -404,7 +418,7 @@ function animateAvatarWandDeath(): Promise<void> {
       ctx.globalAlpha = alpha;
 
       this.avatarWandCoords = Draw.lineToAngle(
-        ctx,
+        'wandCanvas',
         x,
         y,
         this.cellSize * 2 - this.cellSize / 5 - 1,
@@ -427,11 +441,15 @@ function animateAvatarWandDeath(): Promise<void> {
 /**
  * Function eliminates an element from the specified canvas context with fade out effect
  *
- * @param ctx
+ * @param canvasId
  * @param currDotX
  * @param currDotY
  */
-function animateMapElementElimination(ctx: CanvasRenderingContext2D, currDotX: number, currDotY: number) {
+function animateMapElementElimination(canvasId: string, currDotX: number, currDotY: number) {
+  const ctx: CanvasRenderingContext2D = (
+    document.getElementById(canvasId) as HTMLCanvasElement
+  ).getContext('2d');
+
   const top: number = this.cellSize + this.cellSize * (currDotY + 1);
   const left: number = this.cellSize + this.cellSize * (currDotX + 1);
   const dotX: number = left + this.cellSize / 2;
@@ -455,7 +473,7 @@ function animateMapElementElimination(ctx: CanvasRenderingContext2D, currDotX: n
     ctx.globalAlpha = alpha;
 
     Draw.circle(
-      ctx,
+      canvasId,
       dotX,
       dotY,
       this.cellSize / 5,
@@ -505,7 +523,10 @@ function animateTimeTicker() {
  * @param bonus
  */
 function animateBonusSize(bonus: IBonus) {
-  const ctx: CanvasRenderingContext2D = this.labelsCanvas.getContext('2d');
+  const ctx: CanvasRenderingContext2D = (
+    document.getElementById('labelsCanvas') as HTMLCanvasElement
+  ).getContext('2d');
+
   const x: number = this.cellSize + this.cellSize * (bonus.position[1] + 1) + this.cellSize / 2;
   const y: number = this.cellSize + this.cellSize * (bonus.position[0] + 1);
   let frame: number;

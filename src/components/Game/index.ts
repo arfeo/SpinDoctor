@@ -42,13 +42,6 @@ class Game extends GameComponent {
   levelExtra: ILevelExtra;
   cellSize: number;
   boardPanelElements: IBoardPanel;
-  staticCanvas: HTMLCanvasElement;
-  goalCanvas: HTMLCanvasElement;
-  wandCanvas: HTMLCanvasElement;
-  doorsCanvas: HTMLCanvasElement;
-  switchersCanvas: HTMLCanvasElement;
-  obstaclesCanvas: HTMLCanvasElement;
-  labelsCanvas: HTMLCanvasElement;
   keysDown: IKeysDown;
   isTimeTickerOn: boolean;
   isGameStopped: boolean;

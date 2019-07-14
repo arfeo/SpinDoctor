@@ -405,8 +405,6 @@ function checkAvatarWandIntersections(): boolean {
     // Hourglasses
     for (const hourglass of this.hourglassesCoords) {
       if (Maths.lineSegmentIntersectsWithRect(avatarWandSegment, hourglass.borders)) {
-        const obstaclesCtx: CanvasRenderingContext2D = this.obstaclesCanvas.getContext('2d');
-
         this.score += 1000;
         this.timeAvailable += 10;
 
@@ -415,7 +413,7 @@ function checkAvatarWandIntersections(): boolean {
         });
 
         animateBonusSize.call(this, { size: 1000, position: hourglass.coords });
-        animateMapElementElimination.call(this, obstaclesCtx, hourglass.coords[1], hourglass.coords[0]);
+        animateMapElementElimination.call(this, 'obstaclesCanvas', hourglass.coords[1], hourglass.coords[0]);
 
         renderPanelCounters.call(this);
 
@@ -588,8 +586,6 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
  * @param currDotY
  */
 function checkRingLeaving(currDotX: number, currDotY: number) {
-  const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
-
   const ringsMap: number[] = [
     MapDefinitions.RingRegular,
     MapDefinitions.RingRed,
@@ -604,7 +600,7 @@ function checkRingLeaving(currDotX: number, currDotY: number) {
   if (ringsMap.indexOf(this.level.map[currDotY + 1][currDotX + 1]) > - 1) {
     this.level.map[currDotY + 1][currDotX + 1] = 0;
 
-    animateMapElementElimination.call(this, staticCtx, currDotX, currDotY);
+    animateMapElementElimination.call(this, 'staticCanvas', currDotX, currDotY);
   }
 }
 

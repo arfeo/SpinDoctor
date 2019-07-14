@@ -26,6 +26,6 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
-    "gpt-ts": "^0.8.0"
+    "gpt-ts": "^0.8.1"
   }
 }
