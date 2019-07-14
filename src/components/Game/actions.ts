@@ -1,4 +1,4 @@
-import { Maths, ILineSegment } from 'gpt-ts';
+import { Maths, LineSegment } from 'gpt-ts';
 
 import { Game } from './index';
 import { GameOver } from './modals/GameOver';
@@ -261,7 +261,7 @@ function checkEnemyWand(enemyId: number) {
  */
 function checkAvatarWandIntersections(): boolean {
   if (this.avatarWandCoords) {
-    const avatarWandSegment: ILineSegment = {
+    const avatarWandSegment: LineSegment = {
       start: {
         x: this.avatarWandCoords[0][0],
         y: this.avatarWandCoords[0][1],
@@ -276,7 +276,7 @@ function checkAvatarWandIntersections(): boolean {
     if (this.level.enemies && this.enemyWandsCoords) {
       for (const wand of this.enemyWandsCoords) {
         if (wand !== undefined) {
-          const enemyWandSegment: ILineSegment = {
+          const enemyWandSegment: LineSegment = {
             start: {
               x: wand.coords[0][0],
               y: wand.coords[0][1],
@@ -439,7 +439,7 @@ function checkEnemyWandIntersections(enemyId: number) {
     return item.id === enemyId;
   });
 
-  const enemyWandSegment: ILineSegment = {
+  const enemyWandSegment: LineSegment = {
     start: {
       x: enemyCoords[0].coords[0][0],
       y: enemyCoords[0].coords[0][1],
