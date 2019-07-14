@@ -33,9 +33,9 @@ function animateGoal() {
         goalAnimationStep = 0;
       }
 
-      const ctx: CanvasRenderingContext2D = (
-        document.getElementById('goalCanvas') as HTMLCanvasElement
-      ).getContext('2d');
+      const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
+        'goalCanvas'
+      ) as CanvasRenderingContext2D;
 
       const goalX: number = goalPosX + this.cellSize / 2;
       const goalY: number = goalPosY + this.cellSize / 2;
@@ -90,9 +90,9 @@ function animateGoal() {
  * Function animates the avatar wand
  */
 function animateAvatarWand() {
-  const ctx: CanvasRenderingContext2D = (
-    document.getElementById('wandCanvas') as HTMLCanvasElement
-  ).getContext('2d');
+  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
+    'wandCanvas'
+  ) as CanvasRenderingContext2D;
 
   const animate = () => {
     if (this.isGameStopped) {
@@ -145,9 +145,7 @@ function animateAvatarWand() {
  * @param enemyId
  */
 function animateEnemyWand(canvasId: string, enemyId: number) {
-  const ctx: CanvasRenderingContext2D = (
-    document.getElementById(canvasId) as HTMLCanvasElement
-  ).getContext('2d');
+  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(canvasId) as CanvasRenderingContext2D;
 
   const animate = () => {
     if (this.isGameStopped) {
@@ -288,9 +286,9 @@ function animateDoors(type: string) {
  * Function animates all spikes on the game board in batch
  */
 function animateSpikes() {
-  const ctx: CanvasRenderingContext2D = (
-    document.getElementById('obstaclesCanvas') as HTMLCanvasElement
-  ).getContext('2d');
+  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
+    'obstaclesCanvas'
+  ) as CanvasRenderingContext2D;
 
   this.spikesCoords.map((spike: number[]) => {
     const x1: number = spike[0];
@@ -393,9 +391,9 @@ function animateSpikes() {
  */
 function animateAvatarWandDeath(): Promise<void> {
   return new Promise((resolve) => {
-    const ctx: CanvasRenderingContext2D = (
-      document.getElementById('wandCanvas') as HTMLCanvasElement
-    ).getContext('2d');
+    const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
+      'wandCanvas'
+    ) as CanvasRenderingContext2D;
 
     let alpha = 1;
 
@@ -446,9 +444,7 @@ function animateAvatarWandDeath(): Promise<void> {
  * @param currDotY
  */
 function animateMapElementElimination(canvasId: string, currDotX: number, currDotY: number) {
-  const ctx: CanvasRenderingContext2D = (
-    document.getElementById(canvasId) as HTMLCanvasElement
-  ).getContext('2d');
+  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(canvasId) as CanvasRenderingContext2D;
 
   const top: number = this.cellSize + this.cellSize * (currDotY + 1);
   const left: number = this.cellSize + this.cellSize * (currDotX + 1);
@@ -523,9 +519,9 @@ function animateTimeTicker() {
  * @param bonus
  */
 function animateBonusSize(bonus: IBonus) {
-  const ctx: CanvasRenderingContext2D = (
-    document.getElementById('labelsCanvas') as HTMLCanvasElement
-  ).getContext('2d');
+  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
+    'labelsCanvas'
+  ) as CanvasRenderingContext2D;
 
   const x: number = this.cellSize + this.cellSize * (bonus.position[1] + 1) + this.cellSize / 2;
   const y: number = this.cellSize + this.cellSize * (bonus.position[0] + 1);

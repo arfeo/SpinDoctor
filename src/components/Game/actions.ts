@@ -1,4 +1,4 @@
-import { Maths, LineSegment } from 'gpt-ts';
+import { Draw, Maths, LineSegment } from 'gpt-ts';
 
 import { Game } from './index';
 import { GameOver } from './modals/GameOver';
@@ -558,7 +558,11 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
         const canvasWidth: number = this.cellSize * (GridDimensions.Width + 2);
         const canvasHeight: number = this.cellSize * (GridDimensions.Height + 2);
 
-        this.wandCanvas.getContext('2d').clearRect(0, 0, canvasWidth, canvasHeight);
+        const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
+          'wandCanvas'
+        ) as CanvasRenderingContext2D;
+
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
         this.level.wand.position = [...pairHyperdot.position];
       }

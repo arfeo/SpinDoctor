@@ -1113,9 +1113,9 @@ function renderLevelMap() {
           //                            OTHER
           // ----------------------------------------------------------------
           case MapDefinitions.Hourglass: {
-            const ctx: CanvasRenderingContext2D = (
-              document.getElementById('obstaclesCanvas') as HTMLCanvasElement
-            ).getContext('2d');
+            const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
+              'obstaclesCanvas'
+            ) as CanvasRenderingContext2D;
 
             ctx.font = BONUS_SIZE_LABEL_FONT;
             ctx.fillStyle = ELEMENTS_COLORS.label.background;
@@ -1267,9 +1267,9 @@ function renderDoors() {
  * @param doorWidth
  */
 function renderDoor(door: IDoor, doorWidth?: number) {
-  const ctx: CanvasRenderingContext2D = (
-    document.getElementById('doorsCanvas') as HTMLCanvasElement
-  ).getContext('2d');
+  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
+    'doorsCanvas'
+  ) as CanvasRenderingContext2D;
 
   const top: number = this.cellSize + this.cellSize * (door.position[0] + 1);
   const left: number = this.cellSize + this.cellSize * (door.position[1] + 1);
