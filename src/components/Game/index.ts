@@ -34,46 +34,47 @@ import {
 } from '../../types/game';
 
 class Game extends GameComponent {
-  level: ILevel;
-  lives: number;
-  score: number;
-  difficulty: IDifficulty;
-  timeAvailable: number;
-  levelExtra: ILevelExtra;
-  cellSize: number;
-  boardPanelElements: IBoardPanel;
-  keysDown: IKeysDown;
-  isTimeTickerOn: boolean;
-  isGameStopped: boolean;
-  isSwitcherActive: boolean;
-  goalPosition: number[];
-  animateGoal: number;
-  animateAvatarWand: number;
-  animateEnemyWand: number[];
-  animateTimeTicker: number;
-  avatarWandCoords: number[][];
-  enemyWandsCoords: IEnemyWandsCoords[];
-  wallsCoords: number[][];
-  doorsCoords: IDoorCoords[];
-  switchersCoords: ISwitcherCoords[];
-  spikesCoords: number[][];
-  hourglassesCoords: IHourglassCoords[];
-  enemiesSpeedCorrection: number;
+  private level: ILevel;
+  private levelExtra: ILevelExtra;
+  private boardPanelElements: IBoardPanel;
+  private animateGoal: number;
+  private animateAvatarWand: number;
+  private animateEnemyWand: number[];
+  private animateTimeTicker: number;
 
-  constructor(level = 1, lives = 4, score = 0, difficulty = 1, levelExtra: ILevelExtra = { bonus: [], station: [] }) {
+  public lives: number;
+  public score: number;
+  public difficulty: IDifficulty;
+  public timeAvailable: number;
+  public cellSize: number;
+  public keysDown: IKeysDown;
+  public isTimeTickerOn: boolean;
+  public isGameStopped: boolean;
+  public isSwitcherActive: boolean;
+  public goalPosition: number[];
+  public avatarWandCoords: number[][];
+  public enemyWandsCoords: IEnemyWandsCoords[];
+  public wallsCoords: number[][];
+  public doorsCoords: IDoorCoords[];
+  public switchersCoords: ISwitcherCoords[];
+  public spikesCoords: number[][];
+  public hourglassesCoords: IHourglassCoords[];
+  public enemiesSpeedCorrection: number;
+
+  public constructor(level = 1, lives = 4, score = 0, difficulty = 1, levelExtra: ILevelExtra = { bonus: [], station: [] }) {
     super(level, lives, score, difficulty, levelExtra);
   }
 
-  init(level: number, lives: number, score: number, difficulty: number, levelExtra: ILevelExtra) {
-    this.level = JSON.parse(JSON.stringify(LEVELS.find((item: ILevel) => item.id === level)));
+  public init(level: number, lives: number, score: number, difficulty: number, levelExtra: ILevelExtra): void {
+    this.level = JSON.parse(JSON.stringify(LEVELS.find((item: ILevel): boolean => item.id === level)));
     this.lives = lives;
     this.score = score;
-    this.difficulty = JSON.parse(JSON.stringify(DIFFICULTIES.find((item: IDifficulty) => item.id === difficulty)));
+    this.difficulty = JSON.parse(JSON.stringify(DIFFICULTIES.find((item: IDifficulty): boolean => item.id === difficulty)));
     this.timeAvailable = this.level.time;
     this.levelExtra = JSON.parse(JSON.stringify(levelExtra));
 
     if (this.levelExtra.station.length) {
-      this.level.wand.position = [...this.levelExtra.station];
+      this.level.wand.position = [ ...this.levelExtra.station ];
     }
 
     this.cellSize = Utils.getCellSize(CELL_SIZE_VMIN);
@@ -117,7 +118,7 @@ class Game extends GameComponent {
       {
         target: this.boardPanelElements.menuButton,
         type: 'click',
-        listener: () => {
+        listener: (): void => {
           this.destroy();
 
           APP.pageInstance = new Menu();
@@ -141,9 +142,11 @@ class Game extends GameComponent {
     ];
   }
 
-  render() {
+  public render(): void {
     if (!validateLevel.call(this)) {
-      return new Alert(this, 'The level description is invalid: there is no "map" and/or "goal" found.');
+      new Alert(this, 'The level description is invalid: there is no "map" and/or "goal" found.');
+
+      return;
     }
 
     renderGameWindow.call(this);
@@ -151,7 +154,7 @@ class Game extends GameComponent {
     renderPanelCounters.call(this);
   }
 
-  beforeUnmount() {
+  public beforeUnmount(): void {
     cancelAnimationFrame(this.animateAvatarWand);
     cancelAnimationFrame(this.animateGoal);
     cancelAnimationFrame(this.animateTimeTicker);

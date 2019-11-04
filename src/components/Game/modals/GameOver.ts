@@ -7,16 +7,16 @@ import { APP } from '../../../constants/global';
 import { DIFFICULTIES } from '../../../constants/game';
 
 class GameOver extends ModalComponent {
-  gameOverLabel: HTMLElement;
-  gameOverSubmitContainer: HTMLElement;
-  gameOverSubmitRestart: HTMLButtonElement;
-  gameOverSubmitStop: HTMLButtonElement;
+  private gameOverLabel: HTMLElement;
+  private gameOverSubmitContainer: HTMLElement;
+  private gameOverSubmitRestart: HTMLButtonElement;
+  private gameOverSubmitStop: HTMLButtonElement;
 
-  constructor(game: Game) {
+  public constructor(game: Game) {
     super(game);
   }
 
-  init() {
+  public init(): void {
     this.gameOverLabel = document.createElement('div');
     this.gameOverSubmitContainer = document.createElement('div');
     this.gameOverSubmitRestart = document.createElement('button');
@@ -26,7 +26,7 @@ class GameOver extends ModalComponent {
       {
         target: this.gameOverSubmitRestart,
         type: 'click',
-        listener: () => {
+        listener: (): void => {
           this.parent.destroy();
 
           APP.pageInstance = new Game(1, 4, 0, Storage.getData('spin-doctor-difficulty') || DIFFICULTIES[0].id);
@@ -37,7 +37,7 @@ class GameOver extends ModalComponent {
       {
         target: this.gameOverSubmitStop,
         type: 'click',
-        listener: () => {
+        listener: (): void => {
           this.parent.destroy();
 
           APP.pageInstance = new Menu();
@@ -48,7 +48,7 @@ class GameOver extends ModalComponent {
     ];
   }
 
-  render() {
+  public render(): void {
     this.gameOverLabel.innerText = 'Game over. Would you like to start the game over again?';
     this.gameOverSubmitContainer.className = 'modal-submit';
     this.gameOverSubmitRestart.className = '-button';

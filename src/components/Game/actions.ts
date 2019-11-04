@@ -31,7 +31,7 @@ import {
  * as well as checks the intersections with enemy wands and other objects on the game board
  * (e.g., walls, switchers, spikes, etc.)
  */
-function checkAvatarWand() {
+function checkAvatarWand(): void {
   const { flip, bounce, swing } = this.keysDown;
 
   if (checkAvatarWandIntersections.call(this)) {
@@ -130,8 +130,8 @@ function checkAvatarWand() {
  *
  * @param enemyId
  */
-function checkEnemyWand(enemyId: number) {
-  const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
+function checkEnemyWand(enemyId: number): void {
+  const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy): boolean => item.id === enemyId);
 
   checkEnemyWandIntersections.call(this, enemyId);
 
@@ -248,7 +248,7 @@ function checkEnemyWand(enemyId: number) {
     }
 
     this.level.enemies = [
-      ...this.level.enemies.filter((item: IWand & IEnemy) => item.id !== enemy.id),
+      ...this.level.enemies.filter((item: IWand & IEnemy): boolean => item.id !== enemy.id),
       enemy,
     ];
   }
@@ -408,7 +408,7 @@ function checkAvatarWandIntersections(): boolean {
         this.score += 1000;
         this.timeAvailable += 10;
 
-        this.hourglassesCoords = this.hourglassesCoords.filter((item: IHourglassCoords) => {
+        this.hourglassesCoords = this.hourglassesCoords.filter((item: IHourglassCoords): boolean => {
           return item.id !== hourglass.id;
         });
 
@@ -431,9 +431,9 @@ function checkAvatarWandIntersections(): boolean {
  *
  * @param enemyId
  */
-function checkEnemyWandIntersections(enemyId: number) {
-  const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
-  const enemyCoords: IEnemyWandsCoords[] = this.enemyWandsCoords.filter((item: IEnemyWandsCoords) => {
+function checkEnemyWandIntersections(enemyId: number): void {
+  const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy): boolean => item.id === enemyId);
+  const enemyCoords: IEnemyWandsCoords[] = this.enemyWandsCoords.filter((item: IEnemyWandsCoords): boolean => {
     return item.id === enemyId;
   });
 
@@ -474,7 +474,7 @@ function checkEnemyWandIntersections(enemyId: number) {
         enemy.angle += enemy.direction * WAND_REBOUND * speedCorrection;
 
         this.level.enemies = [
-          ...this.level.enemies.filter((item: IWand & IEnemy) => item.id !== enemyId),
+          ...this.level.enemies.filter((item: IWand & IEnemy): boolean => item.id !== enemyId),
           enemy,
         ];
       }
@@ -509,7 +509,7 @@ function checkEnemyWandIntersections(enemyId: number) {
  * @param dotX
  * @param dotY
  */
-function checkNextDot(dotType: number, dotX: number, dotY: number) {
+function checkNextDot(dotType: number, dotX: number, dotY: number): void {
   switch (dotType) {
     // Avatar wand grabs slowdown: all enemy wands move twice slower
     case 17: {
@@ -528,14 +528,14 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
 
   // Avatar wand grabs bonus
   if (this.level.bonus) {
-    const bonus: IBonus = this.level.bonus.find((item: IBonus) => {
+    const bonus: IBonus = this.level.bonus.find((item: IBonus): boolean => {
       return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
     });
 
     if (bonus) {
       this.levelExtra.bonus.push(bonus.id);
       this.score += bonus.size;
-      this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonus.id);
+      this.level.bonus = this.level.bonus.filter((item: IBonus): boolean => item.id !== bonus.id);
 
       animateBonusSize.call(this, bonus);
 
@@ -545,12 +545,12 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
 
   // Avatar wand grabs hyperdot
   if (this.level.hyperdots) {
-    const hyperdot: IHyperdot = this.level.hyperdots.find((item: IHyperdot) => {
+    const hyperdot: IHyperdot = this.level.hyperdots.find((item: IHyperdot): boolean => {
       return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
     });
 
     if (hyperdot) {
-      const pairHyperdot: IHyperdot = this.level.hyperdots.find((item: IHyperdot) => {
+      const pairHyperdot: IHyperdot = this.level.hyperdots.find((item: IHyperdot): boolean => {
         return item.type === hyperdot.type && item.id !== hyperdot.id;
       });
 
@@ -589,7 +589,7 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
  * @param currDotX
  * @param currDotY
  */
-function checkRingLeaving(currDotX: number, currDotY: number) {
+function checkRingLeaving(currDotX: number, currDotY: number): void {
   const ringsMap: number[] = [
     MapDefinitions.RingRegular,
     MapDefinitions.RingRed,
@@ -612,11 +612,11 @@ function checkRingLeaving(currDotX: number, currDotY: number) {
  * Function checks whether it is possible to continue the game when the user fails the level;
  * if no lives left -- the game stops, if there is at least one life left -- the level restarts
  */
-function checkOnLevelFail() {
+function checkOnLevelFail(): void {
   this.lives -= 1;
   this.isGameStopped = true;
 
-  animateAvatarWandDeath.call(this).then(() => {
+  animateAvatarWandDeath.call(this).then((): void => {
     if (this.lives > 0) {
       this.destroy();
 

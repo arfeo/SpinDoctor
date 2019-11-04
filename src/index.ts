@@ -2,6 +2,6 @@ import { Menu } from './components/Menu';
 
 import { APP } from './constants/global';
 
-window.onload = () => {
+window.onload = (): void => {
   APP.pageInstance = new Menu();
 };

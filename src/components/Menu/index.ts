@@ -6,14 +6,16 @@ import { APP } from '../../constants/global';
 import { DIFFICULTIES } from '../../constants/game';
 
 import { IDifficulty } from '../../types/game';
+import { MenuItemOption } from '../../../../gpt-ts';
 
 class Menu extends MenuComponent {
-  player: string;
-  difficulty: number;
-  playerInput: HTMLInputElement;
-  difficultySelect: HTMLSelectElement;
+  private player: string;
+  private difficulty: number;
 
-  init() {
+  public playerInput: HTMLInputElement;
+  public difficultySelect: HTMLSelectElement;
+
+  public init(): void {
     this.root = document.getElementById('root');
     this.player = Storage.getData('spin-doctor-player') || '';
     this.difficulty = Storage.getData('spin-doctor-difficulty') || DIFFICULTIES[0].id;
@@ -29,7 +31,7 @@ class Menu extends MenuComponent {
         value: this.player,
         action: {
           type: 'input',
-          handler: (event: Event & { target: { value: string } }) => {
+          handler: (event: Event & { target: { value: string } }): void => {
             this.player = event.target.value;
 
             Storage.saveData('spin-doctor-player', this.player);
@@ -44,14 +46,14 @@ class Menu extends MenuComponent {
       {
         type: 'select',
         value: this.player,
-        options: DIFFICULTIES.map((item: IDifficulty) => ({
-            value: item.id.toString(),
-            text: `${item.icon} ${item.title}`,
-            selected: this.difficulty === item.id,
+        options: DIFFICULTIES.map((item: IDifficulty): MenuItemOption => ({
+          value: item.id.toString(),
+          text: `${item.icon} ${item.title}`,
+          selected: this.difficulty === item.id,
         })),
         action: {
           type: 'change',
-          handler: (event: Event & { target: { value: string } }) => {
+          handler: (event: Event & { target: { value: string } }): void => {
             this.difficulty = parseInt(event.target.value, 10);
 
             Storage.saveData('spin-doctor-difficulty', this.difficulty);
@@ -67,7 +69,7 @@ class Menu extends MenuComponent {
         value: 'Play',
         action: {
           type: 'click',
-          handler: () => {
+          handler: (): void => {
             APP.pageInstance = new Game(1, 4, 0, this.difficulty);
           },
         },

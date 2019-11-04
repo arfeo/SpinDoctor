@@ -7,7 +7,7 @@ import { animateTimeTicker } from './animations';
  *
  * @param event
  */
-function keyDownHandler(event: KeyboardEvent) {
+function keyDownHandler(event: KeyboardEvent): void {
   switch (event.key) {
     case FunctionalKeys.Reverse: {
       if (!this.keysDown.reverse && !this.isGameStopped) {
@@ -41,7 +41,7 @@ function keyDownHandler(event: KeyboardEvent) {
 /**
  * Function fires at key up event
  */
-function keyUpHandler() {
+function keyUpHandler(): void {
   setActiveKey.call(this);
 }
 
@@ -51,7 +51,7 @@ function keyUpHandler() {
  *
  * @param type
  */
-function setActiveKey(type?: string) {
+function setActiveKey(type?: string): void {
   this.keysDown = {
     reverse: false,
     flip: false,
@@ -75,7 +75,7 @@ function setActiveKey(type?: string) {
  * Function stops all game animations, including time ticker animation, if the game is active,
  * and resumes the game if it has been stopped earlier
  */
-function onPauseGame() {
+function onPauseGame(): void {
   if (this.keysDown.pause) {
     return;
   }

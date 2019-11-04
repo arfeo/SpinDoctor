@@ -1,15 +1,15 @@
 import { GameComponent, MenuComponent, ModalComponent } from 'gpt-ts';
 
 class Alert extends ModalComponent {
-  alertLabel: HTMLElement;
-  alertSubmitContainer: HTMLElement;
-  alertSubmitClose: HTMLButtonElement;
+  private alertLabel: HTMLElement;
+  private alertSubmitContainer: HTMLElement;
+  private alertSubmitClose: HTMLButtonElement;
 
-  constructor(page: GameComponent | MenuComponent, text: string, size?: 'large' | 'medium' | 'small') {
+  public constructor(page: GameComponent | MenuComponent, text: string, size?: 'large' | 'medium' | 'small') {
     super(page, text, size);
   }
 
-  init() {
+  public init(): void {
     this.alertLabel = document.createElement('div');
     this.alertSubmitContainer = document.createElement('div');
     this.alertSubmitClose = document.createElement('button');
@@ -18,12 +18,12 @@ class Alert extends ModalComponent {
       {
         target: this.alertSubmitClose,
         type: 'click',
-        listener: () => this.destroy(),
+        listener: (): void => this.destroy(),
       },
     ];
   }
 
-  render() {
+  public render(): void {
     this.alertLabel.innerText = this.modalContent;
     this.alertSubmitContainer.className = 'modal-submit';
     this.alertSubmitClose.className = '-button';

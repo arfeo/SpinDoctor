@@ -12,18 +12,24 @@ import { renderDoor } from './render';
 import { checkAvatarWand, checkEnemyWand, checkOnLevelFail } from './actions';
 import { secondsToString } from './utils';
 
-import { IBonus, IDoor, IEnemy, IEnemyWandsCoords, IWand } from '../../types/game';
+import {
+  IBonus,
+  IDoor,
+  IEnemy,
+  IEnemyWandsCoords,
+  IWand,
+} from '../../types/game';
 
 /**
  * Function animates the goal (rotating star-like object beneath a dot)
  */
-function animateGoal() {
+function animateGoal(): void {
   const goalPosX: number = this.cellSize + this.cellSize * (this.goalPosition[1] + 1);
   const goalPosY: number = this.cellSize + this.cellSize * (this.goalPosition[0] + 1);
   let start: number = performance.now();
   let goalAnimationStep = 0;
 
-  const animate = (time: number) => {
+  const animate = (time: number): number => {
     if (this.isGameStopped) {
       return this.animateGoal = requestAnimationFrame(animate);
     }
@@ -89,12 +95,12 @@ function animateGoal() {
 /**
  * Function animates the avatar wand
  */
-function animateAvatarWand() {
+function animateAvatarWand(): void {
   const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
     'wandCanvas'
   ) as CanvasRenderingContext2D;
 
-  const animate = () => {
+  const animate = (): number => {
     if (this.isGameStopped) {
       return this.animateAvatarWand = requestAnimationFrame(animate);
     }
@@ -144,15 +150,15 @@ function animateAvatarWand() {
  * @param canvasId
  * @param enemyId
  */
-function animateEnemyWand(canvasId: string, enemyId: number) {
+function animateEnemyWand(canvasId: string, enemyId: number): void {
   const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(canvasId) as CanvasRenderingContext2D;
 
-  const animate = () => {
+  const animate = (): number => {
     if (this.isGameStopped) {
       return this.animateEnemyWand[enemyId] = requestAnimationFrame(animate);
     }
 
-    const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
+    const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy): boolean => item.id === enemyId);
     const { position, direction, angle } = enemy;
     const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
     const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
@@ -164,7 +170,7 @@ function animateEnemyWand(canvasId: string, enemyId: number) {
       this.cellSize * 4,
     );
 
-    this.enemyWandsCoords = this.enemyWandsCoords.filter((item: IEnemyWandsCoords) => {
+    this.enemyWandsCoords = this.enemyWandsCoords.filter((item: IEnemyWandsCoords): boolean => {
       return item.id !== enemyId;
     });
 
@@ -194,7 +200,7 @@ function animateEnemyWand(canvasId: string, enemyId: number) {
     }
 
     this.level.enemies = [
-      ...this.level.enemies.filter((item: IWand & IEnemy) => item.id !== enemyId),
+      ...this.level.enemies.filter((item: IWand & IEnemy): boolean => item.id !== enemyId),
       enemy,
     ];
 
@@ -211,8 +217,8 @@ function animateEnemyWand(canvasId: string, enemyId: number) {
  *
  * @param type
  */
-function animateDoors(type: string) {
-  this.level.doors.map((door: IDoor) => {
+function animateDoors(type: string): void {
+  this.level.doors.map((door: IDoor): void => {
     if (door.type === type) {
       let animate: () => void;
       let frame: number;
@@ -220,7 +226,7 @@ function animateDoors(type: string) {
       if (door.opened) {
         let doorWidth = 0;
 
-        animate = () => {
+        animate = (): number | IDoor[] => {
           if (this.isGameStopped) {
             return frame = requestAnimationFrame(animate);
           }
@@ -233,7 +239,7 @@ function animateDoors(type: string) {
             this.isSwitcherActive = false;
 
             return this.level.doors = [
-              ...this.level.doors.filter((item: IDoor) => item.id !== door.id),
+              ...this.level.doors.filter((item: IDoor): boolean => item.id !== door.id),
               {
                 ...door,
                 opened: false,
@@ -250,7 +256,7 @@ function animateDoors(type: string) {
       } else {
         let doorWidth = this.cellSize * 2 - this.cellSize / 2 - 2;
 
-        animate = () => {
+        animate = (): number | IDoor[] => {
           if (this.isGameStopped) {
             return frame = requestAnimationFrame(animate);
           }
@@ -263,7 +269,7 @@ function animateDoors(type: string) {
             this.isSwitcherActive = false;
 
             return this.level.doors = [
-              ...this.level.doors.filter((item: IDoor) => item.id !== door.id),
+              ...this.level.doors.filter((item: IDoor): boolean => item.id !== door.id),
               {
                 ...door,
                 opened: true,
@@ -285,12 +291,12 @@ function animateDoors(type: string) {
 /**
  * Function animates all spikes on the game board in batch
  */
-function animateSpikes() {
+function animateSpikes(): void {
   const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
     'obstaclesCanvas'
   ) as CanvasRenderingContext2D;
 
-  this.spikesCoords.map((spike: number[]) => {
+  this.spikesCoords.map((spike: number[]): void => {
     const x1: number = spike[0];
     const y1: number = spike[1];
     const x2: number = spike[2];
@@ -298,7 +304,7 @@ function animateSpikes() {
     const step = 40;
     let num = 0;
 
-    const redrawSpikeDot = () => {
+    const redrawSpikeDot = (): void => {
       ctx.clearRect(
         x1 - this.cellSize / 5,
         y1 - this.cellSize / 5,
@@ -327,7 +333,7 @@ function animateSpikes() {
       );
     };
 
-    const animate = () => {
+    const animate = (): number => {
       if (this.isGameStopped) {
         return requestAnimationFrame(animate);
       }
@@ -390,14 +396,14 @@ function animateSpikes() {
  * Function animates the avatar wand's death: it slowly fades out, leaving the game board
  */
 function animateAvatarWandDeath(): Promise<void> {
-  return new Promise((resolve) => {
+  return new Promise((resolve): void => {
     const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
       'wandCanvas'
     ) as CanvasRenderingContext2D;
 
     let alpha = 1;
 
-    const animate = () => {
+    const animate = (): void => {
       if (alpha < 0) {
         return resolve();
       }
@@ -443,7 +449,7 @@ function animateAvatarWandDeath(): Promise<void> {
  * @param currDotX
  * @param currDotY
  */
-function animateMapElementElimination(canvasId: string, currDotX: number, currDotY: number) {
+function animateMapElementElimination(canvasId: string, currDotX: number, currDotY: number): void {
   const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(canvasId) as CanvasRenderingContext2D;
 
   const top: number = this.cellSize + this.cellSize * (currDotY + 1);
@@ -453,7 +459,7 @@ function animateMapElementElimination(canvasId: string, currDotX: number, currDo
   let frame: number;
   let alpha = 0;
 
-  const animate = () => {
+  const animate = (): void | number => {
     if (this.isGameStopped) {
       return frame = requestAnimationFrame(animate);
     }
@@ -487,10 +493,10 @@ function animateMapElementElimination(canvasId: string, currDotX: number, currDo
 /**
  * Function animates the game time ticker in the game panel
  */
-function animateTimeTicker() {
+function animateTimeTicker(): void {
   let start: number = performance.now();
 
-  const animate = (time: number) => {
+  const animate = (time: number): number => {
     if (this.isGameStopped) {
       return this.animateTimeTicker = requestAnimationFrame(animate);
     }
@@ -518,7 +524,7 @@ function animateTimeTicker() {
  *
  * @param bonus
  */
-function animateBonusSize(bonus: IBonus) {
+function animateBonusSize(bonus: IBonus): void {
   const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
     'labelsCanvas'
   ) as CanvasRenderingContext2D;
@@ -535,7 +541,7 @@ function animateBonusSize(bonus: IBonus) {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const animate = () => {
+  const animate = (): number | void => {
     if (this.isGameStopped) {
       return frame = requestAnimationFrame(animate);
     }

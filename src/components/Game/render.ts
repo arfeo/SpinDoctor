@@ -31,7 +31,7 @@ import {
 /**
  * Function creates game window element, game panel and all needed canvases
  */
-function renderGameWindow() {
+function renderGameWindow(): void {
   const canvasWidth: number = this.cellSize * (GridDimensions.Width + 2);
   const canvasHeight: number = this.cellSize * (GridDimensions.Height + 2);
   const appRoot: HTMLElement = document.getElementById('root');
@@ -142,7 +142,7 @@ function renderGameWindow() {
  * for the current level, including dots, walls, doors, enemies, obstacles,
  * and the goal
  */
-function renderLevelMap() {
+function renderLevelMap(): void {
   const { map, bonus, doors, hyperdots } = this.level;
 
   for (let y = 0; y < map.length; y += 1) {
@@ -1164,8 +1164,8 @@ function renderLevelMap() {
 /**
  * Function renders bonus points on the game board (if applicable)
  */
-function renderBonus() {
-  this.level.bonus.map((bonus: IBonus) => {
+function renderBonus(): void {
+  this.level.bonus.map((bonus: IBonus): void => {
     const bonusX: number = this.cellSize + this.cellSize * (bonus.position[1] + 1) + this.cellSize / 2;
     const bonusY: number = this.cellSize + this.cellSize * (bonus.position[0] + 1) + this.cellSize / 2;
 
@@ -1192,8 +1192,8 @@ function renderBonus() {
   });
 
   if (this.levelExtra.bonus) {
-    this.levelExtra.bonus.map((bonusId: number) => {
-      this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonusId);
+    this.levelExtra.bonus.map((bonusId: number): void => {
+      this.level.bonus = this.level.bonus.filter((item: IBonus): boolean => item.id !== bonusId);
     });
   }
 }
@@ -1201,7 +1201,7 @@ function renderBonus() {
 /**
  * Function initially renders all pillars and doors on the game board (if applicable)
  */
-function renderDoors() {
+function renderDoors(): void {
   for (const door of this.level.doors) {
     const top: number = this.cellSize + this.cellSize * (door.position[0] + 1);
     const left: number = this.cellSize + this.cellSize * (door.position[1] + 1);
@@ -1265,7 +1265,7 @@ function renderDoors() {
  * @param door
  * @param doorWidth
  */
-function renderDoor(door: IDoor, doorWidth?: number) {
+function renderDoor(door: IDoor, doorWidth?: number): void {
   const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
     'doorsCanvas'
   ) as CanvasRenderingContext2D;
@@ -1278,7 +1278,7 @@ function renderDoor(door: IDoor, doorWidth?: number) {
     lineWidth: DOOR_WIDTH,
   };
 
-  this.doorsCoords = this.doorsCoords.filter((item: IDoorCoords) => item.id !== door.id);
+  this.doorsCoords = this.doorsCoords.filter((item: IDoorCoords): boolean => item.id !== door.id);
 
   ctx.clearRect(
     left - this.cellSize,
@@ -1344,12 +1344,12 @@ function renderDoor(door: IDoor, doorWidth?: number) {
  * Function renders all hyperdots on the game board (if applicable);
  * each of five hyperdots' types has its own distinguishing symbol
  */
-function renderHyperdots() {
+function renderHyperdots(): void {
   const hyperDotActiveOptions: DrawCircleOptions = {
     fillColor: ELEMENTS_COLORS.hyperdot.dotsActive,
   };
 
-  this.level.hyperdots.map((hyperdot: IHyperdot) => {
+  this.level.hyperdots.map((hyperdot: IHyperdot): void => {
     const top: number = this.cellSize + this.cellSize * (hyperdot.position[0] + 1);
     const left: number = this.cellSize + this.cellSize * (hyperdot.position[1] + 1);
     const dotX: number = left + this.cellSize / 2;
@@ -1469,7 +1469,7 @@ function renderHyperdots() {
  * Functions renders level number and its title as well as game counters (lives, score)
  * in the game panel
  */
-function renderPanelCounters() {
+function renderPanelCounters(): void {
   this.boardPanelElements.level.innerHTML = (`
     <div class="-id">${this.level.id}:</div>
     <div class="-title">${this.level.title}</div>
