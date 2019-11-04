@@ -151,7 +151,7 @@ class Game extends GameComponent {
     renderPanelCounters.call(this);
   }
 
-  unmount() {
+  beforeUnmount() {
     cancelAnimationFrame(this.animateAvatarWand);
     cancelAnimationFrame(this.animateGoal);
     cancelAnimationFrame(this.animateTimeTicker);
