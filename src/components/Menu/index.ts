@@ -1,4 +1,4 @@
-import { MenuComponent, Storage } from 'gpt-ts';
+import { MenuComponent, Storage, MenuItemOption } from 'gpt-ts';
 
 import { Game } from '../Game';
 
@@ -6,7 +6,6 @@ import { APP } from '../../constants/global';
 import { DIFFICULTIES } from '../../constants/game';
 
 import { IDifficulty } from '../../types/game';
-import { MenuItemOption } from '../../../../gpt-ts';
 
 class Menu extends MenuComponent {
   private player: string;
