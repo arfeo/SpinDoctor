@@ -18,7 +18,7 @@ class Alert extends ModalComponent {
       {
         target: this.alertSubmitClose,
         type: 'click',
-        listener: () => this.close(),
+        listener: () => this.destroy(),
       },
     ];
   }

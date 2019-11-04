@@ -76,7 +76,7 @@ class Game extends GameComponent {
       this.level.wand.position = [...this.levelExtra.station];
     }
 
-    this.cellSize = Utils.setCellSize(CELL_SIZE_VMIN);
+    this.cellSize = Utils.getCellSize(CELL_SIZE_VMIN);
 
     this.isTimeTickerOn = false;
     this.isGameStopped = false;

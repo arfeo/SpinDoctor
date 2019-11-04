@@ -1187,7 +1187,6 @@ function renderBonus() {
       this.cellSize / 12,
       {
         fillColor: ELEMENTS_COLORS.bonus.innerCircle,
-        edgingWidth: 2,
       },
     );
   });

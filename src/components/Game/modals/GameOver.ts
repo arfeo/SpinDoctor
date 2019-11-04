@@ -27,22 +27,22 @@ class GameOver extends ModalComponent {
         target: this.gameOverSubmitRestart,
         type: 'click',
         listener: () => {
-          this.page.destroy();
+          this.parent.destroy();
 
           APP.pageInstance = new Game(1, 4, 0, Storage.getData('spin-doctor-difficulty') || DIFFICULTIES[0].id);
 
-          this.close(false);
+          this.destroy(false);
         },
       },
       {
         target: this.gameOverSubmitStop,
         type: 'click',
         listener: () => {
-          this.page.destroy();
+          this.parent.destroy();
 
           APP.pageInstance = new Menu();
 
-          this.close(false);
+          this.destroy(false);
         },
       },
     ];
