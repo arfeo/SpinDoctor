@@ -1,11 +1,11 @@
-import { GameComponent, MenuComponent, ModalComponent } from 'gpt-ts';
+import { PageComponent, ModalComponent } from 'gpt-ts';
 
 class Alert extends ModalComponent {
   private alertLabel: HTMLElement;
   private alertSubmitContainer: HTMLElement;
   private alertSubmitClose: HTMLButtonElement;
 
-  public constructor(page: GameComponent | MenuComponent, text: string, size?: 'large' | 'medium' | 'small') {
+  public constructor(page: PageComponent, text: string, size?: 'large' | 'medium' | 'small') {
     super(page, text, size);
   }
 

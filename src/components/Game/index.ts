@@ -1,4 +1,4 @@
-import { GameComponent, Utils } from 'gpt-ts';
+import { PageComponent, Utils } from 'gpt-ts';
 
 import { Menu } from '../Menu';
 import { Alert } from '../common/Alert';
@@ -33,7 +33,7 @@ import {
   IHourglassCoords,
 } from '../../types/game';
 
-class Game extends GameComponent {
+class Game extends PageComponent {
   private level: ILevel;
   private levelExtra: ILevelExtra;
   private boardPanelElements: IBoardPanel;
