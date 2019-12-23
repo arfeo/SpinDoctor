@@ -1,10 +1,3 @@
-export interface IDifficulty {
-  id: number;
-  title: string;
-  correction: number;
-  icon: string;
-}
-
 export interface IBoardPanel {
   menuButton: HTMLButtonElement;
   pauseButton: HTMLButtonElement;

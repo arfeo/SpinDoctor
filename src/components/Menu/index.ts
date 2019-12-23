@@ -1,79 +1,23 @@
-import { MenuComponent, Storage, MenuItemOption } from 'gpt-ts';
+import { DIFFICULTIES } from '../../constants/global';
 
-import { Game } from '../Game';
+import { renderMenuWindow } from './render';
+import { getStorageData } from '../../utils/storage';
 
-import { APP } from '../../constants/global';
-import { DIFFICULTIES } from '../../constants/game';
+class Menu {
+  player: string;
+  difficulty: number;
+  playerInput: HTMLInputElement;
+  difficultySelect: HTMLSelectElement;
 
-import { IDifficulty } from '../../types/game';
+  constructor() {
+    this.player = getStorageData('player') || '';
+    this.difficulty = getStorageData('difficulty') || DIFFICULTIES[0].id;
 
-class Menu extends MenuComponent {
-  private player: string;
-  private difficulty: number;
+    this.render();
+  }
 
-  public playerInput: HTMLInputElement;
-  public difficultySelect: HTMLSelectElement;
-
-  public init(): void {
-    this.root = document.getElementById('root');
-    this.player = Storage.getData('spin-doctor-player') || '';
-    this.difficulty = Storage.getData('spin-doctor-difficulty') || DIFFICULTIES[0].id;
-
-    this.items = [
-      {
-        type: 'html',
-        value: '<div>Doctor on duty:</div>',
-        className: 'label',
-      },
-      {
-        type: 'text',
-        value: this.player,
-        action: {
-          type: 'input',
-          handler: (event: Event & { target: { value: string } }): void => {
-            this.player = event.target.value;
-
-            Storage.saveData('spin-doctor-player', this.player);
-          },
-        },
-      },
-      {
-        type: 'html',
-        value: '<div>Difficulty:</div>',
-        className: 'label',
-      },
-      {
-        type: 'select',
-        value: this.player,
-        options: DIFFICULTIES.map((item: IDifficulty): MenuItemOption => ({
-          value: item.id.toString(),
-          text: `${item.icon} ${item.title}`,
-          selected: this.difficulty === item.id,
-        })),
-        action: {
-          type: 'change',
-          handler: (event: Event & { target: { value: string } }): void => {
-            this.difficulty = parseInt(event.target.value, 10);
-
-            Storage.saveData('spin-doctor-difficulty', this.difficulty);
-          },
-        },
-      },
-      {
-        type: 'html',
-        value: '<hr />',
-      },
-      {
-        type: 'button',
-        value: 'Play',
-        action: {
-          type: 'click',
-          handler: (): void => {
-            APP.pageInstance = new Game(1, 4, 0, this.difficulty);
-          },
-        },
-      },
-    ];
+  render() {
+    renderMenuWindow.call(this);
   }
 }
 

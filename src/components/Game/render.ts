@@ -1,5 +1,3 @@
-import { Draw, DrawCircleOptions, DrawLineToAngleOptions } from 'gpt-ts';
-
 import {
   ELEMENTS_COLORS,
   WALL_WIDTH,
@@ -9,6 +7,14 @@ import {
   GridDimensions,
   MapDefinitions,
 } from '../../constants/game';
+
+import {
+  drawCircle,
+  drawSector,
+  drawArc,
+  drawLineToAngle,
+  drawRectangle,
+} from '../../utils/drawing';
 
 import {
   animateAvatarWand,
@@ -31,7 +37,7 @@ import {
 /**
  * Function creates game window element, game panel and all needed canvases
  */
-function renderGameWindow(): void {
+function renderGameWindow() {
   const canvasWidth: number = this.cellSize * (GridDimensions.Width + 2);
   const canvasHeight: number = this.cellSize * (GridDimensions.Height + 2);
   const appRoot: HTMLElement = document.getElementById('root');
@@ -39,6 +45,23 @@ function renderGameWindow(): void {
   const boardPanel: HTMLElement = document.createElement('div');
   const boardGrid: HTMLElement = document.createElement('div');
   const pauseLabel: HTMLElement = document.createElement('div');
+
+  this.boardPanelElements = {
+    menuButton: document.createElement('button'),
+    pauseButton: document.createElement('button'),
+    level: document.createElement('div'),
+    time: document.createElement('div'),
+    lives: document.createElement('div'),
+    score: document.createElement('div'),
+  };
+
+  this.staticCanvas = document.createElement('canvas');
+  this.goalCanvas = document.createElement('canvas');
+  this.wandCanvas = document.createElement('canvas');
+  this.doorsCanvas = document.createElement('canvas');
+  this.switchersCanvas = document.createElement('canvas');
+  this.obstaclesCanvas = document.createElement('canvas');
+  this.labelsCanvas = document.createElement('canvas');
 
   gameWindow.className = 'gameWindow';
   boardPanel.className = 'boardPanel';
@@ -52,9 +75,33 @@ function renderGameWindow(): void {
   this.boardPanelElements.time.className = '-time';
   this.boardPanelElements.lives.className = '-lives';
   this.boardPanelElements.score.className = '-score';
+  this.staticCanvas.className = '-static-canvas';
+  this.goalCanvas.className = '-goal-canvas';
+  this.wandCanvas.className = '-wand-canvas';
+  this.doorsCanvas.className = '-doors-canvas';
+  this.switchersCanvas.className = '-switchers-canvas';
+  this.obstaclesCanvas.className = '-obstacles-canvas';
+  this.labelsCanvas.className = '-labels-canvas';
 
-  this.boardPanelElements.menuButton.innerText = 'Menu';
-  this.boardPanelElements.pauseButton.innerText = 'Pause';
+  this.staticCanvas.width = canvasWidth;
+  this.staticCanvas.height = canvasHeight;
+  this.goalCanvas.width = canvasWidth;
+  this.goalCanvas.height = canvasHeight;
+  this.wandCanvas.width = canvasWidth;
+  this.wandCanvas.height = canvasHeight;
+  this.doorsCanvas.width = canvasWidth;
+  this.doorsCanvas.height = canvasHeight;
+  this.switchersCanvas.width = canvasWidth;
+  this.switchersCanvas.height = canvasHeight;
+  this.obstaclesCanvas.width = canvasWidth;
+  this.obstaclesCanvas.height = canvasHeight;
+  this.labelsCanvas.width = canvasWidth;
+  this.labelsCanvas.height = canvasHeight;
+
+  this.boardPanelElements.menuButton.innerText = '◀︎';
+  this.boardPanelElements.menuButton.title = 'Go to menu';
+  this.boardPanelElements.pauseButton.innerText = '▌▌';
+  this.boardPanelElements.pauseButton.title = 'Pause';
 
   if (this.difficulty.id !== 1) {
     this.boardPanelElements.time.style.visibility = 'visible';
@@ -71,49 +118,15 @@ function renderGameWindow(): void {
   boardPanel.appendChild(this.boardPanelElements.lives);
   boardPanel.appendChild(this.boardPanelElements.score);
   gameWindow.appendChild(boardGrid);
-
-  Draw.createCanvas(
-    'staticCanvas',
-    boardGrid,
-    { className: '-static-canvas', width: canvasWidth, height: canvasHeight }
-  );
-
-  Draw.createCanvas(
-    'goalCanvas',
-    boardGrid,
-    { className: '-goal-canvas', width: canvasWidth, height: canvasHeight }
-  );
-
-  Draw.createCanvas(
-    'wandCanvas',
-    boardGrid,
-    { className: '-wand-canvas', width: canvasWidth, height: canvasHeight }
-  );
-
-  Draw.createCanvas(
-    'obstaclesCanvas',
-    boardGrid,
-    { className: '-obstacles-canvas', width: canvasWidth, height: canvasHeight }
-  );
-
-  Draw.createCanvas(
-    'labelsCanvas',
-    boardGrid,
-    { className: '-labels-canvas', width: canvasWidth, height: canvasHeight }
-  );
+  boardGrid.appendChild(this.staticCanvas);
+  boardGrid.appendChild(this.goalCanvas);
+  boardGrid.appendChild(this.wandCanvas);
+  boardGrid.appendChild(this.obstaclesCanvas);
+  boardGrid.appendChild(this.labelsCanvas);
 
   if (this.level.doors) {
-    Draw.createCanvas(
-      'doorsCanvas',
-      boardGrid,
-      { className: '-doors-canvas', width: canvasWidth, height: canvasHeight }
-    );
-
-    Draw.createCanvas(
-      'switchersCanvas',
-      boardGrid,
-      { className: '-switchers-canvas', width: canvasWidth, height: canvasHeight }
-    );
+    boardGrid.appendChild(this.doorsCanvas);
+    boardGrid.appendChild(this.switchersCanvas);
   }
 
   if (this.level.wand) {
@@ -123,14 +136,15 @@ function renderGameWindow(): void {
   if (this.level.enemies) {
     for (let i = 0; i < this.level.enemies.length; i += 1) {
       const enemy: IWand & IEnemy = this.level.enemies[i];
+      const enemyCanvas: HTMLCanvasElement = document.createElement('canvas');
 
-      Draw.createCanvas(
-        `enemyCanvas${enemy.id}`,
-        boardGrid,
-        { className: '-enemy-canvas', width: canvasWidth, height: canvasHeight }
-      );
+      enemyCanvas.className = '-enemy-canvas';
+      enemyCanvas.width = canvasWidth;
+      enemyCanvas.height = canvasHeight;
 
-      animateEnemyWand.call(this, `enemyCanvas${enemy.id}`, enemy.id);
+      boardGrid.appendChild(enemyCanvas);
+
+      animateEnemyWand.call(this, enemyCanvas.getContext('2d'), enemy.id);
     }
   }
 
@@ -142,7 +156,7 @@ function renderGameWindow(): void {
  * for the current level, including dots, walls, doors, enemies, obstacles,
  * and the goal
  */
-function renderLevelMap(): void {
+function renderLevelMap() {
   const { map, bonus, doors, hyperdots } = this.level;
 
   for (let y = 0; y < map.length; y += 1) {
@@ -150,315 +164,267 @@ function renderLevelMap(): void {
       const objectType: number = map[y][x];
 
       if (objectType !== undefined && objectType !== MapDefinitions.Empty) {
+        const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+        const obstaclesCtx: CanvasRenderingContext2D = this.obstaclesCanvas.getContext('2d');
         const top: number = this.cellSize + this.cellSize * y;
         const left: number = this.cellSize + this.cellSize * x;
         const dotX: number = left + this.cellSize / 2;
         const dotY: number = top + this.cellSize / 2;
-
-        const wallLineOptions: DrawLineToAngleOptions = {
-          lineColor: ELEMENTS_COLORS.wall.background,
-          lineWidth: WALL_WIDTH,
-        };
 
         switch (objectType) {
           // ----------------------------------------------------------------
           //                            DOTS
           // ----------------------------------------------------------------
           case MapDefinitions.DotRegular: {
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                fillColor: ELEMENTS_COLORS.dotRegular.background,
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotRegular.border,
-              },
+              ELEMENTS_COLORS.dotRegular.background,
+              2,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
           case MapDefinitions.DotRed: {
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                fillColor: ELEMENTS_COLORS.dotRed.background,
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotRed.border,
-              },
+              ELEMENTS_COLORS.dotRed.background,
+              2,
+              ELEMENTS_COLORS.dotRed.border,
             );
             break;
           }
           case MapDefinitions.DotBlue: {
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                fillColor: ELEMENTS_COLORS.dotBlue.background,
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotBlue.border,
-              },
+              ELEMENTS_COLORS.dotBlue.background,
+              2,
+              ELEMENTS_COLORS.dotBlue.border,
             );
             break;
           }
           case MapDefinitions.DotYellow: {
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                fillColor: ELEMENTS_COLORS.dotYellow.background,
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotYellow.border,
-              },
+              ELEMENTS_COLORS.dotYellow.background,
+              2,
+              ELEMENTS_COLORS.dotYellow.border,
             );
             break;
           }
           case MapDefinitions.DotRedBlue: {
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI,
               0,
-              {
-                fillColor: ELEMENTS_COLORS.dotRed.background,
-              },
+              ELEMENTS_COLORS.dotRed.background,
             );
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               0,
               Math.PI,
-              {
-                fillColor: ELEMENTS_COLORS.dotBlue.background,
-              },
+              ELEMENTS_COLORS.dotBlue.background,
             );
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotRegular.border,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
           case MapDefinitions.DotRedYellow: {
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI,
               0,
-              {
-                fillColor: ELEMENTS_COLORS.dotRed.background,
-              },
+              ELEMENTS_COLORS.dotRed.background,
             );
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               0,
               Math.PI,
-              {
-                fillColor: ELEMENTS_COLORS.dotYellow.background,
-              },
+              ELEMENTS_COLORS.dotYellow.background,
             );
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotRegular.border,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
           case MapDefinitions.DotBlueYellow: {
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI,
               0,
-              {
-                fillColor: ELEMENTS_COLORS.dotBlue.background,
-              },
+              ELEMENTS_COLORS.dotBlue.background,
             );
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               0,
               Math.PI,
-              {
-                fillColor: ELEMENTS_COLORS.dotYellow.background,
-              },
+              ELEMENTS_COLORS.dotYellow.background,
             );
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotRegular.border,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
           case MapDefinitions.DotRedBlueYellow: {
-            Draw.sector(
-              'staticCanvas',
+            drawSector(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               0,
               Math.PI * 2 / 3,
-              {
-                fillColor: ELEMENTS_COLORS.dotRed.background,
-              },
+              ELEMENTS_COLORS.dotRed.background,
             );
-            Draw.sector(
-              'staticCanvas',
+            drawSector(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI * 2 / 3,
               Math.PI * 4 / 3,
-              {
-                fillColor: ELEMENTS_COLORS.dotBlue.background,
-              },
+              ELEMENTS_COLORS.dotBlue.background,
             );
-            Draw.sector(
-              'staticCanvas',
+            drawSector(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI * 4 / 3,
               0,
-              {
-                fillColor: ELEMENTS_COLORS.dotYellow.background,
-              },
+              ELEMENTS_COLORS.dotYellow.background,
             );
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotRegular.border,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
           case MapDefinitions.Slowdown: {
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                fillColor: ELEMENTS_COLORS.board.background,
-              },
+              ELEMENTS_COLORS.board.background,
             );
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI * 0.5 - Math.PI * 2 / 3,
               Math.PI * 0.5,
-              {
-                fillColor: ELEMENTS_COLORS.dotRegular.background,
-              },
+              ELEMENTS_COLORS.dotRegular.background,
             );
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI * 0.5,
               Math.PI * 0.5 + Math.PI * 2 / 3,
-              {
-                fillColor: ELEMENTS_COLORS.dotRegular.background,
-              },
+              ELEMENTS_COLORS.dotRegular.background,
             );
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI * 0.5 + Math.PI * 2 / 3,
               Math.PI * 0.5 + Math.PI * 4 / 3,
-              {
-                fillColor: ELEMENTS_COLORS.dotRegular.background,
-              },
+              ELEMENTS_COLORS.dotRegular.background,
             );
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotRegular.border,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotRegular.border,
             );
             break;
           }
           case MapDefinitions.WayStation: {
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                fillColor: ELEMENTS_COLORS.dotRegular.background,
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotRegular.border,
-              },
+              ELEMENTS_COLORS.dotRegular.background,
+              2,
+              ELEMENTS_COLORS.dotRegular.border,
             );
-            Draw.lineToAngle(
-              'staticCanvas',
+            drawLineToAngle(
+              staticCtx,
               dotX - this.cellSize / 5,
               dotY,
               this.cellSize * 2 / 5,
               0,
-              {
-                lineColor: ELEMENTS_COLORS.dotRegular.border,
-                lineWidth: 2,
-              },
+              ELEMENTS_COLORS.dotRegular.border,
+              2,
             );
-            Draw.lineToAngle(
-              'staticCanvas',
+            drawLineToAngle(
+              staticCtx,
               dotX,
               dotY - this.cellSize / 5,
               this.cellSize * 2 / 5,
               90,
-              {
-                lineColor: ELEMENTS_COLORS.dotRegular.border,
-                lineWidth: 2,
-              },
+              ELEMENTS_COLORS.dotRegular.border,
+              2,
             );
             break;
           }
@@ -466,215 +432,189 @@ function renderLevelMap(): void {
           //                            RINGS
           // ----------------------------------------------------------------
           case MapDefinitions.RingRegular: {
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                fillColor: ELEMENTS_COLORS.ringRegular.background,
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.ringRegular.border,
-              },
+              ELEMENTS_COLORS.ringRegular.background,
+              2,
+              ELEMENTS_COLORS.ringRegular.border,
             );
             break;
           }
           case MapDefinitions.RingRed: {
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                fillColor: ELEMENTS_COLORS.ringRed.background,
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.ringRed.border,
-              },
+              ELEMENTS_COLORS.ringRed.background,
+              2,
+              ELEMENTS_COLORS.ringRed.border,
             );
             break;
           }
           case MapDefinitions.RingBlue: {
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                fillColor: ELEMENTS_COLORS.ringBlue.background,
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.ringBlue.border,
-              },
+              ELEMENTS_COLORS.ringBlue.background,
+              2,
+              ELEMENTS_COLORS.ringBlue.border,
             );
             break;
           }
           case MapDefinitions.RingYellow: {
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
-              {
-                fillColor: ELEMENTS_COLORS.ringYellow.background,
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.ringYellow.border,
-              },
+              ELEMENTS_COLORS.ringYellow.background,
+              2,
+              ELEMENTS_COLORS.ringYellow.border,
             );
             break;
           }
           case MapDefinitions.RingRedBlue: {
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI,
               0,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotRed.background,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotRed.background,
             );
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               0,
               Math.PI,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotBlue.background,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotBlue.background,
             );
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
-              {
-                fillColor: ELEMENTS_COLORS.ringRegular.background,
-              },
-
+              ELEMENTS_COLORS.ringRegular.background,
             );
             break;
           }
           case MapDefinitions.RingRedYellow: {
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI,
               0,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotRed.background,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotRed.background,
             );
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               0,
               Math.PI,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotYellow.background,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotYellow.background,
             );
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
-              {
-                fillColor: ELEMENTS_COLORS.ringRegular.background,
-              },
+              ELEMENTS_COLORS.ringRegular.background,
             );
             break;
           }
           case MapDefinitions.RingBlueYellow: {
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI,
               0,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotBlue.background,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotBlue.background,
             );
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               0,
               Math.PI,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotYellow.background,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotYellow.background,
             );
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
-              {
-                fillColor: ELEMENTS_COLORS.ringRegular.background,
-              },
+              ELEMENTS_COLORS.ringRegular.background,
             );
             break;
           }
           case MapDefinitions.RingRedBlueYellow: {
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               0,
               Math.PI * 2 / 3,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotRed.background,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotRed.background,
             );
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI * 2 / 3,
               Math.PI * 4 / 3,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotBlue.background,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotBlue.background,
             );
-            Draw.arc(
-              'staticCanvas',
+            drawArc(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5,
               Math.PI * 4 / 3,
               0,
-              {
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.dotYellow.background,
-              },
+              null,
+              2,
+              ELEMENTS_COLORS.dotYellow.background,
             );
-            Draw.circle(
-              'staticCanvas',
+            drawCircle(
+              staticCtx,
               dotX,
               dotY,
               this.cellSize / 5 - 2,
-              {
-                fillColor: ELEMENTS_COLORS.ringRegular.background,
-              },
+              ELEMENTS_COLORS.ringRegular.background,
             );
             break;
           }
@@ -682,239 +622,263 @@ function renderLevelMap(): void {
           //                            WALLS
           // ----------------------------------------------------------------
           case MapDefinitions.WallHorizontal: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallVertical: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallHorizontalHalfLeft: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize / 2 + this.cellSize / 4,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallHorizontalHalfRight: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 4,
               top + this.cellSize / 2,
               this.cellSize / 2 + this.cellSize / 4,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallVerticalHalfBottom: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top + this.cellSize / 2 - this.cellSize / 4,
               this.cellSize / 2 + this.cellSize / 4,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallVerticalHalfTop: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize / 2 + this.cellSize / 4,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallTopLeftCorner: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2 - WALL_WIDTH / 2,
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
               this.cellSize / 2,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallTopRightCorner: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
               this.cellSize / 2,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallBottomRightCorner: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize / 2,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallBottomLeftCorner: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize / 2,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2 - WALL_WIDTH / 2,
               top + this.cellSize / 2,
               this.cellSize / 2 + WALL_WIDTH / 2,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallHorizontalToBottom: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
               this.cellSize / 2,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallHorizontalToTop: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize / 2,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallVerticalToRight: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top + this.cellSize / 2,
               this.cellSize / 2,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallVerticalToLeft: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize / 2,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
           case MapDefinitions.WallX: {
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left,
               top + this.cellSize / 2,
               this.cellSize,
               0,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
-            this.wallsCoords.push(Draw.lineToAngle(
-              'staticCanvas',
+            this.wallsCoords.push(drawLineToAngle(
+              staticCtx,
               left + this.cellSize / 2,
               top,
               this.cellSize,
               90,
-              wallLineOptions,
+              ELEMENTS_COLORS.wall.background,
+              WALL_WIDTH,
             ));
             break;
           }
@@ -924,6 +888,7 @@ function renderLevelMap(): void {
           case MapDefinitions.DoorSwitcherBlue:
           case MapDefinitions.DoorSwitcherRed:
           case MapDefinitions.DoorSwitcherYellow: {
+            const switchersCtx: CanvasRenderingContext2D = this.switchersCanvas.getContext('2d');
             const colorMap: {[key: number]: string} = {
               [MapDefinitions.DoorSwitcherBlue]: ELEMENTS_COLORS.pillars.blue,
               [MapDefinitions.DoorSwitcherRed]: ELEMENTS_COLORS.pillars.red,
@@ -935,28 +900,24 @@ function renderLevelMap(): void {
               [MapDefinitions.DoorSwitcherYellow]: 'yellow',
             };
 
-            Draw.circle(
-              'switchersCanvas',
+            drawCircle(
+              switchersCtx,
               dotX,
               dotY,
               this.cellSize / 3,
-              {
-                fillColor: ELEMENTS_COLORS.switcher.background,
-                edgingWidth: 2,
-                edgingColor: ELEMENTS_COLORS.switcher.border,
-              },
+              ELEMENTS_COLORS.switcher.background,
+              2,
+              ELEMENTS_COLORS.switcher.border,
             );
-            Draw.rectangle(
-              'switchersCanvas',
+            drawRectangle(
+              switchersCtx,
               dotX - this.cellSize / 10,
               dotY - this.cellSize / 10,
               this.cellSize / 5,
               this.cellSize / 5,
-              {
-                fillColor: colorMap[objectType],
-                edgingWidth: 1,
-                edgingColor: ELEMENTS_COLORS.switcher.innerBorder,
-              },
+              colorMap[objectType],
+              1,
+              ELEMENTS_COLORS.switcher.innerBorder,
             );
 
             this.switchersCoords.push({
@@ -969,24 +930,21 @@ function renderLevelMap(): void {
           //                            SPIKES
           // ----------------------------------------------------------------
           case MapDefinitions.SpikeRegular: {
-            Draw.circle(
-              'obstaclesCanvas',
+            drawCircle(
+              obstaclesCtx,
               dotX,
               dotY,
               this.cellSize / 10,
-              {
-                fillColor: ELEMENTS_COLORS.spike.background,
-              },
+              ELEMENTS_COLORS.spike.background,
             );
-            Draw.circle(
-              'obstaclesCanvas',
+            drawCircle(
+              obstaclesCtx,
               dotX - 1,
               dotY - 1,
               this.cellSize / 15,
-              {
-                fillColor: ELEMENTS_COLORS.bonus.innerCircle,
-                edgingWidth: 2,
-              },
+              ELEMENTS_COLORS.bonus.innerCircle,
+              2,
+              null,
             );
 
             this.spikesCoords.push([
@@ -998,23 +956,19 @@ function renderLevelMap(): void {
             break;
           }
           case MapDefinitions.SpikeShiftedXRight: {
-            Draw.circle(
-              'obstaclesCanvas',
+            drawCircle(
+              obstaclesCtx,
               dotX + this.cellSize / 1.5,
               dotY,
               this.cellSize / 10,
-              {
-                fillColor: ELEMENTS_COLORS.spike.background,
-              },
+              ELEMENTS_COLORS.spike.background,
             );
-            Draw.circle(
-              'obstaclesCanvas',
+            drawCircle(
+              obstaclesCtx,
               dotX + this.cellSize / 1.5 - 1,
               dotY - 1,
               this.cellSize / 15,
-              {
-                fillColor: ELEMENTS_COLORS.bonus.innerCircle,
-              },
+              ELEMENTS_COLORS.bonus.innerCircle,
             );
 
             this.spikesCoords.push([
@@ -1026,23 +980,19 @@ function renderLevelMap(): void {
             break;
           }
           case MapDefinitions.SpikeShiftedYBottom: {
-            Draw.circle(
-              'obstaclesCanvas',
+            drawCircle(
+              obstaclesCtx,
               dotX,
               dotY + this.cellSize / 1.5,
               this.cellSize / 10,
-              {
-                fillColor: ELEMENTS_COLORS.spike.background,
-              },
+              ELEMENTS_COLORS.spike.background,
             );
-            Draw.circle(
-              'obstaclesCanvas',
+            drawCircle(
+              obstaclesCtx,
               dotX - 1,
               dotY + this.cellSize / 1.5 - 1,
               this.cellSize / 15,
-              {
-                fillColor: ELEMENTS_COLORS.bonus.innerCircle,
-              },
+              ELEMENTS_COLORS.bonus.innerCircle,
             );
 
             this.spikesCoords.push([
@@ -1054,23 +1004,19 @@ function renderLevelMap(): void {
             break;
           }
           case MapDefinitions.SpikeShiftedXLeft: {
-            Draw.circle(
-              'obstaclesCanvas',
+            drawCircle(
+              obstaclesCtx,
               dotX - this.cellSize / 1.5,
               dotY,
               this.cellSize / 10,
-              {
-                fillColor: ELEMENTS_COLORS.spike.background,
-              },
+              ELEMENTS_COLORS.spike.background,
             );
-            Draw.circle(
-              'obstaclesCanvas',
+            drawCircle(
+              obstaclesCtx,
               dotX - this.cellSize / 1.5 - 1,
               dotY - 1,
               this.cellSize / 15,
-              {
-                fillColor: ELEMENTS_COLORS.bonus.innerCircle,
-              },
+              ELEMENTS_COLORS.bonus.innerCircle,
             );
 
             this.spikesCoords.push([
@@ -1082,23 +1028,19 @@ function renderLevelMap(): void {
             break;
           }
           case MapDefinitions.SpikeShiftedYTop: {
-            Draw.circle(
-              'obstaclesCanvas',
+            drawCircle(
+              obstaclesCtx,
               dotX,
               dotY - this.cellSize / 1.5,
               this.cellSize / 10,
-              {
-                fillColor: ELEMENTS_COLORS.spike.background,
-              },
+              ELEMENTS_COLORS.spike.background,
             );
-            Draw.circle(
-              'obstaclesCanvas',
+            drawCircle(
+              obstaclesCtx,
               dotX - 1,
               dotY - this.cellSize / 1.5 - 1,
               this.cellSize / 15,
-              {
-                fillColor: ELEMENTS_COLORS.bonus.innerCircle,
-              },
+              ELEMENTS_COLORS.bonus.innerCircle,
             );
 
             this.spikesCoords.push([
@@ -1113,16 +1055,12 @@ function renderLevelMap(): void {
           //                            OTHER
           // ----------------------------------------------------------------
           case MapDefinitions.Hourglass: {
-            const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
-              'obstaclesCanvas'
-            ) as CanvasRenderingContext2D;
+            obstaclesCtx.font = BONUS_SIZE_LABEL_FONT;
+            obstaclesCtx.fillStyle = ELEMENTS_COLORS.label.background;
+            obstaclesCtx.textAlign = 'center';
+            obstaclesCtx.textBaseline = 'middle';
 
-            ctx.font = BONUS_SIZE_LABEL_FONT;
-            ctx.fillStyle = ELEMENTS_COLORS.label.background;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-
-            ctx.fillText('⌛', dotX, dotY);
+            obstaclesCtx.fillText('⌛', dotX, dotY);
 
             this.hourglassesCoords.push({
               id: this.hourglassesCoords.length + 1,
@@ -1164,36 +1102,36 @@ function renderLevelMap(): void {
 /**
  * Function renders bonus points on the game board (if applicable)
  */
-function renderBonus(): void {
-  this.level.bonus.map((bonus: IBonus): void => {
+function renderBonus() {
+  const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+
+  this.level.bonus.map((bonus: IBonus) => {
     const bonusX: number = this.cellSize + this.cellSize * (bonus.position[1] + 1) + this.cellSize / 2;
     const bonusY: number = this.cellSize + this.cellSize * (bonus.position[0] + 1) + this.cellSize / 2;
 
-    Draw.circle(
-      'staticCanvas',
+    drawCircle(
+      ctx,
       bonusX,
       bonusY,
       this.cellSize / 5,
-      {
-        fillColor: ELEMENTS_COLORS.bonus.background,
-        edgingWidth: 2,
-        edgingColor: ELEMENTS_COLORS.bonus.background,
-      },
+      ELEMENTS_COLORS.bonus.background,
+      2,
+      ELEMENTS_COLORS.bonus.border,
     );
-    Draw.circle(
-      'staticCanvas',
+    drawCircle(
+      ctx,
       bonusX - 1,
       bonusY - 1,
       this.cellSize / 12,
-      {
-        fillColor: ELEMENTS_COLORS.bonus.innerCircle,
-      },
+      ELEMENTS_COLORS.bonus.innerCircle,
+      2,
+      null,
     );
   });
 
   if (this.levelExtra.bonus) {
-    this.levelExtra.bonus.map((bonusId: number): void => {
-      this.level.bonus = this.level.bonus.filter((item: IBonus): boolean => item.id !== bonusId);
+    this.levelExtra.bonus.map((bonusId: number) => {
+      this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonusId);
     });
   }
 }
@@ -1201,52 +1139,53 @@ function renderBonus(): void {
 /**
  * Function initially renders all pillars and doors on the game board (if applicable)
  */
-function renderDoors(): void {
+function renderDoors() {
+  const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+
   for (const door of this.level.doors) {
     const top: number = this.cellSize + this.cellSize * (door.position[0] + 1);
     const left: number = this.cellSize + this.cellSize * (door.position[1] + 1);
 
-    const pillarLineOptions: DrawLineToAngleOptions = {
-      lineColor: ELEMENTS_COLORS.pillars[door.type],
-      lineWidth: PILLAR_WIDTH,
-    };
-
     switch (door.orientation) {
       case 'horizontal': {
-        Draw.lineToAngle(
-          'staticCanvas',
+        drawLineToAngle(
+          staticCtx,
           left - this.cellSize - this.cellSize / 2 - 2,
           top + this.cellSize / 2,
           this.cellSize / 2,
           0,
-          pillarLineOptions,
+          ELEMENTS_COLORS.pillars[door.type],
+          PILLAR_WIDTH,
         );
-        Draw.lineToAngle(
-          'staticCanvas',
+        drawLineToAngle(
+          staticCtx,
           left + this.cellSize * 2 + 2,
           top + this.cellSize / 2,
           this.cellSize / 2,
           0,
-          pillarLineOptions,
+          ELEMENTS_COLORS.pillars[door.type],
+          PILLAR_WIDTH,
         );
         break;
       }
       case 'vertical': {
-        Draw.lineToAngle(
-          'staticCanvas',
+        drawLineToAngle(
+          staticCtx,
           left + this.cellSize / 2,
           top - this.cellSize - this.cellSize / 2 - 2,
           this.cellSize / 2,
           90,
-          pillarLineOptions,
+          ELEMENTS_COLORS.pillars[door.type],
+          PILLAR_WIDTH,
         );
-        Draw.lineToAngle(
-          'staticCanvas',
+        drawLineToAngle(
+          staticCtx,
           left + this.cellSize / 2,
           top + this.cellSize * 2 + 2,
           this.cellSize / 2,
           90,
-          pillarLineOptions,
+          ELEMENTS_COLORS.pillars[door.type],
+          PILLAR_WIDTH,
         );
         break;
       }
@@ -1265,22 +1204,14 @@ function renderDoors(): void {
  * @param door
  * @param doorWidth
  */
-function renderDoor(door: IDoor, doorWidth?: number): void {
-  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
-    'doorsCanvas'
-  ) as CanvasRenderingContext2D;
-
+function renderDoor(door: IDoor, doorWidth?: number) {
+  const doorsCtx: CanvasRenderingContext2D = this.doorsCanvas.getContext('2d');
   const top: number = this.cellSize + this.cellSize * (door.position[0] + 1);
   const left: number = this.cellSize + this.cellSize * (door.position[1] + 1);
 
-  const doorLineOptions: DrawLineToAngleOptions = {
-    lineColor: ELEMENTS_COLORS.door.background,
-    lineWidth: DOOR_WIDTH,
-  };
+  this.doorsCoords = this.doorsCoords.filter((item: IDoorCoords) => item.id !== door.id);
 
-  this.doorsCoords = this.doorsCoords.filter((item: IDoorCoords): boolean => item.id !== door.id);
-
-  ctx.clearRect(
+  doorsCtx.clearRect(
     left - this.cellSize,
     top - this.cellSize,
     this.cellSize * 3,
@@ -1292,21 +1223,23 @@ function renderDoor(door: IDoor, doorWidth?: number): void {
       this.doorsCoords.push({
         id: door.id,
         coords: {
-          left: Draw.lineToAngle(
-            'doorsCanvas',
+          left: drawLineToAngle(
+            doorsCtx,
             left - this.cellSize - 2,
             top + this.cellSize / 2,
             doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
             0,
-            doorLineOptions,
+            ELEMENTS_COLORS.door.background,
+            DOOR_WIDTH,
           ),
-          right: Draw.lineToAngle(
-            'doorsCanvas',
+          right: drawLineToAngle(
+            doorsCtx,
             left + this.cellSize * 2 + 2,
             top + this.cellSize / 2,
             doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
             180,
-            doorLineOptions,
+            ELEMENTS_COLORS.door.background,
+            DOOR_WIDTH,
           ),
         },
       });
@@ -1316,21 +1249,23 @@ function renderDoor(door: IDoor, doorWidth?: number): void {
       this.doorsCoords.push({
         id: door.id,
         coords: {
-          left: Draw.lineToAngle(
-            'doorsCanvas',
+          left: drawLineToAngle(
+            doorsCtx,
             left + this.cellSize / 2,
             top - this.cellSize - 2,
             doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
             90,
-            doorLineOptions,
+            ELEMENTS_COLORS.door.background,
+            DOOR_WIDTH,
           ),
-          right: Draw.lineToAngle(
-            'doorsCanvas',
+          right: drawLineToAngle(
+            doorsCtx,
             left + this.cellSize / 2,
             top + this.cellSize * 2 + 2,
             doorWidth || this.cellSize * 2 - this.cellSize / 2 - 2,
             270,
-            doorLineOptions,
+            ELEMENTS_COLORS.door.background,
+            DOOR_WIDTH,
           ),
         },
       });
@@ -1344,119 +1279,115 @@ function renderDoor(door: IDoor, doorWidth?: number): void {
  * Function renders all hyperdots on the game board (if applicable);
  * each of five hyperdots' types has its own distinguishing symbol
  */
-function renderHyperdots(): void {
-  const hyperDotActiveOptions: DrawCircleOptions = {
-    fillColor: ELEMENTS_COLORS.hyperdot.dotsActive,
-  };
+function renderHyperdots() {
+  const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
 
-  this.level.hyperdots.map((hyperdot: IHyperdot): void => {
+  this.level.hyperdots.map((hyperdot: IHyperdot) => {
     const top: number = this.cellSize + this.cellSize * (hyperdot.position[0] + 1);
     const left: number = this.cellSize + this.cellSize * (hyperdot.position[1] + 1);
     const dotX: number = left + this.cellSize / 2;
     const dotY: number = top + this.cellSize / 2;
 
-    Draw.circle(
-      'staticCanvas',
+    drawCircle(
+      staticCtx,
       dotX,
       dotY,
       this.cellSize / 5,
-      {
-        fillColor: ELEMENTS_COLORS.hyperdot.background,
-        edgingWidth: 2,
-        edgingColor: ELEMENTS_COLORS.hyperdot.border,
-      },
+      ELEMENTS_COLORS.hyperdot.background,
+      2,
+      ELEMENTS_COLORS.hyperdot.border,
     );
 
     switch (hyperdot.type) {
       case 1: {
-        Draw.circle(
-          'staticCanvas',
+        drawCircle(
+          staticCtx,
           dotX - this.cellSize / 20,
           dotY + this.cellSize / 20,
           1,
-          hyperDotActiveOptions,
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
-        Draw.circle(
-          'staticCanvas',
+        drawCircle(
+          staticCtx,
           dotX + this.cellSize / 20,
           dotY - this.cellSize / 20,
           1,
-          hyperDotActiveOptions,
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         break;
       }
       case 2: {
-        Draw.circle(
-          'staticCanvas',
+        drawCircle(
+          staticCtx,
           dotX - this.cellSize / 20 - 1,
           dotY,
           1,
-          hyperDotActiveOptions,
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
-        Draw.circle(
-          'staticCanvas',
+        drawCircle(
+          staticCtx,
           dotX + this.cellSize / 20 + 1,
           dotY,
           1,
-          hyperDotActiveOptions,
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         break;
       }
       case 3: {
-        Draw.circle(
-          'staticCanvas',
+        drawCircle(
+          staticCtx,
           dotX - this.cellSize / 20,
           dotY - this.cellSize / 20,
           1,
-          hyperDotActiveOptions,
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
-        Draw.circle(
-          'staticCanvas',
+        drawCircle(
+          staticCtx,
           dotX + this.cellSize / 20,
           dotY + this.cellSize / 20,
           1,
-          hyperDotActiveOptions,
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         break;
       }
       case 4: {
-        Draw.circle(
-          'staticCanvas',
+        drawCircle(
+          staticCtx,
           dotX,
           dotY - this.cellSize / 20 - 1,
           1,
-          hyperDotActiveOptions,
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
-        Draw.circle(
-          'staticCanvas',
+        drawCircle(
+          staticCtx,
           dotX,
           dotY + this.cellSize / 20 + 1,
           1,
-          hyperDotActiveOptions,
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         break;
       }
       case 5: {
-        Draw.circle(
-          'staticCanvas',
+        drawCircle(
+          staticCtx,
           dotX - this.cellSize / 20 - 2,
           dotY,
           1,
-          hyperDotActiveOptions,
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
-        Draw.circle(
-          'staticCanvas',
+        drawCircle(
+          staticCtx,
           dotX,
           dotY,
           1,
-          hyperDotActiveOptions,
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
-        Draw.circle(
-          'staticCanvas',
+        drawCircle(
+          staticCtx,
           dotX + this.cellSize / 20 + 2,
           dotY,
           1,
-          hyperDotActiveOptions,
+          ELEMENTS_COLORS.hyperdot.dotsActive
         );
         break;
       }
@@ -1469,7 +1400,7 @@ function renderHyperdots(): void {
  * Functions renders level number and its title as well as game counters (lives, score)
  * in the game panel
  */
-function renderPanelCounters(): void {
+function renderPanelCounters() {
   this.boardPanelElements.level.innerHTML = (`
     <div class="-id">${this.level.id}:</div>
     <div class="-title">${this.level.title}</div>

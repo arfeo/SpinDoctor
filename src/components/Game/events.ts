@@ -1,6 +1,42 @@
+import { Menu } from '../Menu';
+
+import { APP } from '../../constants/global';
 import { FunctionalKeys } from '../../constants/game';
 
 import { animateTimeTicker } from './animations';
+
+/**
+ * Function creates all game's event listeners
+ */
+function setUpEventHandlers() {
+  APP.eventListeners = {
+    onKeyDown: keyDownHandler.bind(this),
+    onKeyUp: keyUpHandler.bind(this),
+  };
+
+  setActiveKey.call(this);
+
+  document.body.addEventListener('keydown', APP.eventListeners.onKeyDown);
+  document.body.addEventListener('keyup', APP.eventListeners.onKeyUp);
+
+  this.boardPanelElements.menuButton.addEventListener('click', () => {
+    this.destroy();
+
+    APP.pageInstance = new Menu();
+  });
+
+  this.boardPanelElements.pauseButton.addEventListener('click', () => {
+    onPauseGame.call(this);
+  });
+}
+
+/**
+ * Function removes all game's event listeners
+ */
+function removeEventHandlers() {
+  document.body.removeEventListener('keydown', APP.eventListeners.onKeyDown);
+  document.body.removeEventListener('keyup', APP.eventListeners.onKeyUp);
+}
 
 /**
  * Function fires at key down event
@@ -92,7 +128,6 @@ function onPauseGame(): void {
 }
 
 export {
-  keyDownHandler,
-  keyUpHandler,
-  onPauseGame,
+  setUpEventHandlers,
+  removeEventHandlers,
 };

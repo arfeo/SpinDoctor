@@ -1,7 +1,5 @@
-import { Draw, Maths, LineSegment } from 'gpt-ts';
-
 import { Game } from './index';
-import { GameOver } from './modals/GameOver';
+import { GameOver } from '../GameOver';
 
 import { APP } from '../../constants/global';
 import { GridDimensions, MapDefinitions, WAND_REBOUND } from '../../constants/game';
@@ -13,6 +11,12 @@ import {
   animateMapElementElimination,
   animateBonusSize,
 } from './animations';
+
+import {
+  lineSegmentIntersectsWithRect,
+  lineSegmentsIntersect,
+  pointOnLineSegment,
+} from '../../utils/math';
 
 import { renderPanelCounters } from './render';
 
@@ -26,12 +30,14 @@ import {
   IWand,
 } from '../../types/game';
 
+import { ILineSegment } from '../../types/utils';
+
 /**
  * Function checks the ability of the avatar wand to move to the next dot,
  * as well as checks the intersections with enemy wands and other objects on the game board
  * (e.g., walls, switchers, spikes, etc.)
  */
-function checkAvatarWand(): void {
+function checkAvatarWand() {
   const { flip, bounce, swing } = this.keysDown;
 
   if (checkAvatarWandIntersections.call(this)) {
@@ -130,8 +136,8 @@ function checkAvatarWand(): void {
  *
  * @param enemyId
  */
-function checkEnemyWand(enemyId: number): void {
-  const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy): boolean => item.id === enemyId);
+function checkEnemyWand(enemyId: number) {
+  const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
 
   checkEnemyWandIntersections.call(this, enemyId);
 
@@ -248,7 +254,7 @@ function checkEnemyWand(enemyId: number): void {
     }
 
     this.level.enemies = [
-      ...this.level.enemies.filter((item: IWand & IEnemy): boolean => item.id !== enemy.id),
+      ...this.level.enemies.filter((item: IWand & IEnemy) => item.id !== enemy.id),
       enemy,
     ];
   }
@@ -261,7 +267,7 @@ function checkEnemyWand(enemyId: number): void {
  */
 function checkAvatarWandIntersections(): boolean {
   if (this.avatarWandCoords) {
-    const avatarWandSegment: LineSegment = {
+    const avatarWandSegment: ILineSegment = {
       start: {
         x: this.avatarWandCoords[0][0],
         y: this.avatarWandCoords[0][1],
@@ -276,7 +282,7 @@ function checkAvatarWandIntersections(): boolean {
     if (this.level.enemies && this.enemyWandsCoords) {
       for (const wand of this.enemyWandsCoords) {
         if (wand !== undefined) {
-          const enemyWandSegment: LineSegment = {
+          const enemyWandSegment: ILineSegment = {
             start: {
               x: wand.coords[0][0],
               y: wand.coords[0][1],
@@ -287,9 +293,9 @@ function checkAvatarWandIntersections(): boolean {
             },
           };
 
-          const isIntersectingWand: boolean = Maths.lineSegmentsIntersect(avatarWandSegment, enemyWandSegment);
+          const isIntersectingWand: boolean = lineSegmentsIntersect(avatarWandSegment, enemyWandSegment);
 
-          const isAvatarWandEndOnEnemy: boolean = Maths.pointOnLineSegment(
+          const isAvatarWandEndOnEnemy: boolean = pointOnLineSegment(
             enemyWandSegment,
             {
               x: avatarWandSegment.end.x,
@@ -310,7 +316,7 @@ function checkAvatarWandIntersections(): boolean {
       for (let i = 0; i < this.wallsCoords.length; i += 1) {
         const wall: number[][] = this.wallsCoords[i];
 
-        const isIntersectingWall: boolean = Maths.lineSegmentsIntersect(
+        const isIntersectingWall: boolean = lineSegmentsIntersect(
           avatarWandSegment,
           {
             start: {
@@ -336,7 +342,7 @@ function checkAvatarWandIntersections(): boolean {
       for (let i = 0; i < this.doorsCoords.length; i += 1) {
         const door: IDoorCoords = this.doorsCoords[i];
 
-        const isIntersectingLeftDoor: boolean = Maths.lineSegmentsIntersect(
+        const isIntersectingLeftDoor: boolean = lineSegmentsIntersect(
           avatarWandSegment,
           {
             start: {
@@ -350,7 +356,7 @@ function checkAvatarWandIntersections(): boolean {
           },
         );
 
-        const isIntersectingRightDoor: boolean = Maths.lineSegmentsIntersect(
+        const isIntersectingRightDoor: boolean = lineSegmentsIntersect(
           avatarWandSegment,
           {
             start: {
@@ -377,7 +383,7 @@ function checkAvatarWandIntersections(): boolean {
 
     // Door switchers
     for (let i = 0; i < this.switchersCoords.length; i += 1) {
-      const isSwitcherOnAvatarWand: boolean = Maths.pointOnLineSegment(
+      const isSwitcherOnAvatarWand: boolean = pointOnLineSegment(
         avatarWandSegment,
         {
           x: this.switchersCoords[i].coords[0],
@@ -397,23 +403,25 @@ function checkAvatarWandIntersections(): boolean {
 
     // Spikes
     for (const spike of this.spikesCoords) {
-      if (Maths.lineSegmentIntersectsWithRect(avatarWandSegment, spike)) {
+      if (lineSegmentIntersectsWithRect(avatarWandSegment, spike)) {
         return true;
       }
     }
 
     // Hourglasses
     for (const hourglass of this.hourglassesCoords) {
-      if (Maths.lineSegmentIntersectsWithRect(avatarWandSegment, hourglass.borders)) {
+      if (lineSegmentIntersectsWithRect(avatarWandSegment, hourglass.borders)) {
+        const obstaclesCtx: CanvasRenderingContext2D = this.obstaclesCanvas.getContext('2d');
+
         this.score += 1000;
         this.timeAvailable += 10;
 
-        this.hourglassesCoords = this.hourglassesCoords.filter((item: IHourglassCoords): boolean => {
+        this.hourglassesCoords = this.hourglassesCoords.filter((item: IHourglassCoords) => {
           return item.id !== hourglass.id;
         });
 
         animateBonusSize.call(this, { size: 1000, position: hourglass.coords });
-        animateMapElementElimination.call(this, 'obstaclesCanvas', hourglass.coords[1], hourglass.coords[0]);
+        animateMapElementElimination.call(this, obstaclesCtx, hourglass.coords[1], hourglass.coords[0]);
 
         renderPanelCounters.call(this);
 
@@ -431,13 +439,13 @@ function checkAvatarWandIntersections(): boolean {
  *
  * @param enemyId
  */
-function checkEnemyWandIntersections(enemyId: number): void {
-  const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy): boolean => item.id === enemyId);
-  const enemyCoords: IEnemyWandsCoords[] = this.enemyWandsCoords.filter((item: IEnemyWandsCoords): boolean => {
+function checkEnemyWandIntersections(enemyId: number) {
+  const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
+  const enemyCoords: IEnemyWandsCoords[] = this.enemyWandsCoords.filter((item: IEnemyWandsCoords) => {
     return item.id === enemyId;
   });
 
-  const enemyWandSegment: LineSegment = {
+  const enemyWandSegment: ILineSegment = {
     start: {
       x: enemyCoords[0].coords[0][0],
       y: enemyCoords[0].coords[0][1],
@@ -453,7 +461,7 @@ function checkEnemyWandIntersections(enemyId: number): void {
     for (let i = 0; i < this.wallsCoords.length; i += 1) {
       const wall: number[][] = this.wallsCoords[i];
 
-      const isIntersectingWall: boolean = Maths.lineSegmentsIntersect(
+      const isIntersectingWall: boolean = lineSegmentsIntersect(
         enemyWandSegment,
         {
           start: {
@@ -474,7 +482,7 @@ function checkEnemyWandIntersections(enemyId: number): void {
         enemy.angle += enemy.direction * WAND_REBOUND * speedCorrection;
 
         this.level.enemies = [
-          ...this.level.enemies.filter((item: IWand & IEnemy): boolean => item.id !== enemyId),
+          ...this.level.enemies.filter((item: IWand & IEnemy) => item.id !== enemyId),
           enemy,
         ];
       }
@@ -483,7 +491,7 @@ function checkEnemyWandIntersections(enemyId: number): void {
 
   // Door switchers
   for (let i = 0; i < this.switchersCoords.length; i += 1) {
-    const isSwitcherOnEnemyWand: boolean = Maths.pointOnLineSegment(
+    const isSwitcherOnEnemyWand: boolean = pointOnLineSegment(
       enemyWandSegment,
       {
         x: this.switchersCoords[i].coords[0],
@@ -509,7 +517,7 @@ function checkEnemyWandIntersections(enemyId: number): void {
  * @param dotX
  * @param dotY
  */
-function checkNextDot(dotType: number, dotX: number, dotY: number): void {
+function checkNextDot(dotType: number, dotX: number, dotY: number) {
   switch (dotType) {
     // Avatar wand grabs slowdown: all enemy wands move twice slower
     case 17: {
@@ -528,14 +536,14 @@ function checkNextDot(dotType: number, dotX: number, dotY: number): void {
 
   // Avatar wand grabs bonus
   if (this.level.bonus) {
-    const bonus: IBonus = this.level.bonus.find((item: IBonus): boolean => {
+    const bonus: IBonus = this.level.bonus.find((item: IBonus) => {
       return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
     });
 
     if (bonus) {
       this.levelExtra.bonus.push(bonus.id);
       this.score += bonus.size;
-      this.level.bonus = this.level.bonus.filter((item: IBonus): boolean => item.id !== bonus.id);
+      this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonus.id);
 
       animateBonusSize.call(this, bonus);
 
@@ -545,12 +553,12 @@ function checkNextDot(dotType: number, dotX: number, dotY: number): void {
 
   // Avatar wand grabs hyperdot
   if (this.level.hyperdots) {
-    const hyperdot: IHyperdot = this.level.hyperdots.find((item: IHyperdot): boolean => {
+    const hyperdot: IHyperdot = this.level.hyperdots.find((item: IHyperdot) => {
       return item.position[0] === (dotY - 1) && item.position[1] === (dotX - 1);
     });
 
     if (hyperdot) {
-      const pairHyperdot: IHyperdot = this.level.hyperdots.find((item: IHyperdot): boolean => {
+      const pairHyperdot: IHyperdot = this.level.hyperdots.find((item: IHyperdot) => {
         return item.type === hyperdot.type && item.id !== hyperdot.id;
       });
 
@@ -558,11 +566,7 @@ function checkNextDot(dotType: number, dotX: number, dotY: number): void {
         const canvasWidth: number = this.cellSize * (GridDimensions.Width + 2);
         const canvasHeight: number = this.cellSize * (GridDimensions.Height + 2);
 
-        const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
-          'wandCanvas'
-        ) as CanvasRenderingContext2D;
-
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        this.wandCanvas.getContext('2d').clearRect(0, 0, canvasWidth, canvasHeight);
 
         this.level.wand.position = [...pairHyperdot.position];
       }
@@ -589,7 +593,9 @@ function checkNextDot(dotType: number, dotX: number, dotY: number): void {
  * @param currDotX
  * @param currDotY
  */
-function checkRingLeaving(currDotX: number, currDotY: number): void {
+function checkRingLeaving(currDotX: number, currDotY: number) {
+  const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
+
   const ringsMap: number[] = [
     MapDefinitions.RingRegular,
     MapDefinitions.RingRed,
@@ -604,7 +610,7 @@ function checkRingLeaving(currDotX: number, currDotY: number): void {
   if (ringsMap.indexOf(this.level.map[currDotY + 1][currDotX + 1]) > - 1) {
     this.level.map[currDotY + 1][currDotX + 1] = 0;
 
-    animateMapElementElimination.call(this, 'staticCanvas', currDotX, currDotY);
+    animateMapElementElimination.call(this, staticCtx, currDotX, currDotY);
   }
 }
 
@@ -612,11 +618,11 @@ function checkRingLeaving(currDotX: number, currDotY: number): void {
  * Function checks whether it is possible to continue the game when the user fails the level;
  * if no lives left -- the game stops, if there is at least one life left -- the level restarts
  */
-function checkOnLevelFail(): void {
+function checkOnLevelFail() {
   this.lives -= 1;
   this.isGameStopped = true;
 
-  animateAvatarWandDeath.call(this).then((): void => {
+  animateAvatarWandDeath.call(this).then(() => {
     if (this.lives > 0) {
       this.destroy();
 
