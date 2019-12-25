@@ -11,7 +11,7 @@ class GameOver extends Modal {
     super(game);
   }
 
-  render() {
+  public render(): void {
     const gameOverLabel: HTMLElement = document.createElement('div');
     const gameOverSubmitContainer: HTMLElement = document.createElement('div');
     const gameOverSubmitRestart: HTMLButtonElement = document.createElement('button');

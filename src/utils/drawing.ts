@@ -17,7 +17,7 @@ function drawCircle(
   fillStyle?: string,
   edgingWidth?: number,
   edgingColor?: string,
-) {
+): void {
   drawArc(ctx, dotX, dotY, radius, 0, Math.PI * 2, fillStyle, edgingWidth, edgingColor);
 }
 
@@ -44,7 +44,7 @@ function drawSector(
   fillStyle?: string,
   edgingWidth?: number,
   edgingColor?: string,
-) {
+): void {
   ctx.beginPath();
   ctx.moveTo(dotX, dotY);
   ctx.arc(dotX, dotY, radius, startAngle, endAngle);
@@ -88,7 +88,7 @@ function drawArc(
   fillStyle?: string,
   edgingWidth?: number,
   edgingColor?: string,
-) {
+): void {
   ctx.beginPath();
   ctx.arc(cx, cy, radius, startAngle, endAngle);
 
@@ -168,7 +168,7 @@ function drawStar(
   fillStyle?: string,
   edgingWidth?: number,
   edgingColor?: string,
-) {
+): void {
   const step = Math.PI / spikes;
   let rotation: number = Math.PI / 2 * 3;
   let x: number = cx;
@@ -227,7 +227,7 @@ function drawRectangle(
   fillStyle?: string,
   edgingWidth?: number,
   edgingColor?: string,
-) {
+): void {
   if (fillStyle) {
     ctx.fillStyle = fillStyle;
 

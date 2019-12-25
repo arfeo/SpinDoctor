@@ -6,7 +6,7 @@ class Alert extends Modal {
     super(game, text, size);
   }
 
-  render() {
+  public render(): void {
     const alertLabel: HTMLElement = document.createElement('div');
     const alertSubmitContainer: HTMLElement = document.createElement('div');
     const alertSubmitClose: HTMLButtonElement = document.createElement('button');

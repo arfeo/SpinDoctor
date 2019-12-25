@@ -19,7 +19,7 @@ function getStorageData(key: string): any {
  * @param key
  * @param data
  */
-function saveStorageData(key: string, data: any) {
+function saveStorageData(key: string, data: any): void {
   try {
     window.localStorage.setItem(`${APP.storagePrefix}-${key}`, JSON.stringify(data));
   } catch (error) {
@@ -32,7 +32,7 @@ function saveStorageData(key: string, data: any) {
  *
  * @param key
  */
-function removeStorageData(key: string) {
+function removeStorageData(key: string): void {
   try {
     window.localStorage.removeItem(`${APP.storagePrefix}-${key}`);
   } catch (error) {

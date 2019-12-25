@@ -24,48 +24,47 @@ import {
   IDoorCoords,
   IEnemyWandsCoords,
   IKeysDown,
+  IDifficulty,
   ILevel,
   ISwitcherCoords,
   IHourglassCoords,
 } from '../../types/game';
 
-import { IDifficulty } from '../../types/global';
-
 class Game {
-  level: ILevel;
-  lives: number;
-  score: number;
-  difficulty: IDifficulty;
-  timeAvailable: number;
-  levelExtra: ILevelExtra;
-  cellSize: number;
-  boardPanelElements: IBoardPanel;
-  staticCanvas: HTMLCanvasElement;
-  goalCanvas: HTMLCanvasElement;
-  wandCanvas: HTMLCanvasElement;
-  doorsCanvas: HTMLCanvasElement;
-  switchersCanvas: HTMLCanvasElement;
-  obstaclesCanvas: HTMLCanvasElement;
-  labelsCanvas: HTMLCanvasElement;
-  keysDown: IKeysDown;
-  isTimeTickerOn: boolean;
-  isGameStopped: boolean;
-  isSwitcherActive: boolean;
-  goalPosition: number[];
-  animateGoal: number;
-  animateAvatarWand: number;
-  animateEnemyWand: number[];
-  animateTimeTicker: number;
-  avatarWandCoords: number[][];
-  enemyWandsCoords: IEnemyWandsCoords[];
-  wallsCoords: number[][];
-  doorsCoords: IDoorCoords[];
-  switchersCoords: ISwitcherCoords[];
-  spikesCoords: number[][];
-  hourglassesCoords: IHourglassCoords[];
-  enemiesSpeedCorrection: number;
+  protected level: ILevel;
+  protected lives: number;
+  protected score: number;
+  protected difficulty: IDifficulty;
+  protected timeAvailable: number;
+  protected levelExtra: ILevelExtra;
+  protected cellSize: number;
+  protected boardPanelElements: IBoardPanel;
+  protected staticCanvas: HTMLCanvasElement;
+  protected goalCanvas: HTMLCanvasElement;
+  protected wandCanvas: HTMLCanvasElement;
+  protected doorsCanvas: HTMLCanvasElement;
+  protected switchersCanvas: HTMLCanvasElement;
+  protected obstaclesCanvas: HTMLCanvasElement;
+  protected labelsCanvas: HTMLCanvasElement;
+  protected keysDown: IKeysDown;
+  protected isTimeTickerOn: boolean;
+  protected isGameStopped: boolean;
+  protected isSwitcherActive: boolean;
+  protected goalPosition: number[];
+  protected animateGoal: number;
+  protected animateAvatarWand: number;
+  protected animateEnemyWand: number[];
+  protected animateTimeTicker: number;
+  protected avatarWandCoords: number[][];
+  protected enemyWandsCoords: IEnemyWandsCoords[];
+  protected wallsCoords: number[][];
+  protected doorsCoords: IDoorCoords[];
+  protected switchersCoords: ISwitcherCoords[];
+  protected spikesCoords: number[][];
+  protected hourglassesCoords: IHourglassCoords[];
+  protected enemiesSpeedCorrection: number;
 
-  constructor(level = 1, lives = 4, score = 0, difficulty = 1, levelExtra: ILevelExtra = { bonus: [], station: [] }) {
+  public constructor(level = 1, lives = 4, score = 0, difficulty = 1, levelExtra: ILevelExtra = { bonus: [], station: [] }) {
     this.level = JSON.parse(JSON.stringify(LEVELS.find((item: ILevel) => item.id === level)));
     this.lives = lives;
     this.score = score;
@@ -100,7 +99,7 @@ class Game {
     this.render();
   }
 
-  render() {
+  public render(): void {
     if (!validateLevel.call(this)) {
       return;
     }
@@ -112,7 +111,7 @@ class Game {
     setUpEventHandlers.call(this);
   }
 
-  destroy() {
+  public destroy(): void {
     removeEventHandlers.call(this);
 
     cancelAnimationFrame(this.animateAvatarWand);

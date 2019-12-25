@@ -3,14 +3,14 @@ import { Game } from '../../Game';
 import { removeEventHandlers, setUpEventHandlers } from '../../Game/events';
 
 abstract class Modal {
-  game: Game;
-  appRoot: HTMLElement;
-  modalContainer: HTMLElement;
-  mask: HTMLElement;
-  modalWindow: HTMLElement;
-  modalClose: HTMLElement;
-  modal: HTMLElement;
-  modalContent: string;
+  readonly game: Game;
+  protected appRoot: HTMLElement;
+  protected modalContainer: HTMLElement;
+  protected mask: HTMLElement;
+  protected modalWindow: HTMLElement;
+  protected modalClose: HTMLElement;
+  protected modal: HTMLElement;
+  protected modalContent: string;
   abstract render(): void;
 
   protected constructor(game: Game, text?: string, size?: 'large' | 'medium' | 'small') {
@@ -47,7 +47,7 @@ abstract class Modal {
     this.modalClose.addEventListener('click', this.close.bind(this));
   }
 
-  close(restoreHandlers = true) {
+  public close(restoreHandlers = true): void {
     this.modalContainer.remove();
 
     if (restoreHandlers) {

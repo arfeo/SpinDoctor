@@ -1,4 +1,5 @@
-import { IGlobals, IDifficulty } from '../types/global';
+import { IGlobals } from '../types/global';
+import { IDifficulty } from '../types/game';
 
 export const APP: IGlobals = {
   pageInstance: null,

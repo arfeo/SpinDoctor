@@ -37,7 +37,7 @@ import { ILineSegment } from '../../types/utils';
  * as well as checks the intersections with enemy wands and other objects on the game board
  * (e.g., walls, switchers, spikes, etc.)
  */
-function checkAvatarWand() {
+function checkAvatarWand(): boolean {
   const { flip, bounce, swing } = this.keysDown;
 
   if (checkAvatarWandIntersections.call(this)) {
@@ -136,7 +136,7 @@ function checkAvatarWand() {
  *
  * @param enemyId
  */
-function checkEnemyWand(enemyId: number) {
+function checkEnemyWand(enemyId: number): void {
   const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
 
   checkEnemyWandIntersections.call(this, enemyId);
@@ -439,7 +439,7 @@ function checkAvatarWandIntersections(): boolean {
  *
  * @param enemyId
  */
-function checkEnemyWandIntersections(enemyId: number) {
+function checkEnemyWandIntersections(enemyId: number): void {
   const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
   const enemyCoords: IEnemyWandsCoords[] = this.enemyWandsCoords.filter((item: IEnemyWandsCoords) => {
     return item.id === enemyId;
@@ -517,7 +517,7 @@ function checkEnemyWandIntersections(enemyId: number) {
  * @param dotX
  * @param dotY
  */
-function checkNextDot(dotType: number, dotX: number, dotY: number) {
+function checkNextDot(dotType: number, dotX: number, dotY: number): void {
   switch (dotType) {
     // Avatar wand grabs slowdown: all enemy wands move twice slower
     case 17: {
@@ -593,7 +593,7 @@ function checkNextDot(dotType: number, dotX: number, dotY: number) {
  * @param currDotX
  * @param currDotY
  */
-function checkRingLeaving(currDotX: number, currDotY: number) {
+function checkRingLeaving(currDotX: number, currDotY: number): void {
   const staticCtx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
 
   const ringsMap: number[] = [
@@ -618,7 +618,7 @@ function checkRingLeaving(currDotX: number, currDotY: number) {
  * Function checks whether it is possible to continue the game when the user fails the level;
  * if no lives left -- the game stops, if there is at least one life left -- the level restarts
  */
-function checkOnLevelFail() {
+function checkOnLevelFail(): void {
   this.lives -= 1;
   this.isGameStopped = true;
 

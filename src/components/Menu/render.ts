@@ -4,12 +4,12 @@ import { APP, DIFFICULTIES } from '../../constants/global';
 
 import { saveStorageData } from '../../utils/storage';
 
-import { IDifficulty } from '../../types/global';
+import { IDifficulty } from '../../types/game';
 
 /**
  * Function renders the menu window and adds all necessary event listeners
  */
-function renderMenuWindow() {
+function renderMenuWindow(): void {
   const appRoot: HTMLElement = document.getElementById('root');
   const menuWindow: HTMLElement = document.createElement('div');
   const playerBlock: HTMLElement = document.createElement('div');
@@ -48,25 +48,19 @@ function renderMenuWindow() {
 
   renderDifficultyOptions.call(this);
 
-  this.playerInput.addEventListener('input', (
-    element: HTMLInputElement & { target: { value: string } },
-    event: HTMLElementEventMap['input'],
-  ) => {
+  this.playerInput.addEventListener('input', ((element: HTMLInputElement & { target?: { value: string } }): void => {
     this.player = element.target.value;
 
     saveStorageData('player', this.player);
-  });
+  }) as any);
 
-  this.difficultySelect.addEventListener('change', (
-    element: HTMLInputElement & { target: { value: string } },
-    event: HTMLElementEventMap['change'],
-  ) => {
+  this.difficultySelect.addEventListener('change', ((element: HTMLInputElement & { target: { value: string } }) => {
     this.difficulty = parseInt(element.target.value, 10);
 
     saveStorageData('difficulty', this.difficulty);
-  });
+  }) as any);
 
-  playButton.addEventListener('click', () => {
+  playButton.addEventListener('click', (): void => {
     APP.pageInstance = new Game(1, 4, 0, this.difficulty);
   });
 }
@@ -74,7 +68,7 @@ function renderMenuWindow() {
 /**
  * Function renders the difficulty select's options list according to the corresponding constant
  */
-function renderDifficultyOptions() {
+function renderDifficultyOptions(): void {
   DIFFICULTIES.map((item: IDifficulty) => {
     const option: HTMLOptionElement = document.createElement('option');
 

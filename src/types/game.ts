@@ -15,6 +15,13 @@ export interface IKeysDown {
   pause: boolean;
 }
 
+export interface IDifficulty {
+  id: number;
+  title: string;
+  correction: number;
+  icon: string;
+}
+
 export interface ILevel {
   id: number;
   title: string;

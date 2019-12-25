@@ -4,10 +4,10 @@ import { renderMenuWindow } from './render';
 import { getStorageData } from '../../utils/storage';
 
 class Menu {
-  player: string;
-  difficulty: number;
-  playerInput: HTMLInputElement;
-  difficultySelect: HTMLSelectElement;
+  protected player: string;
+  protected difficulty: number;
+  protected playerInput: HTMLInputElement;
+  protected difficultySelect: HTMLSelectElement;
 
   constructor() {
     this.player = getStorageData('player') || '';
@@ -16,7 +16,7 @@ class Menu {
     this.render();
   }
 
-  render() {
+  public render(): void {
     renderMenuWindow.call(this);
   }
 }

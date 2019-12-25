@@ -11,18 +11,24 @@ import { drawCircle, drawLineToAngle, drawStar } from '../../utils/drawing';
 import { checkAvatarWand, checkEnemyWand, checkOnLevelFail } from './actions';
 import { secondsToString } from './utils';
 
-import { IBonus, IDoor, IEnemy, IEnemyWandsCoords, IWand } from '../../types/game';
+import {
+  IBonus,
+  IDoor,
+  IEnemy,
+  IEnemyWandsCoords,
+  IWand,
+} from '../../types/game';
 
 /**
  * Function animates the goal (rotating star-like object beneath a dot)
  */
-function animateGoal() {
+function animateGoal(): void {
   const goalPosX: number = this.cellSize + this.cellSize * (this.goalPosition[1] + 1);
   const goalPosY: number = this.cellSize + this.cellSize * (this.goalPosition[0] + 1);
   let start: number = performance.now();
   let goalAnimationStep = 0;
 
-  const animate = (time: number) => {
+  const animate = (time: number): number => {
     if (this.isGameStopped) {
       return this.animateGoal = requestAnimationFrame(animate);
     }
@@ -83,10 +89,10 @@ function animateGoal() {
 /**
  * Function animates the avatar wand
  */
-function animateAvatarWand() {
+function animateAvatarWand(): void {
   const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
 
-  const animate = () => {
+  const animate = (): number => {
     if (this.isGameStopped) {
       return this.animateAvatarWand = requestAnimationFrame(animate);
     }
@@ -134,8 +140,8 @@ function animateAvatarWand() {
  * @param ctx
  * @param enemyId
  */
-function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
-  const animate = () => {
+function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number): void {
+  const animate = (): number => {
     if (this.isGameStopped) {
       return this.animateEnemyWand[enemyId] = requestAnimationFrame(animate);
     }
@@ -197,7 +203,7 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number) {
  *
  * @param type
  */
-function animateDoors(type: string) {
+function animateDoors(type: string): void {
   this.level.doors.map((door: IDoor) => {
     if (door.type === type) {
       let animate: () => void;
@@ -206,7 +212,7 @@ function animateDoors(type: string) {
       if (door.opened) {
         let doorWidth = 0;
 
-        animate = () => {
+        animate = (): number | IDoor[] => {
           if (this.isGameStopped) {
             return frame = requestAnimationFrame(animate);
           }
@@ -236,7 +242,7 @@ function animateDoors(type: string) {
       } else {
         let doorWidth = this.cellSize * 2 - this.cellSize / 2 - 2;
 
-        animate = () => {
+        animate = (): number | IDoor[] => {
           if (this.isGameStopped) {
             return frame = requestAnimationFrame(animate);
           }
@@ -271,7 +277,7 @@ function animateDoors(type: string) {
 /**
  * Function animates all spikes on the game board in batch
  */
-function animateSpikes() {
+function animateSpikes(): void {
   const obstaclesCtx: CanvasRenderingContext2D = this.obstaclesCanvas.getContext('2d');
 
   this.spikesCoords.map((spike: number[]) => {
@@ -282,7 +288,7 @@ function animateSpikes() {
     const step = 40;
     let num = 0;
 
-    const redrawSpikeDot = () => {
+    const redrawSpikeDot = (): void => {
       obstaclesCtx.clearRect(
         x1 - this.cellSize / 5,
         y1 - this.cellSize / 5,
@@ -308,7 +314,7 @@ function animateSpikes() {
       );
     };
 
-    const animate = () => {
+    const animate = (): number => {
       if (this.isGameStopped) {
         return requestAnimationFrame(animate);
       }
@@ -370,7 +376,7 @@ function animateAvatarWandDeath(): Promise<void> {
     const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
     let alpha = 1;
 
-    const animate = () => {
+    const animate = (): void => {
       if (alpha < 0) {
         return resolve();
       }
@@ -414,7 +420,7 @@ function animateAvatarWandDeath(): Promise<void> {
  * @param currDotX
  * @param currDotY
  */
-function animateMapElementElimination(ctx: CanvasRenderingContext2D, currDotX: number, currDotY: number) {
+function animateMapElementElimination(ctx: CanvasRenderingContext2D, currDotX: number, currDotY: number): void {
   const top: number = this.cellSize + this.cellSize * (currDotY + 1);
   const left: number = this.cellSize + this.cellSize * (currDotX + 1);
   const dotX: number = left + this.cellSize / 2;
@@ -422,7 +428,7 @@ function animateMapElementElimination(ctx: CanvasRenderingContext2D, currDotX: n
   let frame: number;
   let alpha = 0;
 
-  const animate = () => {
+  const animate = (): void | number => {
     if (this.isGameStopped) {
       return frame = requestAnimationFrame(animate);
     }
@@ -454,10 +460,10 @@ function animateMapElementElimination(ctx: CanvasRenderingContext2D, currDotX: n
 /**
  * Function animates the game time ticker in the game panel
  */
-function animateTimeTicker() {
+function animateTimeTicker(): void {
   let start: number = performance.now();
 
-  const animate = (time: number) => {
+  const animate = (time: number): number => {
     if (this.isGameStopped) {
       return this.animateTimeTicker = requestAnimationFrame(animate);
     }
@@ -485,7 +491,7 @@ function animateTimeTicker() {
  *
  * @param bonus
  */
-function animateBonusSize(bonus: IBonus) {
+function animateBonusSize(bonus: IBonus): void {
   const ctx: CanvasRenderingContext2D = this.labelsCanvas.getContext('2d');
   const x: number = this.cellSize + this.cellSize * (bonus.position[1] + 1) + this.cellSize / 2;
   const y: number = this.cellSize + this.cellSize * (bonus.position[0] + 1);
@@ -499,7 +505,7 @@ function animateBonusSize(bonus: IBonus) {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const animate = () => {
+  const animate = (): void | number => {
     if (this.isGameStopped) {
       return frame = requestAnimationFrame(animate);
     }
