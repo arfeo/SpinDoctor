@@ -1,4 +1,4 @@
-import { DIFFICULTIES } from '../../constants/global';
+import { DIFFICULTIES } from '../../constants/game';
 
 import { renderMenuWindow } from './render';
 import { getStorageData } from '../../utils/storage';

@@ -1,6 +1,5 @@
-import { DIFFICULTIES } from '../../constants/global';
 import { LEVELS } from '../../constants/levels';
-import { CELL_SIZE_VMIN } from '../../constants/game';
+import { DIFFICULTIES, CELL_SIZE_VMIN } from '../../constants/game';
 
 import {
   renderGameWindow,

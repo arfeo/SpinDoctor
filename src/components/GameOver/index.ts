@@ -2,7 +2,8 @@ import { Modal } from '../common/Modal';
 import { Menu } from '../Menu';
 import { Game } from '../Game';
 
-import { APP, DIFFICULTIES } from '../../constants/global';
+import { APP } from '../../constants/global';
+import { DIFFICULTIES } from '../../constants/game';
 
 import { getStorageData } from '../../utils/storage';
 
