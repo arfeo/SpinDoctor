@@ -12,12 +12,6 @@
     "browser": true
   },
   "rules": {
-    "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/indent": ["error", 2],
-    "@typescript-eslint/interface-name-prefix": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-parameter-properties": "off",
     "comma-dangle": ["error", "always-multiline"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "linebreak-style": ["error", "unix"],
@@ -25,6 +19,85 @@
     "no-shadow": ["error", { "hoist": "all" }],
     "semi": ["error", "always"],
     "no-cond-assign": ["error", "always"],
-    "no-console": "off"
+    "no-console": "off",
+    "eqeqeq": ["warn", "always", { "null": "ignore" }],
+    "no-else-return": ["warn", { "allowElseIf": false }],
+    "class-methods-use-this": [
+      "warn",
+      {
+        "exceptMethods": []
+      }
+    ],
+    "no-useless-return": "warn",
+    "no-var": "warn",
+    "object-shorthand": [
+      "warn",
+      "always",
+      {
+        "ignoreConstructors": false,
+        "avoidQuotes": true
+      }
+    ],
+    "prefer-arrow-callback": [
+      "warn",
+      {
+        "allowNamedFunctions": false,
+        "allowUnboundThis": true
+      }
+    ],
+    "prefer-const": [
+      "warn",
+      {
+        "destructuring": "any",
+        "ignoreReadBeforeAssign": true
+      }
+    ],
+    "prefer-destructuring": [
+      "warn",
+      {
+        "VariableDeclarator": {
+          "array": false,
+          "object": true
+        },
+        "AssignmentExpression": {
+          "array": true,
+          "object": true
+        }
+      },
+      {
+        "enforceForRenamedProperties": false
+      }
+    ],
+    "prefer-template": "warn",
+    "max-len": [
+      "warn",
+      {
+        "code": 120,
+        "comments": 120
+      }
+    ],
+    "no-param-reassign": ["warn", { "props": false }],
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-magic-numbers": [
+      "off",
+      {
+        "ignoreArrayIndexes": true,
+        "ignore": [0, 1]
+      }
+    ],
+    "@typescript-eslint/member-ordering": "off",
+    "@typescript-eslint/unified-signatures": "warn",
+    "@typescript-eslint/explicit-function-return-type": [
+      "warn",
+      {
+        "allowExpressions": true
+      }
+    ],
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-parameter-properties": "off"
   }
 }
