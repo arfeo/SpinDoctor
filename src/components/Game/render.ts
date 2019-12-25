@@ -1103,7 +1103,7 @@ function renderLevelMap(): void {
 function renderBonus(): void {
   const ctx: CanvasRenderingContext2D = this.staticCanvas.getContext('2d');
 
-  this.level.bonus.map((bonus: IBonus) => {
+  this.level.bonus.map((bonus: IBonus): void => {
     const bonusX: number = this.cellSize + this.cellSize * (bonus.position[1] + 1) + this.cellSize / 2;
     const bonusY: number = this.cellSize + this.cellSize * (bonus.position[0] + 1) + this.cellSize / 2;
 
@@ -1129,7 +1129,7 @@ function renderBonus(): void {
 
   if (this.levelExtra.bonus) {
     this.levelExtra.bonus.map((bonusId: number): void => {
-      this.level.bonus = this.level.bonus.filter((item: IBonus) => item.id !== bonusId);
+      this.level.bonus = this.level.bonus.filter((item: IBonus): boolean => item.id !== bonusId);
     });
   }
 }
@@ -1207,7 +1207,7 @@ function renderDoor(door: IDoor, doorWidth?: number): void {
   const top: number = this.cellSize + this.cellSize * (door.position[0] + 1);
   const left: number = this.cellSize + this.cellSize * (door.position[1] + 1);
 
-  this.doorsCoords = this.doorsCoords.filter((item: IDoorCoords) => item.id !== door.id);
+  this.doorsCoords = this.doorsCoords.filter((item: IDoorCoords): boolean => item.id !== door.id);
 
   doorsCtx.clearRect(
     left - this.cellSize,

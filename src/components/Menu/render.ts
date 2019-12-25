@@ -7,6 +7,8 @@ import { saveStorageData } from '../../utils/storage';
 
 import { IDifficulty } from '../../types/game';
 
+type TargetValue = { target: { value: string } };
+
 /**
  * Function renders the menu window and adds all necessary event listeners
  */
@@ -49,13 +51,13 @@ function renderMenuWindow(): void {
 
   renderDifficultyOptions.call(this);
 
-  this.playerInput.addEventListener('input', ((element: HTMLInputElement & { target?: { value: string } }): void => {
+  this.playerInput.addEventListener('input', ((element: HTMLInputElement & TargetValue): void => {
     this.player = element.target.value;
 
     saveStorageData('player', this.player);
   }) as any);
 
-  this.difficultySelect.addEventListener('change', ((element: HTMLInputElement & { target: { value: string } }) => {
+  this.difficultySelect.addEventListener('change', ((element: HTMLInputElement & TargetValue): void => {
     this.difficulty = parseInt(element.target.value, 10);
 
     saveStorageData('difficulty', this.difficulty);

@@ -47,7 +47,6 @@ function animateGoal(): void {
           case 0: return 3;
           case 1: return 4;
           case 2: return 5;
-          default: return;
         }
       };
 
@@ -146,7 +145,7 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number): void 
       return this.animateEnemyWand[enemyId] = requestAnimationFrame(animate);
     }
 
-    const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
+    const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy): boolean => item.id === enemyId);
     const { position, direction, angle } = enemy;
     const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
     const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
@@ -158,7 +157,7 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number): void 
       this.cellSize * 4,
     );
 
-    this.enemyWandsCoords = this.enemyWandsCoords.filter((item: IEnemyWandsCoords) => {
+    this.enemyWandsCoords = this.enemyWandsCoords.filter((item: IEnemyWandsCoords): boolean => {
       return item.id !== enemyId;
     });
 
@@ -186,7 +185,7 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number): void 
     }
 
     this.level.enemies = [
-      ...this.level.enemies.filter((item: IWand & IEnemy) => item.id !== enemyId),
+      ...this.level.enemies.filter((item: IWand & IEnemy): boolean => item.id !== enemyId),
       enemy,
     ];
 
@@ -225,7 +224,7 @@ function animateDoors(type: string): void {
             this.isSwitcherActive = false;
 
             return this.level.doors = [
-              ...this.level.doors.filter((item: IDoor) => item.id !== door.id),
+              ...this.level.doors.filter((item: IDoor): boolean => item.id !== door.id),
               {
                 ...door,
                 opened: false,
@@ -255,7 +254,7 @@ function animateDoors(type: string): void {
             this.isSwitcherActive = false;
 
             return this.level.doors = [
-              ...this.level.doors.filter((item: IDoor) => item.id !== door.id),
+              ...this.level.doors.filter((item: IDoor): boolean => item.id !== door.id),
               {
                 ...door,
                 opened: true,

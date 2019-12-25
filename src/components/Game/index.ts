@@ -63,11 +63,21 @@ class Game {
   protected hourglassesCoords: IHourglassCoords[];
   protected enemiesSpeedCorrection: number;
 
-  public constructor(level = 1, lives = 4, score = 0, difficulty = 1, levelExtra: ILevelExtra = { bonus: [], station: [] }) {
-    this.level = JSON.parse(JSON.stringify(LEVELS.find((item: ILevel) => item.id === level)));
+  public constructor(
+    level = 1,
+    lives = 4,
+    score = 0,
+    difficulty = 1,
+    levelExtra: ILevelExtra = { bonus: [], station: [] },
+  ) {
+    this.level = JSON.parse(JSON.stringify(LEVELS.find((item: ILevel): boolean => item.id === level)));
     this.lives = lives;
     this.score = score;
-    this.difficulty = JSON.parse(JSON.stringify(DIFFICULTIES.find((item: IDifficulty) => item.id === difficulty)));
+
+    this.difficulty = JSON.parse(JSON.stringify(
+      DIFFICULTIES.find((item: IDifficulty): boolean => item.id === difficulty),
+    ));
+
     this.timeAvailable = this.level.time;
     this.levelExtra = JSON.parse(JSON.stringify(levelExtra));
 

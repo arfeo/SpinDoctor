@@ -30,7 +30,7 @@ class GameOver extends Modal {
     gameOverSubmitContainer.appendChild(gameOverSubmitRestart);
     gameOverSubmitContainer.appendChild(gameOverSubmitStop);
 
-    gameOverSubmitRestart.addEventListener('click', () => {
+    gameOverSubmitRestart.addEventListener('click', (): void => {
       this.game.destroy();
 
       APP.pageInstance = new Game(1, 4, 0, getStorageData('difficulty') || DIFFICULTIES[0].id);
@@ -38,7 +38,7 @@ class GameOver extends Modal {
       this.close(false);
     });
 
-    gameOverSubmitStop.addEventListener('click', () => {
+    gameOverSubmitStop.addEventListener('click', (): void => {
       this.game.destroy();
 
       APP.pageInstance = new Menu();

@@ -19,13 +19,13 @@ function setUpEventHandlers(): void {
   document.body.addEventListener('keydown', APP.eventListeners.onKeyDown);
   document.body.addEventListener('keyup', APP.eventListeners.onKeyUp);
 
-  this.boardPanelElements.menuButton.addEventListener('click', () => {
+  this.boardPanelElements.menuButton.addEventListener('click', (): void => {
     this.destroy();
 
     APP.pageInstance = new Menu();
   });
 
-  this.boardPanelElements.pauseButton.addEventListener('click', () => {
+  this.boardPanelElements.pauseButton.addEventListener('click', (): void => {
     onPauseGame.call(this);
   });
 }

@@ -20,7 +20,7 @@ class Alert extends Modal {
     this.modal.appendChild(alertSubmitContainer);
     alertSubmitContainer.appendChild(alertSubmitClose);
 
-    alertSubmitClose.addEventListener('click', () => {
+    alertSubmitClose.addEventListener('click', (): void => {
       this.close();
     });
   }
