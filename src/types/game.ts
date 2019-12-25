@@ -1,10 +1,3 @@
-export interface IDifficulty {
-  id: number;
-  title: string;
-  correction: number;
-  icon: string;
-}
-
 export interface IBoardPanel {
   menuButton: HTMLButtonElement;
   pauseButton: HTMLButtonElement;
@@ -20,6 +13,13 @@ export interface IKeysDown {
   bounce: boolean;
   swing: boolean;
   pause: boolean;
+}
+
+export interface IDifficulty {
+  id: number;
+  title: string;
+  correction: number;
+  icon: string;
 }
 
 export interface ILevel {

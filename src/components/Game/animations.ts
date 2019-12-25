@@ -1,5 +1,3 @@
-import { Draw, DrawLineToAngleOptions } from 'gpt-ts';
-
 import {
   ELEMENTS_COLORS,
   WAND_WIDTH,
@@ -9,6 +7,7 @@ import {
 } from '../../constants/game';
 
 import { renderDoor } from './render';
+import { drawCircle, drawLineToAngle, drawStar } from '../../utils/drawing';
 import { checkAvatarWand, checkEnemyWand, checkOnLevelFail } from './actions';
 import { secondsToString } from './utils';
 
@@ -39,10 +38,7 @@ function animateGoal(): void {
         goalAnimationStep = 0;
       }
 
-      const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
-        'goalCanvas'
-      ) as CanvasRenderingContext2D;
-
+      const goalCtx: CanvasRenderingContext2D = this.goalCanvas.getContext('2d');
       const goalX: number = goalPosX + this.cellSize / 2;
       const goalY: number = goalPosY + this.cellSize / 2;
 
@@ -55,7 +51,7 @@ function animateGoal(): void {
         }
       };
 
-      ctx.clearRect(
+      goalCtx.clearRect(
         goalPosX,
         goalPosY,
         this.cellSize,
@@ -63,23 +59,21 @@ function animateGoal(): void {
       );
 
       if (goalAnimationStep !== 0) {
-        ctx.translate(goalX, goalY);
-        ctx.rotate(Math.PI / 360 * 30 * goalAnimationStep);
-        ctx.translate(-goalX, -goalY);
+        goalCtx.translate(goalX, goalY);
+        goalCtx.rotate(Math.PI / 360 * 30 * goalAnimationStep);
+        goalCtx.translate(-goalX, -goalY);
       }
 
-      Draw.star(
-        'goalCanvas',
+      drawStar(
+        goalCtx,
         goalX,
         goalY,
         4,
         this.cellSize / goalOuterSize(),
         this.cellSize / (goalOuterSize() * 2),
-        {
-          fillColor: ELEMENTS_COLORS.goal.background,
-          edgingWidth: 4,
-          edgingColor: ELEMENTS_COLORS.goal.border,
-        },
+        ELEMENTS_COLORS.goal.background,
+        4,
+        ELEMENTS_COLORS.goal.border,
       );
 
       goalAnimationStep += 1;
@@ -96,9 +90,7 @@ function animateGoal(): void {
  * Function animates the avatar wand
  */
 function animateAvatarWand(): void {
-  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
-    'wandCanvas'
-  ) as CanvasRenderingContext2D;
+  const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
 
   const animate = (): number => {
     if (this.isGameStopped) {
@@ -116,16 +108,14 @@ function animateAvatarWand(): void {
       this.cellSize * 4,
     );
 
-    this.avatarWandCoords = Draw.lineToAngle(
-      'wandCanvas',
+    this.avatarWandCoords = drawLineToAngle(
+      ctx,
       x,
       y,
       this.cellSize * 2 - this.cellSize / 5 - 1,
       angle,
-      {
-        lineColor: ELEMENTS_COLORS.wands.avatar,
-        lineWidth: WAND_WIDTH,
-      },
+      ELEMENTS_COLORS.wands.avatar,
+      WAND_WIDTH,
     );
 
     this.level.wand.angle += direction * this.difficulty.correction;
@@ -147,18 +137,16 @@ function animateAvatarWand(): void {
 /**
  * Function animates enemy wands (red, blue and yellow)
  *
- * @param canvasId
+ * @param ctx
  * @param enemyId
  */
-function animateEnemyWand(canvasId: string, enemyId: number): void {
-  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(canvasId) as CanvasRenderingContext2D;
-
+function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number): void {
   const animate = (): number => {
     if (this.isGameStopped) {
       return this.animateEnemyWand[enemyId] = requestAnimationFrame(animate);
     }
 
-    const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy): boolean => item.id === enemyId);
+    const enemy: IWand & IEnemy = this.level.enemies.find((item: IWand & IEnemy) => item.id === enemyId);
     const { position, direction, angle } = enemy;
     const x: number = (position[1] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
     const y: number = (position[0] + 1) * this.cellSize + this.cellSize + this.cellSize / 2;
@@ -170,22 +158,20 @@ function animateEnemyWand(canvasId: string, enemyId: number): void {
       this.cellSize * 4,
     );
 
-    this.enemyWandsCoords = this.enemyWandsCoords.filter((item: IEnemyWandsCoords): boolean => {
+    this.enemyWandsCoords = this.enemyWandsCoords.filter((item: IEnemyWandsCoords) => {
       return item.id !== enemyId;
     });
 
     this.enemyWandsCoords.push({
       id: enemy.id,
-      coords: Draw.lineToAngle(
-        canvasId,
+      coords: drawLineToAngle(
+        ctx,
         x,
         y,
         this.cellSize * 2 - this.cellSize / 5,
         angle,
-        {
-          lineColor: ELEMENTS_COLORS.wands[enemy.type],
-          lineWidth: WAND_WIDTH,
-        },
+        ELEMENTS_COLORS.wands[enemy.type],
+        WAND_WIDTH,
       ),
     });
 
@@ -200,7 +186,7 @@ function animateEnemyWand(canvasId: string, enemyId: number): void {
     }
 
     this.level.enemies = [
-      ...this.level.enemies.filter((item: IWand & IEnemy): boolean => item.id !== enemyId),
+      ...this.level.enemies.filter((item: IWand & IEnemy) => item.id !== enemyId),
       enemy,
     ];
 
@@ -218,7 +204,7 @@ function animateEnemyWand(canvasId: string, enemyId: number): void {
  * @param type
  */
 function animateDoors(type: string): void {
-  this.level.doors.map((door: IDoor): void => {
+  this.level.doors.map((door: IDoor) => {
     if (door.type === type) {
       let animate: () => void;
       let frame: number;
@@ -239,7 +225,7 @@ function animateDoors(type: string): void {
             this.isSwitcherActive = false;
 
             return this.level.doors = [
-              ...this.level.doors.filter((item: IDoor): boolean => item.id !== door.id),
+              ...this.level.doors.filter((item: IDoor) => item.id !== door.id),
               {
                 ...door,
                 opened: false,
@@ -269,7 +255,7 @@ function animateDoors(type: string): void {
             this.isSwitcherActive = false;
 
             return this.level.doors = [
-              ...this.level.doors.filter((item: IDoor): boolean => item.id !== door.id),
+              ...this.level.doors.filter((item: IDoor) => item.id !== door.id),
               {
                 ...door,
                 opened: true,
@@ -292,11 +278,9 @@ function animateDoors(type: string): void {
  * Function animates all spikes on the game board in batch
  */
 function animateSpikes(): void {
-  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
-    'obstaclesCanvas'
-  ) as CanvasRenderingContext2D;
+  const obstaclesCtx: CanvasRenderingContext2D = this.obstaclesCanvas.getContext('2d');
 
-  this.spikesCoords.map((spike: number[]): void => {
+  this.spikesCoords.map((spike: number[]) => {
     const x1: number = spike[0];
     const y1: number = spike[1];
     const x2: number = spike[2];
@@ -305,31 +289,28 @@ function animateSpikes(): void {
     let num = 0;
 
     const redrawSpikeDot = (): void => {
-      ctx.clearRect(
+      obstaclesCtx.clearRect(
         x1 - this.cellSize / 5,
         y1 - this.cellSize / 5,
         x2 + this.cellSize / 5,
         y2 + this.cellSize / 5,
       );
 
-      Draw.circle(
-        'obstaclesCanvas',
+      drawCircle(
+        obstaclesCtx,
         x1 + (x2 - x1) / 2,
         y1 + (y2 - y1) / 2,
         this.cellSize / 10,
-        {
-          fillColor: ELEMENTS_COLORS.spike.background,
-        },
+        ELEMENTS_COLORS.spike.background,
       );
-      Draw.circle(
-        'obstaclesCanvas',
+      drawCircle(
+        obstaclesCtx,
         x1 + (x2 - x1) / 2 - 1,
         y1 + (y2 - y1) / 2 - 1,
         this.cellSize / 15,
-        {
-          fillColor: ELEMENTS_COLORS.bonus.innerCircle,
-          edgingWidth: 2,
-        },
+        ELEMENTS_COLORS.bonus.innerCircle,
+        2,
+        null,
       );
     };
 
@@ -338,42 +319,37 @@ function animateSpikes(): void {
         return requestAnimationFrame(animate);
       }
 
-      const spikeOptions: DrawLineToAngleOptions = {
-        lineColor: ELEMENTS_COLORS.spike.point,
-        lineWidth: 1,
-      };
-
       switch (num) {
         case 0: {
           redrawSpikeDot();
-          Draw.lineToAngle('obstaclesCanvas', x1, y1, this.cellSize / 15, 225, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x2, y2, this.cellSize / 30, 45, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x2, y1, this.cellSize / 40, 315, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x1, y2, this.cellSize / 40, 135, spikeOptions);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 15, 225, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 30, 45, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         case step: {
           redrawSpikeDot();
-          Draw.lineToAngle('obstaclesCanvas', x1, y1, this.cellSize / 30, 225, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x2, y2, this.cellSize / 15, 45, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x2, y1, this.cellSize / 40, 315, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x1, y2, this.cellSize / 40, 135, spikeOptions);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 30, 225, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 15, 45, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         case step * 2: {
           redrawSpikeDot();
-          Draw.lineToAngle('obstaclesCanvas', x1, y1, this.cellSize / 40, 225, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x2, y2, this.cellSize / 40, 45, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x2, y1, this.cellSize / 15, 315, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x1, y2, this.cellSize / 30, 135, spikeOptions);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 15, 315, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 30, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         case step * 3: {
           redrawSpikeDot();
-          Draw.lineToAngle('obstaclesCanvas', x1, y1, this.cellSize / 40, 225, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x2, y2, this.cellSize / 40, 45, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x2, y1, this.cellSize / 30, 315, spikeOptions);
-          Draw.lineToAngle('obstaclesCanvas', x1, y2, this.cellSize / 15, 135, spikeOptions);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 30, 315, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 15, 135, ELEMENTS_COLORS.spike.point, 1);
           break;
         }
         default: break;
@@ -396,11 +372,8 @@ function animateSpikes(): void {
  * Function animates the avatar wand's death: it slowly fades out, leaving the game board
  */
 function animateAvatarWandDeath(): Promise<void> {
-  return new Promise((resolve): void => {
-    const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
-      'wandCanvas'
-    ) as CanvasRenderingContext2D;
-
+  return new Promise((resolve) => {
+    const ctx: CanvasRenderingContext2D = this.wandCanvas.getContext('2d');
     let alpha = 1;
 
     const animate = (): void => {
@@ -421,16 +394,14 @@ function animateAvatarWandDeath(): Promise<void> {
 
       ctx.globalAlpha = alpha;
 
-      this.avatarWandCoords = Draw.lineToAngle(
-        'wandCanvas',
+      this.avatarWandCoords = drawLineToAngle(
+        ctx,
         x,
         y,
         this.cellSize * 2 - this.cellSize / 5 - 1,
         angle,
-        {
-          lineColor: ELEMENTS_COLORS.wands.avatar,
-          lineWidth: WAND_WIDTH,
-        },
+        ELEMENTS_COLORS.wands.avatar,
+        WAND_WIDTH,
       );
 
       alpha -= FADE_OUT_ANIMATION_SPEED / 4;
@@ -445,13 +416,11 @@ function animateAvatarWandDeath(): Promise<void> {
 /**
  * Function eliminates an element from the specified canvas context with fade out effect
  *
- * @param canvasId
+ * @param ctx
  * @param currDotX
  * @param currDotY
  */
-function animateMapElementElimination(canvasId: string, currDotX: number, currDotY: number): void {
-  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(canvasId) as CanvasRenderingContext2D;
-
+function animateMapElementElimination(ctx: CanvasRenderingContext2D, currDotX: number, currDotY: number): void {
   const top: number = this.cellSize + this.cellSize * (currDotY + 1);
   const left: number = this.cellSize + this.cellSize * (currDotX + 1);
   const dotX: number = left + this.cellSize / 2;
@@ -474,14 +443,12 @@ function animateMapElementElimination(canvasId: string, currDotX: number, currDo
 
     ctx.globalAlpha = alpha;
 
-    Draw.circle(
-      canvasId,
+    drawCircle(
+      ctx,
       dotX,
       dotY,
       this.cellSize / 5,
-      {
-        fillColor: ELEMENTS_COLORS.board.background,
-      },
+      ELEMENTS_COLORS.board.background,
     );
 
     frame = requestAnimationFrame(animate);
@@ -525,10 +492,7 @@ function animateTimeTicker(): void {
  * @param bonus
  */
 function animateBonusSize(bonus: IBonus): void {
-  const ctx: CanvasRenderingContext2D = Draw.getContextByCanvasId(
-    'labelsCanvas'
-  ) as CanvasRenderingContext2D;
-
+  const ctx: CanvasRenderingContext2D = this.labelsCanvas.getContext('2d');
   const x: number = this.cellSize + this.cellSize * (bonus.position[1] + 1) + this.cellSize / 2;
   const y: number = this.cellSize + this.cellSize * (bonus.position[0] + 1);
   let frame: number;
@@ -541,7 +505,7 @@ function animateBonusSize(bonus: IBonus): void {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const animate = (): number | void => {
+  const animate = (): void | number => {
     if (this.isGameStopped) {
       return frame = requestAnimationFrame(animate);
     }

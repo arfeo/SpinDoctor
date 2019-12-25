@@ -1,6 +1,6 @@
 @import '../../assets/styles/variables';
 
-.menuContainer {
+.menuWindow {
   padding: $mainPadding;
   width: $menuWindowWidth;
   background-color: $menuWindowBackground;
@@ -9,39 +9,48 @@
   border-bottom: 2px solid $borderDark;
   border-left: 2px solid $borderLight;
 
-  .menuItem {
-    &:not(:last-child) {
-      margin-bottom: $mainMargin;
+  & > div:not(:last-child) {
+    margin-bottom: $mainMargin;
+  }
+
+  .-player {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    label {
+      width: 30%;
     }
 
     input {
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      width: 100%;
+      flex-grow: 2;
       font-size: $menuInputFontSize;
-      outline: none;
+    }
+  }
 
-      &[type=text] {
-        box-sizing: border-box;
-      }
+  .-difficulty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-      &[type=button] {
-        cursor: pointer;
-
-        &:hover {
-          animation: glowing 1000ms infinite;
-        }
-      }
+    label {
+      width: 30%;
     }
 
     select {
-      width: 100%;
+      flex-grow: 2;
       font-size: $menuInputFontSize;
-      outline: none;
     }
+  }
 
-    hr {
-      margin: 0;
+  .-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: $mainMargin;
+    padding-left: 30%;
+
+    button {
+      font-size: $menuInputFontSize;
     }
   }
 }
