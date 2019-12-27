@@ -1,7 +1,6 @@
 import { Menu } from '../Menu';
 
-import { APP } from '../../constants/global';
-import { FunctionalKeys } from '../../constants/game';
+import { APP, FunctionalKeys } from '../../constants/game';
 
 import { animateTimeTicker } from './animations';
 

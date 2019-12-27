@@ -1,4 +1,4 @@
-import { APP } from '../constants/global';
+import { STORAGE_PREFIX } from '../constants/game';
 
 /**
  * Function returns data saved in the local storage under the specified key name
@@ -7,7 +7,7 @@ import { APP } from '../constants/global';
  */
 function getStorageData(key: string): any | undefined {
   try {
-    const data = JSON.parse(window.localStorage.getItem(`${APP.storagePrefix}`));
+    const data = JSON.parse(window.localStorage.getItem(`${STORAGE_PREFIX}`));
 
     return data && typeof data === 'object' ? data[key] : undefined;
   } catch (error) {
@@ -23,8 +23,8 @@ function getStorageData(key: string): any | undefined {
  */
 function saveStorageData(key: string, data: any): void {
   try {
-    window.localStorage.setItem(`${APP.storagePrefix}`, JSON.stringify({
-      ...JSON.parse(window.localStorage.getItem(`${APP.storagePrefix}`)),
+    window.localStorage.setItem(`${STORAGE_PREFIX}`, JSON.stringify({
+      ...JSON.parse(window.localStorage.getItem(`${STORAGE_PREFIX}`)),
       [key]: data,
     }));
   } catch (error) {

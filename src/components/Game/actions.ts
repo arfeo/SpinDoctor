@@ -1,8 +1,13 @@
 import { Game } from './index';
 import { GameOver } from '../GameOver';
 
-import { APP } from '../../constants/global';
-import { GridDimensions, MapDefinitions, WAND_REBOUND } from '../../constants/game';
+import {
+  APP,
+  WAND_REBOUND,
+  GridDimensions,
+  MapDefinitions,
+} from '../../constants/game';
+
 import { LEVELS } from '../../constants/levels';
 
 import {

@@ -1,5 +1,15 @@
 import { IDifficulty } from '../types/game';
 
+export const APP: {
+  pageInstance: any;
+  eventListeners: { [key: string]: EventListener };
+} = {
+  pageInstance: null,
+  eventListeners: null,
+};
+
+export const STORAGE_PREFIX = 'spin-doctor';
+
 export const DIFFICULTIES: IDifficulty[] = [
   {
     id: 1,

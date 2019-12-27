@@ -1,7 +1,6 @@
 import { Game } from '../Game';
 
-import { APP } from '../../constants/global';
-import { DIFFICULTIES } from '../../constants/game';
+import { APP, DIFFICULTIES } from '../../constants/game';
 
 import { saveStorageData } from '../../utils/storage';
 
