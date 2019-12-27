@@ -5,9 +5,11 @@ import { APP } from '../constants/global';
  *
  * @param key
  */
-function getStorageData(key: string): any {
+function getStorageData(key: string): any | undefined {
   try {
-    return JSON.parse(window.localStorage.getItem(`${APP.storagePrefix}-${key}`));
+    const data = JSON.parse(window.localStorage.getItem(`${APP.storagePrefix}`));
+
+    return data && typeof data === 'object' ? data[key] : undefined;
   } catch (error) {
     console.error(error);
   }
@@ -21,20 +23,10 @@ function getStorageData(key: string): any {
  */
 function saveStorageData(key: string, data: any): void {
   try {
-    window.localStorage.setItem(`${APP.storagePrefix}-${key}`, JSON.stringify(data));
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-/**
- * Function removes data with the specified key name from the local storage
- *
- * @param key
- */
-function removeStorageData(key: string): void {
-  try {
-    window.localStorage.removeItem(`${APP.storagePrefix}-${key}`);
+    window.localStorage.setItem(`${APP.storagePrefix}`, JSON.stringify({
+      ...JSON.parse(window.localStorage.getItem(`${APP.storagePrefix}`)),
+      [key]: data,
+    }));
   } catch (error) {
     console.error(error);
   }
@@ -43,5 +35,4 @@ function removeStorageData(key: string): void {
 export {
   getStorageData,
   saveStorageData,
-  removeStorageData,
 };
