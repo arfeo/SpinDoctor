@@ -19,11 +19,11 @@ The original game was created by Callisto Corporation in 1993.
 
 ## Scheduled features
 
-* Bombs
-* Acid droplets
-* Scoreboard
-* Ability to start the game at any level
-* 100+ levels
+- [ ] Bombs
+- [ ] Acid droplets
+- [ ] Scoreboard
+- [ ] Ability to start the game at any level
+- [ ] 100+ levels
 
 ## Installation
 
