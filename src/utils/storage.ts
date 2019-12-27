@@ -5,9 +5,13 @@ import { STORAGE_PREFIX } from '../constants/game';
  *
  * @param key
  */
-function getStorageData(key: string): any | undefined {
+function getStorageData(key?: string): any | undefined {
   try {
     const data = JSON.parse(window.localStorage.getItem(`${STORAGE_PREFIX}`));
+
+    if (key === undefined) {
+      return data || {};
+    }
 
     return data && typeof data === 'object' ? data[key] : undefined;
   } catch (error) {
@@ -24,7 +28,7 @@ function getStorageData(key: string): any | undefined {
 function saveStorageData(key: string, data: any): void {
   try {
     window.localStorage.setItem(`${STORAGE_PREFIX}`, JSON.stringify({
-      ...JSON.parse(window.localStorage.getItem(`${STORAGE_PREFIX}`)),
+      ...getStorageData(),
       [key]: data,
     }));
   } catch (error) {
