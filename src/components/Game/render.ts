@@ -14,7 +14,6 @@ import {
   drawArc,
   drawLineToAngle,
   drawRectangle,
-  DrawOptions,
 } from '../../utils/drawing';
 
 import {
@@ -34,6 +33,8 @@ import {
   IHyperdot,
   IWand,
 } from '../../types/game';
+
+import { DrawOptions } from '../../types/utils';
 
 /**
  * Function creates game window element, game panel and all needed canvases

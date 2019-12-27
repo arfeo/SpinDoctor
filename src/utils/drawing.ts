@@ -1,13 +1,4 @@
-export interface DrawOptions {
-  fillColor?: string;
-  edgingWidth?: number;
-  edgingColor?: string;
-}
-
-type DrawOptionsExtended = DrawOptions & {
-  startAngle?: number;
-  endAngle?: number;
-}
+import { DrawOptions, DrawOptionsExtended } from '../types/utils';
 
 /**
  * Alias for drawArc, this function draws a circle of the given size and style at the given coordinates

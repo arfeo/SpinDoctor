@@ -12,7 +12,6 @@ import {
   drawCircle,
   drawLineToAngle,
   drawStar,
-  DrawOptions,
 } from '../../utils/drawing';
 
 import {
@@ -30,6 +29,8 @@ import {
   IEnemyWandsCoords,
   IWand,
 } from '../../types/game';
+
+import { DrawOptions } from '../../types/utils';
 
 /**
  * Function animates the goal (rotating star-like object beneath a dot)
