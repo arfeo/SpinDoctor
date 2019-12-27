@@ -7,8 +7,20 @@ import {
 } from '../../constants/game';
 
 import { renderDoor } from './render';
-import { drawCircle, drawLineToAngle, drawStar } from '../../utils/drawing';
-import { checkAvatarWand, checkEnemyWand, checkOnLevelFail } from './actions';
+
+import {
+  drawCircle,
+  drawLineToAngle,
+  drawStar,
+  DrawOptions,
+} from '../../utils/drawing';
+
+import {
+  checkAvatarWand,
+  checkEnemyWand,
+  checkOnLevelFail,
+} from './actions';
+
 import { secondsToString } from './utils';
 
 import {
@@ -70,9 +82,11 @@ function animateGoal(): void {
         4,
         this.cellSize / goalOuterSize(),
         this.cellSize / (goalOuterSize() * 2),
-        ELEMENTS_COLORS.goal.background,
-        4,
-        ELEMENTS_COLORS.goal.border,
+        {
+          fillColor: ELEMENTS_COLORS.goal.background,
+          edgingWidth: 4,
+          edgingColor: ELEMENTS_COLORS.goal.border,
+        },
       );
 
       goalAnimationStep += 1;
@@ -113,8 +127,10 @@ function animateAvatarWand(): void {
       y,
       this.cellSize * 2 - this.cellSize / 5 - 1,
       angle,
-      ELEMENTS_COLORS.wands.avatar,
-      WAND_WIDTH,
+      {
+        edgingColor: ELEMENTS_COLORS.wands.avatar,
+        edgingWidth: WAND_WIDTH,
+      },
     );
 
     this.level.wand.angle += direction * this.difficulty.correction;
@@ -169,8 +185,10 @@ function animateEnemyWand(ctx: CanvasRenderingContext2D, enemyId: number): void 
         y,
         this.cellSize * 2 - this.cellSize / 5,
         angle,
-        ELEMENTS_COLORS.wands[enemy.type],
-        WAND_WIDTH,
+        {
+          edgingColor: ELEMENTS_COLORS.wands[enemy.type],
+          edgingWidth: WAND_WIDTH,
+        },
       ),
     });
 
@@ -300,16 +318,19 @@ function animateSpikes(): void {
         x1 + (x2 - x1) / 2,
         y1 + (y2 - y1) / 2,
         this.cellSize / 10,
-        ELEMENTS_COLORS.spike.background,
+        {
+          fillColor: ELEMENTS_COLORS.spike.background,
+        },
       );
       drawCircle(
         obstaclesCtx,
         x1 + (x2 - x1) / 2 - 1,
         y1 + (y2 - y1) / 2 - 1,
         this.cellSize / 15,
-        ELEMENTS_COLORS.bonus.innerCircle,
-        2,
-        null,
+        {
+          fillColor: ELEMENTS_COLORS.bonus.innerCircle,
+          edgingWidth: 2,
+        },
       );
     };
 
@@ -318,37 +339,42 @@ function animateSpikes(): void {
         return requestAnimationFrame(animate);
       }
 
+      const lineOptions: Omit<DrawOptions, 'fillColor'> = {
+        edgingColor: ELEMENTS_COLORS.spike.point,
+        edgingWidth: 1,
+      };
+
       switch (num) {
         case 0: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 15, 225, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 30, 45, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 15, 225, lineOptions);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 30, 45, lineOptions);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, lineOptions);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, lineOptions);
           break;
         }
         case step: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 30, 225, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 15, 45, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 30, 225, lineOptions);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 15, 45, lineOptions);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 40, 315, lineOptions);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 40, 135, lineOptions);
           break;
         }
         case step * 2: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 15, 315, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 30, 135, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, lineOptions);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, lineOptions);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 15, 315, lineOptions);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 30, 135, lineOptions);
           break;
         }
         case step * 3: {
           redrawSpikeDot();
-          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 30, 315, ELEMENTS_COLORS.spike.point, 1);
-          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 15, 135, ELEMENTS_COLORS.spike.point, 1);
+          drawLineToAngle(obstaclesCtx, x1, y1, this.cellSize / 40, 225, lineOptions);
+          drawLineToAngle(obstaclesCtx, x2, y2, this.cellSize / 40, 45, lineOptions);
+          drawLineToAngle(obstaclesCtx, x2, y1, this.cellSize / 30, 315, lineOptions);
+          drawLineToAngle(obstaclesCtx, x1, y2, this.cellSize / 15, 135, lineOptions);
           break;
         }
         default: break;
@@ -399,8 +425,10 @@ function animateAvatarWandDeath(): Promise<void> {
         y,
         this.cellSize * 2 - this.cellSize / 5 - 1,
         angle,
-        ELEMENTS_COLORS.wands.avatar,
-        WAND_WIDTH,
+        {
+          edgingColor: ELEMENTS_COLORS.wands.avatar,
+          edgingWidth: WAND_WIDTH,
+        },
       );
 
       alpha -= FADE_OUT_ANIMATION_SPEED / 4;
@@ -447,7 +475,9 @@ function animateMapElementElimination(ctx: CanvasRenderingContext2D, currDotX: n
       dotX,
       dotY,
       this.cellSize / 5,
-      ELEMENTS_COLORS.board.background,
+      {
+        fillColor: ELEMENTS_COLORS.board.background,
+      },
     );
 
     frame = requestAnimationFrame(animate);

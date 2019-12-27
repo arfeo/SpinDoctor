@@ -1,3 +1,14 @@
+export interface DrawOptions {
+  fillColor?: string;
+  edgingWidth?: number;
+  edgingColor?: string;
+}
+
+type DrawOptionsExtended = DrawOptions & {
+  startAngle?: number;
+  endAngle?: number;
+}
+
 /**
  * Alias for drawArc, this function draws a circle of the given size and style at the given coordinates
  *
@@ -5,20 +16,26 @@
  * @param dotX
  * @param dotY
  * @param radius
- * @param fillStyle
- * @param edgingWidth
- * @param edgingColor
+ * @param options
  */
 function drawCircle(
   ctx: CanvasRenderingContext2D,
   dotX: number,
   dotY: number,
   radius: number,
-  fillStyle?: string,
-  edgingWidth?: number,
-  edgingColor?: string,
+  options: DrawOptionsExtended = {},
 ): void {
-  drawArc(ctx, dotX, dotY, radius, 0, Math.PI * 2, fillStyle, edgingWidth, edgingColor);
+  drawArc(
+    ctx,
+    dotX,
+    dotY,
+    radius,
+    {
+      ...options,
+      startAngle: 0,
+      endAngle: Math.PI * 2,
+    },
+  );
 }
 
 /**
@@ -28,38 +45,30 @@ function drawCircle(
  * @param dotX
  * @param dotY
  * @param radius
- * @param startAngle
- * @param endAngle
- * @param fillStyle
- * @param edgingWidth
- * @param edgingColor
+ * @param options
  */
 function drawSector(
   ctx: CanvasRenderingContext2D,
   dotX: number,
   dotY: number,
   radius: number,
-  startAngle: number,
-  endAngle: number,
-  fillStyle?: string,
-  edgingWidth?: number,
-  edgingColor?: string,
+  options: DrawOptionsExtended = {},
 ): void {
   ctx.beginPath();
   ctx.moveTo(dotX, dotY);
-  ctx.arc(dotX, dotY, radius, startAngle, endAngle);
+  ctx.arc(dotX, dotY, radius, options.startAngle, options.endAngle);
   ctx.lineTo(dotX, dotY);
   ctx.closePath();
 
-  if (fillStyle) {
-    ctx.fillStyle = fillStyle;
+  if (options.fillColor) {
+    ctx.fillStyle = options.fillColor;
 
     ctx.fill();
   }
 
-  if (edgingWidth) {
-    ctx.lineWidth = edgingWidth;
-    ctx.strokeStyle = edgingColor || 'rgba(0, 0, 0, 0)';
+  if (options.edgingWidth) {
+    ctx.lineWidth = options.edgingWidth;
+    ctx.strokeStyle = options.edgingColor || 'rgba(0, 0, 0, 0)';
 
     ctx.stroke();
   }
@@ -72,35 +81,27 @@ function drawSector(
  * @param cx
  * @param cy
  * @param radius
- * @param startAngle
- * @param endAngle
- * @param fillStyle
- * @param edgingWidth
- * @param edgingColor
+ * @param options
  */
 function drawArc(
   ctx: CanvasRenderingContext2D,
   cx: number,
   cy: number,
   radius: number,
-  startAngle: number,
-  endAngle: number,
-  fillStyle?: string,
-  edgingWidth?: number,
-  edgingColor?: string,
+  options: DrawOptionsExtended = {},
 ): void {
   ctx.beginPath();
-  ctx.arc(cx, cy, radius, startAngle, endAngle);
+  ctx.arc(cx, cy, radius, options.startAngle, options.endAngle);
 
-  if (fillStyle) {
-    ctx.fillStyle = fillStyle;
+  if (options.fillColor) {
+    ctx.fillStyle = options.fillColor;
 
     ctx.fill();
   }
 
-  if (edgingWidth) {
-    ctx.lineWidth = edgingWidth;
-    ctx.strokeStyle = edgingColor || 'rgba(0, 0, 0, 0)';
+  if (options.edgingWidth) {
+    ctx.lineWidth = options.edgingWidth;
+    ctx.strokeStyle = options.edgingColor || 'rgba(0, 0, 0, 0)';
 
     ctx.stroke();
   }
@@ -115,8 +116,7 @@ function drawArc(
  * @param y1
  * @param length
  * @param angle
- * @param strokeStyle
- * @param lineWidth
+ * @param options
  */
 function drawLineToAngle(
   ctx: CanvasRenderingContext2D,
@@ -124,15 +124,14 @@ function drawLineToAngle(
   y1: number,
   length: number,
   angle: number,
-  strokeStyle: string,
-  lineWidth: number,
+  options: Omit<DrawOptions, 'fillColor'> = {},
 ): number[][] {
   const a = angle * Math.PI / 180;
   const x2 = x1 + length * Math.cos(a);
   const y2 = y1 + length * Math.sin(a);
 
-  ctx.strokeStyle = strokeStyle;
-  ctx.lineWidth = lineWidth;
+  ctx.strokeStyle = options.edgingColor;
+  ctx.lineWidth = options.edgingWidth;
 
   ctx.beginPath();
   ctx.moveTo(x1, y1);
@@ -154,9 +153,7 @@ function drawLineToAngle(
  * @param spikes
  * @param outerRadius
  * @param innerRadius
- * @param fillStyle
- * @param edgingWidth
- * @param edgingColor
+ * @param options
  */
 function drawStar(
   ctx: CanvasRenderingContext2D,
@@ -165,9 +162,7 @@ function drawStar(
   spikes: number,
   outerRadius: number,
   innerRadius: number,
-  fillStyle?: string,
-  edgingWidth?: number,
-  edgingColor?: string,
+  options: DrawOptions = {},
 ): void {
   const step = Math.PI / spikes;
   let rotation: number = Math.PI / 2 * 3;
@@ -192,15 +187,15 @@ function drawStar(
   ctx.lineTo(cx, cy - outerRadius);
   ctx.closePath();
 
-  if (edgingWidth) {
-    ctx.lineWidth = edgingWidth;
-    ctx.strokeStyle = edgingColor || 'rgba(0, 0, 0, 0)';
+  if (options.edgingWidth) {
+    ctx.lineWidth = options.edgingWidth;
+    ctx.strokeStyle = options.edgingColor || 'rgba(0, 0, 0, 0)';
 
     ctx.stroke();
   }
 
-  if (fillStyle) {
-    ctx.fillStyle = fillStyle;
+  if (options.fillColor) {
+    ctx.fillStyle = options.fillColor;
 
     ctx.fill();
   }
@@ -214,9 +209,7 @@ function drawStar(
  * @param top
  * @param width
  * @param height
- * @param fillStyle
- * @param edgingWidth
- * @param edgingColor
+ * @param options
  */
 function drawRectangle(
   ctx: CanvasRenderingContext2D,
@@ -224,19 +217,17 @@ function drawRectangle(
   top: number,
   width: number,
   height: number,
-  fillStyle?: string,
-  edgingWidth?: number,
-  edgingColor?: string,
+  options: DrawOptions = {},
 ): void {
-  if (fillStyle) {
-    ctx.fillStyle = fillStyle;
+  if (options.fillColor) {
+    ctx.fillStyle = options.fillColor;
 
     ctx.fillRect(left, top, width, height);
   }
 
-  if (edgingWidth) {
-    ctx.lineWidth = edgingWidth;
-    ctx.strokeStyle = edgingColor || 'rgba(0, 0, 0, 0)';
+  if (options.edgingWidth) {
+    ctx.lineWidth = options.edgingWidth;
+    ctx.strokeStyle = options.edgingColor || 'rgba(0, 0, 0, 0)';
 
     ctx.strokeRect(left, top, width, height);
   }
