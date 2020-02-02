@@ -1,19 +1,28 @@
 import { STORAGE_PREFIX } from '../constants/game';
 
 /**
- * Function returns data saved in the local storage under the specified key name
+ * Function returns data saved in the local storage under the specified key name;
+ * if the `keys` is an array of key names, it returns the corresponding array
  *
- * @param key
+ * @param keys
  */
-function getStorageData(key?: string): any | undefined {
+function getStorageData(keys?: string[] | string): any[] | any | undefined {
   try {
-    const data = JSON.parse(window.localStorage.getItem(`${STORAGE_PREFIX}`));
+    const data: any = JSON.parse(window.localStorage.getItem(`${STORAGE_PREFIX}`));
 
-    if (key === undefined) {
+    if (keys === undefined) {
       return data || {};
     }
 
-    return data && typeof data === 'object' ? data[key] : undefined;
+    if (data && Object.prototype.toString.call(data) === '[object Object]') {
+      if (Array.isArray(keys)) {
+        return keys.map((key: string) => data[key]);
+      }
+
+      return data[keys];
+    }
+
+    return Array.isArray(keys) ? [] : undefined;
   } catch (error) {
     console.error(error);
   }
