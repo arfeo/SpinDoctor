@@ -55,9 +55,18 @@
     ],
     "comma-dangle": ["error", "always-multiline"],
     "default-case": "error",
+    "default-param-last": "error",
     "dot-notation": "error",
     "eol-last": ["error", "always"],
     "eqeqeq": ["warn", "always", { "null": "ignore" }],
+    "func-style": [
+      "error",
+      "declaration",
+      {
+        "allowArrowFunctions": true
+      }
+    ],
+    "guard-for-in": "error",
     "id-length": [
       "error",
       {
@@ -66,6 +75,8 @@
       }
     ],
     "indent": "off",
+    "key-spacing": "error",
+    "keyword-spacing": "error",
     "max-classes-per-file": "error",
     "max-depth": ["error", 5],
     "max-len": [
@@ -90,6 +101,22 @@
     "no-extra-bind": "error",
     "no-extra-boolean-cast": "warn",
     "no-implied-eval": "error",
+    "no-irregular-whitespace": [
+      "error",
+      {
+        "skipComments": true,
+        "skipStrings": true,
+        "skipTemplates": true
+      }
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxBOF": 0,
+        "maxEOF": 0
+      }
+    ],
     "no-param-reassign": ["warn", { "props": false }],
     "no-plusplus": [
       "error",
