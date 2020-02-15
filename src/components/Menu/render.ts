@@ -21,6 +21,7 @@ function renderMenuWindow(): void {
   const buttonsBlock: HTMLElement = document.createElement('div');
   const playButton: HTMLButtonElement = document.createElement('button');
   const helpButton: HTMLButtonElement = document.createElement('button');
+
   this.playerInput = document.createElement('input');
   this.difficultySelect = document.createElement('select');
 

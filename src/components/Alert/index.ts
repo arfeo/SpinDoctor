@@ -1,11 +1,6 @@
 import { Modal } from '../common/Modal';
-import { Game } from '../Game';
 
 class Alert extends Modal {
-  constructor(game: Game, text: string, size?: 'large' | 'medium' | 'small') {
-    super(game, text, size);
-  }
-
   public render(): void {
     const alertLabel: HTMLElement = document.createElement('div');
     const alertSubmitContainer: HTMLElement = document.createElement('div');

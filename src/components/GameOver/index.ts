@@ -7,10 +7,6 @@ import { APP, DIFFICULTIES } from '../../constants/game';
 import { getStorageData } from '../../utils/storage';
 
 class GameOver extends Modal {
-  constructor(game: Game) {
-    super(game);
-  }
-
   public render(): void {
     const gameOverLabel: HTMLElement = document.createElement('div');
     const gameOverSubmitContainer: HTMLElement = document.createElement('div');

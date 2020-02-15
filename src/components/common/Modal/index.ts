@@ -13,7 +13,7 @@ abstract class Modal {
   protected modalContent: string;
   abstract render(): void;
 
-  protected constructor(game: Game, text?: string, size?: 'large' | 'medium' | 'small') {
+  public constructor(game: Game, text?: string, size?: 'large' | 'medium' | 'small') {
     this.game = game;
 
     this.modalContainer = document.createElement('div');

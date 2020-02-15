@@ -5,8 +5,9 @@ import { STORAGE_PREFIX } from '../constants/game';
  * if the `keys` is an array of key names, it returns the corresponding array
  *
  * @param keys
+ * @param onError
  */
-function getStorageData(keys?: string[] | string): any[] | any | undefined {
+function getStorageData(keys?: string[] | string, onError?: (error: string) => void): any[] | any | undefined {
   try {
     const data: any = JSON.parse(window.localStorage.getItem(`${STORAGE_PREFIX}`));
 
@@ -24,7 +25,9 @@ function getStorageData(keys?: string[] | string): any[] | any | undefined {
 
     return Array.isArray(keys) ? [] : undefined;
   } catch (error) {
-    console.error(error);
+    if (typeof onError === 'function') {
+      onError(error);
+    }
   }
 }
 
@@ -33,15 +36,18 @@ function getStorageData(keys?: string[] | string): any[] | any | undefined {
  *
  * @param key
  * @param data
+ * @param onError
  */
-function saveStorageData(key: string, data: any): void {
+function saveStorageData(key: string, data: any, onError?: (error: string) => void): void {
   try {
     window.localStorage.setItem(`${STORAGE_PREFIX}`, JSON.stringify({
       ...getStorageData(),
       [key]: data,
     }));
   } catch (error) {
-    console.error(error);
+    if (typeof onError === 'function') {
+      onError(error);
+    }
   }
 }
 
