@@ -34,7 +34,8 @@
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
-        "ignoreRestSiblings": true
+        "ignoreRestSiblings": true,
+        "varsIgnorePattern": "^_$"
       }
     ],
     "@typescript-eslint/no-use-before-define": ["warn", "nofunc"],
@@ -125,6 +126,7 @@
       }
     ],
     "no-shadow": ["error", { "hoist": "all" }],
+    "no-unused-vars": "off",
     "no-useless-concat": "error",
     "no-useless-return": "warn",
     "no-unused-expressions": "off",
