@@ -12,8 +12,8 @@
   "author": "Arfeo.net",
   "license": "MIT",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.13.0",
-    "@typescript-eslint/parser": "^2.13.0",
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.21.0",
     "browser-sync": "^2.26.7",
     "browserify": "^16.5.0",
     "del": "^5.1.0",
@@ -24,7 +24,7 @@
     "gulp-uglify": "^3.0.2",
     "gulp-watch": "^5.0.1",
     "tsify": "^4.0.1",
-    "typescript": "^3.7.4",
+    "typescript": "^3.8.3",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   }
